@@ -21,10 +21,19 @@
 
 ## Размещение
 
-Раздавайте содержимое `dist/` по HTTPS. Настройте возврат `index.html`
+GitHub Actions автоматически собирает и публикует `main` на GitHub Pages;
+целевой домен — `app.gramix.xyz`. Публичные параметры Firebase берутся из
+GitHub Repository Variables (`VITE_FIREBASE_*`), серверные секреты не используются.
+Для подключения в Namecheap: CNAME `app` → `alankharisov.github.io`, TTL Automatic.
+После распространения DNS дождитесь сертификата и включите Enforce HTTPS в Pages.
+В Firebase Authentication → Settings → Authorized domains добавьте `app.gramix.xyz`.
+API уже разрешает этот origin. Основной сайт `www.gramix.xyz` остаётся отдельно.
+
+При размещении на другом хостинге раздавайте содержимое `dist/` по HTTPS. Настройте возврат `index.html`
 для клиентских маршрутов (например, `/main`, `/stats`, `/profile`).
 Домен сайта должен быть разрешён в Firebase Authentication и CORS серверного API.
-Сам push в GitHub не публикует работающий сайт.
+Скрипт `scripts/pages-routes.mjs` создаёт отдельные точки входа для маршрутов,
+поскольку GitHub Pages не поддерживает SPA rewrites.
 
 Все переменные с префиксом `VITE_` видны посетителям сайта.
 Никогда не добавляйте сюда Telegram-токен, Gemini API key, приватные ключи,
