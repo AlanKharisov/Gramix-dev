@@ -1,0 +1,308 @@
+/* Geist font is loaded once in src/index.css */
+
+:root {
+  --primary-red: var(--brand-mint);
+  --bg-dark: var(--bg-base);
+  --input-bg: var(--surface-2);
+  --text-gray: var(--text-dim);
+  --accent-orange: var(--brand-peach-deep);
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  -webkit-tap-highlight-color: transparent; 
+}
+
+body, html {
+  min-height: 100%;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 25px;
+}
+
+.phone {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 48px);
+  min-height: calc(100dvh - 48px);
+}
+
+/* --- Header --- */
+.header-section { 
+  text-align: center; 
+  margin-bottom: 20px; 
+}
+
+.logo-image {
+  width: 75px; 
+  height: 75px;
+  background: url('../assets/logo.png') no-repeat center/contain;
+  margin: 0 auto 8px;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+/* «red-part» = «Calorie», теперь — белый. Зелёный акцент уходит на «Snap». */
+.title .red-part {
+  color: var(--text-primary);
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+.title > :not(.red-part) {
+  color: var(--brand-mint);
+}
+
+/* Mechanical word for Gramix */
+.title .red-part .mechanical-g {
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-gray);
+  font-size: 0.85rem;
+  line-height: 1.3;
+  margin-top: 5px;
+  opacity: 0.85;
+}
+
+/* --- Form --- */
+.form-section { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 12px; 
+  width: 100%; 
+}
+
+.section-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2px;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.input-container {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--line-strong) !important;
+  border-radius: 50px !important;
+  padding: 14px 22px;
+  color: var(--text-primary) !important;
+  font-size: 0.95rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.input:focus {
+  border-color: var(--brand-mint) !important;
+  background: var(--surface-1) !important;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-mute);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.checkboxRow {
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  color: var(--text-gray); 
+  font-size: 0.8rem; 
+  margin: 0 0 5px 10px;
+}
+
+.buttonPrimary {
+  width: 100%;
+  background-color: var(--brand-mint);
+  color: var(--bg-base);
+  border: none;
+  border-radius: 50px;
+  padding: 15px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  font-family: inherit;
+  box-shadow: 0 8px 20px -8px var(--brand-mint-glow);
+}
+
+.buttonPrimary:active {
+  transform: scale(0.98);
+  background-color: var(--brand-mint-deep);
+}
+
+/* --- Language Picker --- */
+.lang-picker-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+.lang-select {
+  width: 100%;
+  background-color: var(--input-bg);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  padding: 12px 14px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238C9690' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.lang-select:focus {
+  border-color: var(--brand-mint);
+  background-color: var(--surface-1);
+}
+
+.lang-select option {
+  background-color: var(--surface-1);
+  color: var(--text-primary);
+}
+
+/* --- Bottom Section --- */
+.social-section {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  gap: 12px; 
+  margin-top: 15px;
+}
+
+.fingerprint-area {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.bio-label {
+  font-size: 0.7rem;
+  color: var(--brand-mint);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.fingerprint-icon {
+  fill: var(--brand-mint);
+  stroke: var(--brand-mint);
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 0 12px var(--brand-mint-glow));
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--line-soft);
+  margin: 5px 0;
+}
+
+.footer-link {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.footer-link .orange-text {
+  color: var(--brand-mint);
+  font-weight: 700;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* --- Google Button --- */
+.google-box-button {
+  width: 100%;
+  background-color: #ffffff !important;
+  border: none !important;
+  border-radius: 50px !important;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #0E1410 !important;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  max-height: 48px;
+  font-family: inherit;
+}
+
+.google-icon-svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Legal / Privacy ── */
+.error-text {
+  color: var(--brand-coral-deep);
+  font-size: 0.8rem;
+  text-align: center;
+  margin: 0;
+}
+
+.policy-inline-link {
+  background: none;
+  border: none;
+  color: var(--brand-mint);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-family: inherit;
+}

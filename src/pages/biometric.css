@@ -1,0 +1,242 @@
+/* Geist font is loaded once in src/index.css */
+
+:root {
+  --primary-red: var(--brand-mint);
+  --bg-dark: var(--bg-base);
+  --header-bg: var(--surface-1);
+  --input-bg: var(--surface-2);
+  --text-gray: var(--text-dim);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0; padding: 0;
+  background-color: var(--bg-dark);
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+.biometric-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-base);
+  overflow-x: hidden;
+}
+
+/* Soft mint glow behind hero */
+.biometric-page::before {
+  content: "";
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--brand-mint) 0%, transparent 60%);
+  opacity: 0.10;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.biometric-header {
+  height: 56px;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.header-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.4px;
+}
+.header-logo .red-part { color: var(--text-primary); }
+.header-logo > :not(.red-part) { color: var(--text-primary); }
+
+/* Mechanical word for Gramix — entire word */
+.header-logo .red-part,
+.header-logo .red-part .mechanical-g,
+.header-logo > :not(.red-part) {
+  font-family: Georgia, serif;
+  font-weight: 700;
+}
+
+.header-avatar {
+  width: 38px;
+  height: 38px;
+  background: var(--surface-1);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--brand-mint-deep);
+}
+.header-avatar svg { fill: currentColor; }
+
+/* Body */
+.biometric-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+.biometric-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 0 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.biometric-footer {
+  flex-shrink: 0;
+  padding-top: 16px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+}
+
+.text-center { text-align: center; margin-bottom: 28px; }
+
+.main-title {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  letter-spacing: -0.7px;
+  line-height: 1.15;
+}
+
+.description {
+  font-size: 17px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  padding: 0 8px;
+  margin: 0;
+  max-width: 320px;
+  margin-inline: auto;
+  font-weight: 500;
+}
+
+/* Form card */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  border-radius: 22px;
+  box-shadow: 0 12px 32px -16px rgba(0, 0, 0, 0.4);
+}
+
+.input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-left: 4px;
+  letter-spacing: 0.1px;
+}
+
+.gender-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.activity-btn {
+  height: 46px;
+  font-size: 15px;
+}
+
+.gender-btn {
+  flex: 1;
+  height: 50px;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  background-color: var(--surface-2);
+  color: var(--text-dim);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  min-width: 0;
+}
+
+.gender-btn.active {
+  background-color: var(--brand-mint);
+  color: var(--bg-base);
+  border-color: transparent;
+  box-shadow: 0 6px 16px -6px var(--brand-mint-glow);
+}
+
+.input-field {
+  width: 100%;
+  height: 52px;
+  background-color: var(--surface-2);
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  padding: 0 16px;
+  color: var(--text-primary);
+  font-size: 18px;
+  font-weight: 600;
+  font-family: inherit;
+  outline: none;
+  font-variant-numeric: tabular-nums;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.input-field:focus { border-color: var(--brand-mint); }
+.input-field::placeholder { color: var(--text-mute); font-weight: 500; }
+
+.save-btn {
+  width: 100%;
+  height: 56px;
+  background-color: var(--brand-mint);
+  color: var(--bg-base);
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s, transform 0.1s;
+  box-shadow: 0 8px 20px -6px var(--brand-mint-glow);
+}
+.save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.save-btn:active:not(:disabled) { transform: scale(0.98); }

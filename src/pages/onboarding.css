@@ -1,0 +1,178 @@
+.onb-page {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  padding: 0 24px;
+  overflow: hidden;
+}
+
+.onb-glow {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  width: 360px;
+  height: 360px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--brand-mint) 0%, transparent 60%);
+  opacity: 0.10;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.onb-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 1;
+  padding: 24px 0;
+}
+
+.onb-icon {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  color: var(--brand-mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 32px;
+  box-shadow: 0 16px 32px -16px var(--brand-mint-glow, rgba(0, 0, 0, 0.4));
+}
+.onb-icon svg { width: 64px; height: 64px; }
+
+.onb-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  letter-spacing: -0.6px;
+  line-height: 1.15;
+  max-width: 320px;
+}
+
+.onb-desc {
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 320px;
+}
+
+.onb-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 16px;
+  z-index: 1;
+}
+.onb-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  transition: background 0.18s ease, width 0.18s ease;
+}
+.onb-dot.is-active {
+  background: var(--brand-mint);
+  width: 22px;
+  border-radius: 4px;
+}
+
+.onb-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  z-index: 1;
+}
+
+.onb-primary {
+  height: 56px;
+  background: var(--brand-mint);
+  color: var(--bg-base);
+  border: none;
+  border-radius: 18px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.2s, transform 0.1s;
+  box-shadow: 0 8px 20px -6px var(--brand-mint-glow, rgba(14, 155, 142, 0.4));
+}
+.onb-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.onb-primary:active:not(:disabled) { transform: scale(0.98); }
+
+.onb-skip {
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.1px;
+}
+.onb-skip:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Coachmark over /main FAB. No backdrop — the FAB stays tappable; tapping it
+ * dismisses the hint and opens the add-sheet in one motion. */
+.coachmark-pulse,
+.coachmark-bubble {
+  position: fixed;
+  z-index: 49;
+  pointer-events: none;
+}
+.coachmark-pulse {
+  right: max(22px, calc((100vw - 430px) / 2 + 22px));
+  bottom: 100px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  border: 2px solid var(--brand-mint);
+  animation: coach-pulse 1.4s ease-out infinite;
+}
+.coachmark-bubble {
+  right: max(22px, calc((100vw - 430px) / 2 + 22px));
+  bottom: 175px;
+  background: var(--brand-mint);
+  color: var(--bg-base);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.1px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  max-width: 220px;
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.5);
+  animation: coach-fade-in 0.3s ease;
+}
+.coachmark-bubble::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  bottom: -7px;
+  width: 14px;
+  height: 14px;
+  background: var(--brand-mint);
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+@keyframes coach-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes coach-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.4); opacity: 0; }
+}

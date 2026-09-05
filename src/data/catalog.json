@@ -1,0 +1,2517 @@
+{
+  "version": "1.0",
+  "languages": [
+    "en",
+    "ru",
+    "uk",
+    "de",
+    "ja",
+    "zh",
+    "pl",
+    "es"
+  ],
+  "categories": [
+    {
+      "key": "bread_bakery",
+      "names": {
+        "en": "Bread & Bakery",
+        "ru": "Хлеб и выпечка",
+        "uk": "Хліб і випічка",
+        "de": "Brot & Backwaren",
+        "ja": "パン・焼き菓子",
+        "zh": "面包和烘焙",
+        "pl": "Pieczywo i wypieki",
+        "es": "Pan y panadería"
+      }
+    },
+    {
+      "key": "meat",
+      "names": {
+        "en": "Meat",
+        "ru": "Мясо",
+        "uk": "М'ясо",
+        "de": "Fleisch",
+        "ja": "肉類",
+        "zh": "肉类",
+        "pl": "Mięso",
+        "es": "Carne"
+      }
+    },
+    {
+      "key": "poultry",
+      "names": {
+        "en": "Poultry",
+        "ru": "Птица",
+        "uk": "Птиця",
+        "de": "Geflügel",
+        "ja": "鶏肉・家禽",
+        "zh": "禽肉",
+        "pl": "Drób",
+        "es": "Aves de corral"
+      }
+    },
+    {
+      "key": "fish_seafood",
+      "names": {
+        "en": "Fish & Seafood",
+        "ru": "Рыба и морепродукты",
+        "uk": "Риба та морепродукти",
+        "de": "Fisch & Meeresfrüchte",
+        "ja": "魚介類",
+        "zh": "鱼类和海鲜",
+        "pl": "Ryby i owoce morza",
+        "es": "Pescado y mariscos"
+      }
+    },
+    {
+      "key": "dairy",
+      "names": {
+        "en": "Dairy",
+        "ru": "Молочное",
+        "uk": "Молочне",
+        "de": "Milchprodukte",
+        "ja": "乳製品",
+        "zh": "乳制品",
+        "pl": "Nabiał",
+        "es": "Lácteos"
+      }
+    },
+    {
+      "key": "eggs",
+      "names": {
+        "en": "Eggs",
+        "ru": "Яйца",
+        "uk": "Яйця",
+        "de": "Eier",
+        "ja": "卵",
+        "zh": "蛋类",
+        "pl": "Jaja",
+        "es": "Huevos"
+      }
+    },
+    {
+      "key": "grains_pasta",
+      "names": {
+        "en": "Grains & Pasta",
+        "ru": "Крупы и макароны",
+        "uk": "Крупи та макарони",
+        "de": "Getreide & Nudeln",
+        "ja": "穀物・パスタ",
+        "zh": "谷物和意面",
+        "pl": "Kasze i makarony",
+        "es": "Cereales y pasta"
+      }
+    },
+    {
+      "key": "vegetables",
+      "names": {
+        "en": "Vegetables",
+        "ru": "Овощи",
+        "uk": "Овочі",
+        "de": "Gemüse",
+        "ja": "野菜",
+        "zh": "蔬菜",
+        "pl": "Warzywa",
+        "es": "Verduras"
+      }
+    },
+    {
+      "key": "fruits_berries",
+      "names": {
+        "en": "Fruits & Berries",
+        "ru": "Фрукты и ягоды",
+        "uk": "Фрукти та ягоди",
+        "de": "Obst & Beeren",
+        "ja": "果物・ベリー",
+        "zh": "水果和浆果",
+        "pl": "Owoce i jagody",
+        "es": "Frutas y bayas"
+      }
+    },
+    {
+      "key": "nuts_seeds",
+      "names": {
+        "en": "Nuts & Seeds",
+        "ru": "Орехи и семена",
+        "uk": "Горіхи та насіння",
+        "de": "Nüsse & Samen",
+        "ja": "ナッツ・種子",
+        "zh": "坚果和种子",
+        "pl": "Orzechy i nasiona",
+        "es": "Frutos secos y semillas"
+      }
+    },
+    {
+      "key": "sweets_desserts",
+      "names": {
+        "en": "Sweets & Desserts",
+        "ru": "Сладкое и десерты",
+        "uk": "Солодощі та десерти",
+        "de": "Süßes & Desserts",
+        "ja": "お菓子・デザート",
+        "zh": "甜点和甜食",
+        "pl": "Słodycze i desery",
+        "es": "Dulces y postres"
+      }
+    },
+    {
+      "key": "sauces_condiments",
+      "names": {
+        "en": "Sauces & Condiments",
+        "ru": "Соусы и приправы",
+        "uk": "Соуси та приправи",
+        "de": "Saucen & Gewürze",
+        "ja": "ソース・調味料",
+        "zh": "酱料和调味品",
+        "pl": "Sosy i przyprawy",
+        "es": "Salsas y condimentos"
+      }
+    },
+    {
+      "key": "oils_fats",
+      "names": {
+        "en": "Oils & Fats",
+        "ru": "Масла и жиры",
+        "uk": "Олії та жири",
+        "de": "Öle & Fette",
+        "ja": "油脂類",
+        "zh": "油脂",
+        "pl": "Oleje i tłuszcze",
+        "es": "Aceites y grasas"
+      }
+    },
+    {
+      "key": "beverages",
+      "names": {
+        "en": "Beverages",
+        "ru": "Напитки",
+        "uk": "Напої",
+        "de": "Getränke",
+        "ja": "飲み物",
+        "zh": "饮料",
+        "pl": "Napoje",
+        "es": "Bebidas"
+      }
+    },
+    {
+      "key": "soups_ready",
+      "names": {
+        "en": "Soups & Ready Meals",
+        "ru": "Супы и готовые блюда",
+        "uk": "Супи та готові страви",
+        "de": "Suppen & Fertiggerichte",
+        "ja": "スープ・惣菜",
+        "zh": "汤类和即食食品",
+        "pl": "Zupy i dania gotowe",
+        "es": "Sopas y platos preparados"
+      }
+    },
+    {
+      "key": "spices_additives",
+      "names": {
+        "en": "Spices & Additives",
+        "ru": "Специи и добавки",
+        "uk": "Спеції та добавки",
+        "de": "Gewürze & Zusätze",
+        "ja": "スパイス・添加物",
+        "zh": "香料和添加剂",
+        "pl": "Przyprawy i dodatki",
+        "es": "Especias y aditivos"
+      }
+    },
+    {
+      "key": "alcohol",
+      "names": {
+        "en": "Alcohol",
+        "ru": "Алкоголь",
+        "uk": "Алкоголь",
+        "de": "Alkohol",
+        "ja": "アルコール",
+        "zh": "酒精饮料",
+        "pl": "Alkohol",
+        "es": "Alcohol"
+      }
+    },
+    {
+      "key": "legumes",
+      "names": {
+        "en": "Legumes",
+        "ru": "Бобовые",
+        "uk": "Бобові",
+        "de": "Hülsenfrüchte",
+        "ja": "豆類",
+        "zh": "豆类",
+        "pl": "Rośliny strączkowe",
+        "es": "Legumbres"
+      }
+    },
+    {
+      "key": "mushrooms",
+      "names": {
+        "en": "Mushrooms",
+        "ru": "Грибы",
+        "uk": "Гриби",
+        "de": "Pilze",
+        "ja": "きのこ類",
+        "zh": "蘑菇",
+        "pl": "Grzyby",
+        "es": "Setas"
+      }
+    },
+    {
+      "key": "frozen_foods",
+      "names": {
+        "en": "Frozen Foods",
+        "ru": "Замороженные продукты",
+        "uk": "Заморожені продукти",
+        "de": "Tiefkühlkost",
+        "ja": "冷凍食品",
+        "zh": "冷冻食品",
+        "pl": "Mrożonki",
+        "es": "Alimentos congelados"
+      }
+    }
+  ],
+  "ingredients": [
+    {
+      "key": "rye_bread",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Rye bread",
+        "ru": "Ржаной хлеб",
+        "uk": "Житній хліб",
+        "de": "Roggenbrot",
+        "ja": "ライ麦パン",
+        "zh": "黑麦面包",
+        "pl": "Chleb żytni",
+        "es": "Pan de centeno"
+      }
+    },
+    {
+      "key": "white_bread",
+      "category": "bread_bakery",
+      "names": {
+        "en": "White bread",
+        "ru": "Белый хлеб",
+        "uk": "Білий хліб",
+        "de": "Weißbrot",
+        "ja": "白パン",
+        "zh": "白面包",
+        "pl": "Chleb biały",
+        "es": "Pan blanco"
+      }
+    },
+    {
+      "key": "whole_grain_bread",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Whole grain bread",
+        "ru": "Цельнозерновой хлеб",
+        "uk": "Цільнозерновий хліб",
+        "de": "Vollkornbrot",
+        "ja": "全粒パン",
+        "zh": "全麦面包",
+        "pl": "Chleb pełnoziarnisty",
+        "es": "Pan integral"
+      }
+    },
+    {
+      "key": "baguette",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Baguette",
+        "ru": "Багет",
+        "uk": "Багет",
+        "de": "Baguette",
+        "ja": "バゲット",
+        "zh": "法棍",
+        "pl": "Bagietka",
+        "es": "Baguette"
+      }
+    },
+    {
+      "key": "croissant",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Croissant",
+        "ru": "Круассан",
+        "uk": "Круасан",
+        "de": "Croissant",
+        "ja": "クロワッサン",
+        "zh": "可颂",
+        "pl": "Croissant",
+        "es": "Croissant"
+      }
+    },
+    {
+      "key": "pita_bread",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Pita bread",
+        "ru": "Пита",
+        "uk": "Піта",
+        "de": "Pitabrot",
+        "ja": "ピタパン",
+        "zh": "皮塔饼",
+        "pl": "Pita",
+        "es": "Pan de pita"
+      }
+    },
+    {
+      "key": "tortilla",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Tortilla",
+        "ru": "Тортилья",
+        "uk": "Тортілья",
+        "de": "Tortilla",
+        "ja": "トルティーヤ",
+        "zh": "玉米饼",
+        "pl": "Tortilla",
+        "es": "Tortilla"
+      }
+    },
+    {
+      "key": "dough",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Dough",
+        "ru": "Тесто",
+        "uk": "Тісто",
+        "de": "Teig",
+        "ja": "生地",
+        "zh": "面团",
+        "pl": "Ciasto",
+        "es": "Masa"
+      }
+    },
+    {
+      "key": "pizza_dough",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Pizza dough",
+        "ru": "Тесто для пиццы",
+        "uk": "Тісто для піци",
+        "de": "Pizzateig",
+        "ja": "ピザ生地",
+        "zh": "披萨面团",
+        "pl": "Ciasto do pizzy",
+        "es": "Masa de pizza"
+      }
+    },
+    {
+      "key": "pancakes",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Pancakes",
+        "ru": "Блины",
+        "uk": "Млинці",
+        "de": "Pfannkuchen",
+        "ja": "パンケーキ",
+        "zh": "煎饼",
+        "pl": "Naleśniki",
+        "es": "Crepes"
+      }
+    },
+    {
+      "key": "waffles",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Waffles",
+        "ru": "Вафли",
+        "uk": "Вафлі",
+        "de": "Waffeln",
+        "ja": "ワッフル",
+        "zh": "华夫饼",
+        "pl": "Gofry",
+        "es": "Gofres"
+      }
+    },
+    {
+      "key": "crackers_rye",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Rye crackers",
+        "ru": "Ржаные сухарики",
+        "uk": "Житні сухарики",
+        "de": "Roggencracker",
+        "ja": "ライ麦クラッカー",
+        "zh": "黑麦饼干",
+        "pl": "Krakersy żytnie",
+        "es": "Galletas de centeno"
+      }
+    },
+    {
+      "key": "breadcrumbs",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Breadcrumbs",
+        "ru": "Панировочные сухари",
+        "uk": "Панірувальні сухарі",
+        "de": "Semmelbrösel",
+        "ja": "パン粉",
+        "zh": "面包屑",
+        "pl": "Bułka tarta",
+        "es": "Pan rallado"
+      }
+    },
+    {
+      "key": "muffin",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Muffin",
+        "ru": "Маффин",
+        "uk": "Маффін",
+        "de": "Muffin",
+        "ja": "マフィン",
+        "zh": "松饼",
+        "pl": "Muffin",
+        "es": "Muffin"
+      }
+    },
+    {
+      "key": "bagel",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Bagel",
+        "ru": "Бейгл",
+        "uk": "Бейгл",
+        "de": "Bagel",
+        "ja": "ベーグル",
+        "zh": "百吉饼",
+        "pl": "Bajgiel",
+        "es": "Bagel"
+      }
+    },
+    {
+      "key": "ciabatta",
+      "category": "bread_bakery",
+      "names": {
+        "en": "Ciabatta",
+        "ru": "Чиабатта",
+        "uk": "Чіабатта",
+        "de": "Ciabatta",
+        "ja": "チャバタ",
+        "zh": "拖鞋面包",
+        "pl": "Ciabatta",
+        "es": "Ciabatta"
+      }
+    },
+    {
+      "key": "beef",
+      "category": "meat",
+      "names": {
+        "en": "Beef",
+        "ru": "Говядина",
+        "uk": "Яловичина",
+        "de": "Rindfleisch",
+        "ja": "牛肉",
+        "zh": "牛肉",
+        "pl": "Wołowina",
+        "es": "Carne de res"
+      }
+    },
+    {
+      "key": "pork",
+      "category": "meat",
+      "names": {
+        "en": "Pork",
+        "ru": "Свинина",
+        "uk": "Свинина",
+        "de": "Schweinefleisch",
+        "ja": "豚肉",
+        "zh": "猪肉",
+        "pl": "Wieprzowina",
+        "es": "Cerdo"
+      }
+    },
+    {
+      "key": "lamb",
+      "category": "meat",
+      "names": {
+        "en": "Lamb",
+        "ru": "Баранина",
+        "uk": "Баранина",
+        "de": "Lammfleisch",
+        "ja": "羊肉",
+        "zh": "羊肉",
+        "pl": "Jagnięcina",
+        "es": "Cordero"
+      }
+    },
+    {
+      "key": "veal",
+      "category": "meat",
+      "names": {
+        "en": "Veal",
+        "ru": "Телятина",
+        "uk": "Телятина",
+        "de": "Kalbfleisch",
+        "ja": "仔牛肉",
+        "zh": "小牛肉",
+        "pl": "Cielęcina",
+        "es": "Ternera"
+      }
+    },
+    {
+      "key": "bacon",
+      "category": "meat",
+      "names": {
+        "en": "Bacon",
+        "ru": "Бекон",
+        "uk": "Бекон",
+        "de": "Speck",
+        "ja": "ベーコン",
+        "zh": "培根",
+        "pl": "Boczek",
+        "es": "Tocino"
+      }
+    },
+    {
+      "key": "sausage",
+      "category": "meat",
+      "names": {
+        "en": "Sausage",
+        "ru": "Колбаса",
+        "uk": "Ковбаса",
+        "de": "Wurst",
+        "ja": "ソーセージ",
+        "zh": "香肠",
+        "pl": "Kiełbasa",
+        "es": "Salchicha"
+      }
+    },
+    {
+      "key": "pepperoni",
+      "category": "meat",
+      "names": {
+        "en": "Pepperoni",
+        "ru": "Колбаса пепперони",
+        "uk": "Пепероні",
+        "de": "Pepperoni",
+        "ja": "ペパロニ",
+        "zh": "意大利辣香肠",
+        "pl": "Pepperoni",
+        "es": "Pepperoni"
+      }
+    },
+    {
+      "key": "frankfurter",
+      "category": "meat",
+      "names": {
+        "en": "Frankfurter",
+        "ru": "Сосиски",
+        "uk": "Сосиски",
+        "de": "Frankfurter",
+        "ja": "ウインナー",
+        "zh": "法兰克福香肠",
+        "pl": "Parówki",
+        "es": "Salchicha Frankfurt"
+      }
+    },
+    {
+      "key": "pork_lard",
+      "category": "meat",
+      "names": {
+        "en": "Lard",
+        "ru": "Сало",
+        "uk": "Сало",
+        "de": "Schmalz",
+        "ja": "ラード",
+        "zh": "猪油",
+        "pl": "Smalec",
+        "es": "Manteca de cerdo"
+      }
+    },
+    {
+      "key": "pork_rind",
+      "category": "meat",
+      "names": {
+        "en": "Pork rind",
+        "ru": "Свиная шкурка",
+        "uk": "Свиняча шкірка",
+        "de": "Schweineschwarte",
+        "ja": "豚皮",
+        "zh": "猪皮",
+        "pl": "Skórka wieprzowa",
+        "es": "Corteza de cerdo"
+      }
+    },
+    {
+      "key": "meat_cutlet",
+      "category": "meat",
+      "names": {
+        "en": "Meat cutlet",
+        "ru": "Мясная котлета",
+        "uk": "М'ясна котлета",
+        "de": "Fleischkotelett",
+        "ja": "ミートカツレツ",
+        "zh": "肉饼",
+        "pl": "Kotlet mięsny",
+        "es": "Chuleta de carne"
+      }
+    },
+    {
+      "key": "minced_meat",
+      "category": "meat",
+      "names": {
+        "en": "Minced meat",
+        "ru": "Фарш мясной",
+        "uk": "М'ясний фарш",
+        "de": "Hackfleisch",
+        "ja": "ひき肉",
+        "zh": "肉馅",
+        "pl": "Mięso mielone",
+        "es": "Carne picada"
+      }
+    },
+    {
+      "key": "ham",
+      "category": "meat",
+      "names": {
+        "en": "Ham",
+        "ru": "Ветчина",
+        "uk": "Шинка",
+        "de": "Schinken",
+        "ja": "ハム",
+        "zh": "火腿",
+        "pl": "Szynka",
+        "es": "Jamón"
+      }
+    },
+    {
+      "key": "salami",
+      "category": "meat",
+      "names": {
+        "en": "Salami",
+        "ru": "Салями",
+        "uk": "Салямі",
+        "de": "Salami",
+        "ja": "サラミ",
+        "zh": "萨拉米",
+        "pl": "Salami",
+        "es": "Salami"
+      }
+    },
+    {
+      "key": "pork_chop",
+      "category": "meat",
+      "names": {
+        "en": "Pork chop",
+        "ru": "Свиная отбивная",
+        "uk": "Свиняча відбивна",
+        "de": "Schweinekotelett",
+        "ja": "ポークチョップ",
+        "zh": "猪排",
+        "pl": "Kotlet schabowy",
+        "es": "Chuleta de cerdo"
+      }
+    },
+    {
+      "key": "chicken_fillet",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken fillet",
+        "ru": "Куриное филе",
+        "uk": "Куряче філе",
+        "de": "Hähnchenfilet",
+        "ja": "鶏ささみ",
+        "zh": "鸡胸肉",
+        "pl": "Filet z kurczaka",
+        "es": "Filete de pollo"
+      }
+    },
+    {
+      "key": "chicken_breast",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken breast",
+        "ru": "Куриная грудка",
+        "uk": "Куряча грудка",
+        "de": "Hähnchenbrust",
+        "ja": "鶏胸肉",
+        "zh": "鸡胸",
+        "pl": "Pierś z kurczaka",
+        "es": "Pechuga de pollo"
+      }
+    },
+    {
+      "key": "chicken_legs",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken legs",
+        "ru": "Куриные ножки",
+        "uk": "Курячі ніжки",
+        "de": "Hähnchenschenkel",
+        "ja": "鶏もも肉",
+        "zh": "鸡腿",
+        "pl": "Nóżki kurczaka",
+        "es": "Muslos de pollo"
+      }
+    },
+    {
+      "key": "chicken_wings",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken wings",
+        "ru": "Куриные крылья",
+        "uk": "Курячі крила",
+        "de": "Hähnchenflügel",
+        "ja": "手羽先",
+        "zh": "鸡翅",
+        "pl": "Skrzydełka kurczaka",
+        "es": "Alitas de pollo"
+      }
+    },
+    {
+      "key": "chicken_nuggets",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken nuggets",
+        "ru": "Куриные наггетсы",
+        "uk": "Курячі нагетси",
+        "de": "Hähnchen-Nuggets",
+        "ja": "チキンナゲット",
+        "zh": "鸡块",
+        "pl": "Nuggetsy z kurczaka",
+        "es": "Nuggets de pollo"
+      }
+    },
+    {
+      "key": "chicken_mince",
+      "category": "poultry",
+      "names": {
+        "en": "Chicken mince",
+        "ru": "Куриный фарш",
+        "uk": "Курячий фарш",
+        "de": "Hähnchengehacktes",
+        "ja": "鶏ひき肉",
+        "zh": "鸡肉馅",
+        "pl": "Mielony kurczak",
+        "es": "Pollo picado"
+      }
+    },
+    {
+      "key": "turkey",
+      "category": "poultry",
+      "names": {
+        "en": "Turkey",
+        "ru": "Индейка",
+        "uk": "Індичка",
+        "de": "Truthahn",
+        "ja": "七面鳥",
+        "zh": "火鸡",
+        "pl": "Indyk",
+        "es": "Pavo"
+      }
+    },
+    {
+      "key": "duck",
+      "category": "poultry",
+      "names": {
+        "en": "Duck",
+        "ru": "Утка",
+        "uk": "Качка",
+        "de": "Ente",
+        "ja": "鴨肉",
+        "zh": "鸭肉",
+        "pl": "Kaczka",
+        "es": "Pato"
+      }
+    },
+    {
+      "key": "salmon",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Salmon",
+        "ru": "Лосось",
+        "uk": "Лосось",
+        "de": "Lachs",
+        "ja": "サーモン",
+        "zh": "三文鱼",
+        "pl": "Łosoś",
+        "es": "Salmón"
+      }
+    },
+    {
+      "key": "smoked_salmon",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Smoked salmon",
+        "ru": "Копченый лосось",
+        "uk": "Копчений лосось",
+        "de": "Räucherlachs",
+        "ja": "スモークサーモン",
+        "zh": "烟熏三文鱼",
+        "pl": "Łosoś wędzony",
+        "es": "Salmón ahumado"
+      }
+    },
+    {
+      "key": "tuna_canned",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Canned tuna",
+        "ru": "Консервированный тунец",
+        "uk": "Консервований тунець",
+        "de": "Thunfisch aus der Dose",
+        "ja": "ツナ缶",
+        "zh": "金枪鱼罐头",
+        "pl": "Tuńczyk z puszki",
+        "es": "Atún en lata"
+      }
+    },
+    {
+      "key": "shrimp",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Shrimp",
+        "ru": "Креветки",
+        "uk": "Креветки",
+        "de": "Garnelen",
+        "ja": "エビ",
+        "zh": "虾",
+        "pl": "Krewetki",
+        "es": "Gambas"
+      }
+    },
+    {
+      "key": "dried_fish",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Dried fish",
+        "ru": "Вяленая рыба",
+        "uk": "В'ялена риба",
+        "de": "Trockenfisch",
+        "ja": "干物",
+        "zh": "干鱼",
+        "pl": "Suszona ryba",
+        "es": "Pescado seco"
+      }
+    },
+    {
+      "key": "cod",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Cod",
+        "ru": "Треска",
+        "uk": "Тріска",
+        "de": "Kabeljau",
+        "ja": "タラ",
+        "zh": "鳕鱼",
+        "pl": "Dorsz",
+        "es": "Bacalao"
+      }
+    },
+    {
+      "key": "herring",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Herring",
+        "ru": "Сельдь",
+        "uk": "Оселедець",
+        "de": "Hering",
+        "ja": "ニシン",
+        "zh": "鲱鱼",
+        "pl": "Śledź",
+        "es": "Arenque"
+      }
+    },
+    {
+      "key": "mackerel",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Mackerel",
+        "ru": "Скумбрия",
+        "uk": "Скумбрія",
+        "de": "Makrele",
+        "ja": "サバ",
+        "zh": "鲭鱼",
+        "pl": "Makrela",
+        "es": "Caballa"
+      }
+    },
+    {
+      "key": "squid",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Squid",
+        "ru": "Кальмар",
+        "uk": "Кальмар",
+        "de": "Tintenfisch",
+        "ja": "イカ",
+        "zh": "鱿鱼",
+        "pl": "Kałamarnica",
+        "es": "Calamar"
+      }
+    },
+    {
+      "key": "crab",
+      "category": "fish_seafood",
+      "names": {
+        "en": "Crab",
+        "ru": "Краб",
+        "uk": "Краб",
+        "de": "Krabbe",
+        "ja": "カニ",
+        "zh": "螃蟹",
+        "pl": "Krab",
+        "es": "Cangrejo"
+      }
+    },
+    {
+      "key": "milk",
+      "category": "dairy",
+      "names": {
+        "en": "Milk",
+        "ru": "Молоко",
+        "uk": "Молоко",
+        "de": "Milch",
+        "ja": "牛乳",
+        "zh": "牛奶",
+        "pl": "Mleko",
+        "es": "Leche"
+      }
+    },
+    {
+      "key": "milk_powder",
+      "category": "dairy",
+      "names": {
+        "en": "Milk powder",
+        "ru": "Сухое молоко",
+        "uk": "Сухе молоко",
+        "de": "Milchpulver",
+        "ja": "粉ミルク",
+        "zh": "奶粉",
+        "pl": "Mleko w proszku",
+        "es": "Leche en polvo"
+      }
+    },
+    {
+      "key": "butter",
+      "category": "dairy",
+      "names": {
+        "en": "Butter",
+        "ru": "Сливочное масло",
+        "uk": "Вершкове масло",
+        "de": "Butter",
+        "ja": "バター",
+        "zh": "黄油",
+        "pl": "Masło",
+        "es": "Mantequilla"
+      }
+    },
+    {
+      "key": "cheese",
+      "category": "dairy",
+      "names": {
+        "en": "Cheese",
+        "ru": "Сыр",
+        "uk": "Сир",
+        "de": "Käse",
+        "ja": "チーズ",
+        "zh": "奶酪",
+        "pl": "Ser",
+        "es": "Queso"
+      }
+    },
+    {
+      "key": "mozzarella",
+      "category": "dairy",
+      "names": {
+        "en": "Mozzarella",
+        "ru": "Сыр моцарелла",
+        "uk": "Моцарела",
+        "de": "Mozzarella",
+        "ja": "モッツァレラ",
+        "zh": "马苏里拉奶酪",
+        "pl": "Mozzarella",
+        "es": "Mozzarella"
+      }
+    },
+    {
+      "key": "hard_cheese",
+      "category": "dairy",
+      "names": {
+        "en": "Hard cheese",
+        "ru": "Сыр твердый",
+        "uk": "Твердий сир",
+        "de": "Hartkäse",
+        "ja": "ハードチーズ",
+        "zh": "硬质奶酪",
+        "pl": "Ser twardy",
+        "es": "Queso duro"
+      }
+    },
+    {
+      "key": "cream",
+      "category": "dairy",
+      "names": {
+        "en": "Cream",
+        "ru": "Сливки",
+        "uk": "Вершки",
+        "de": "Sahne",
+        "ja": "生クリーム",
+        "zh": "奶油",
+        "pl": "Śmietana",
+        "es": "Nata"
+      }
+    },
+    {
+      "key": "sour_cream",
+      "category": "dairy",
+      "names": {
+        "en": "Sour cream",
+        "ru": "Сметана",
+        "uk": "Сметана",
+        "de": "Sauerrahm",
+        "ja": "サワークリーム",
+        "zh": "酸奶油",
+        "pl": "Śmietana kwaśna",
+        "es": "Crema agria"
+      }
+    },
+    {
+      "key": "yogurt",
+      "category": "dairy",
+      "names": {
+        "en": "Yogurt",
+        "ru": "Йогурт",
+        "uk": "Йогурт",
+        "de": "Joghurt",
+        "ja": "ヨーグルト",
+        "zh": "酸奶",
+        "pl": "Jogurt",
+        "es": "Yogur"
+      }
+    },
+    {
+      "key": "kefir",
+      "category": "dairy",
+      "names": {
+        "en": "Kefir",
+        "ru": "Кефир",
+        "uk": "Кефір",
+        "de": "Kefir",
+        "ja": "ケフィア",
+        "zh": "开菲尔",
+        "pl": "Kefir",
+        "es": "Kéfir"
+      }
+    },
+    {
+      "key": "cottage_cheese",
+      "category": "dairy",
+      "names": {
+        "en": "Cottage cheese",
+        "ru": "Творог",
+        "uk": "Сир кисломолочний",
+        "de": "Hüttenkäse",
+        "ja": "カッテージチーズ",
+        "zh": "农家奶酪",
+        "pl": "Twaróg",
+        "es": "Requesón"
+      }
+    },
+    {
+      "key": "ice_cream",
+      "category": "dairy",
+      "names": {
+        "en": "Ice cream",
+        "ru": "Мороженое",
+        "uk": "Морозиво",
+        "de": "Eis",
+        "ja": "アイスクリーム",
+        "zh": "冰淇淋",
+        "pl": "Lody",
+        "es": "Helado"
+      }
+    },
+    {
+      "key": "chicken_egg",
+      "category": "eggs",
+      "names": {
+        "en": "Chicken egg",
+        "ru": "Яйцо куриное",
+        "uk": "Куряче яйце",
+        "de": "Hühnerei",
+        "ja": "鶏卵",
+        "zh": "鸡蛋",
+        "pl": "Jajko kurze",
+        "es": "Huevo de gallina"
+      }
+    },
+    {
+      "key": "boiled_egg",
+      "category": "eggs",
+      "names": {
+        "en": "Boiled egg",
+        "ru": "Яйцо вареное",
+        "uk": "Варене яйце",
+        "de": "Gekochtes Ei",
+        "ja": "ゆで卵",
+        "zh": "煮鸡蛋",
+        "pl": "Jajko gotowane",
+        "es": "Huevo cocido"
+      }
+    },
+    {
+      "key": "fried_egg",
+      "category": "eggs",
+      "names": {
+        "en": "Fried egg",
+        "ru": "Яйцо жареное",
+        "uk": "Смажене яйце",
+        "de": "Spiegelei",
+        "ja": "目玉焼き",
+        "zh": "煎蛋",
+        "pl": "Jajko sadzone",
+        "es": "Huevo frito"
+      }
+    },
+    {
+      "key": "quail_egg",
+      "category": "eggs",
+      "names": {
+        "en": "Quail egg",
+        "ru": "Перепелиное яйцо",
+        "uk": "Перепелине яйце",
+        "de": "Wachtelei",
+        "ja": "うずらの卵",
+        "zh": "鹌鹑蛋",
+        "pl": "Jajko przepiórcze",
+        "es": "Huevo de codorniz"
+      }
+    },
+    {
+      "key": "spaghetti",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Spaghetti",
+        "ru": "Спагетти",
+        "uk": "Спагеті",
+        "de": "Spaghetti",
+        "ja": "スパゲッティ",
+        "zh": "意大利面",
+        "pl": "Spaghetti",
+        "es": "Espaguetis"
+      }
+    },
+    {
+      "key": "rice",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Rice",
+        "ru": "Рис",
+        "uk": "Рис",
+        "de": "Reis",
+        "ja": "ご飯",
+        "zh": "米饭",
+        "pl": "Ryż",
+        "es": "Arroz"
+      }
+    },
+    {
+      "key": "oatmeal",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Oatmeal",
+        "ru": "Овсяная каша",
+        "uk": "Вівсяна каша",
+        "de": "Haferflocken",
+        "ja": "オートミール",
+        "zh": "燕麦粥",
+        "pl": "Płatki owsiane",
+        "es": "Avena"
+      }
+    },
+    {
+      "key": "wheat_flour",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Wheat flour",
+        "ru": "Мука пшеничная",
+        "uk": "Пшенична мука",
+        "de": "Weizenmehl",
+        "ja": "小麦粉",
+        "zh": "小麦粉",
+        "pl": "Mąka pszenna",
+        "es": "Harina de trigo"
+      }
+    },
+    {
+      "key": "cornmeal",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Cornmeal",
+        "ru": "Кукурузная крупа",
+        "uk": "Кукурудзяна крупа",
+        "de": "Maisgrieß",
+        "ja": "コーンミール",
+        "zh": "玉米粉",
+        "pl": "Kasza kukurydziana",
+        "es": "Harina de maíz"
+      }
+    },
+    {
+      "key": "buckwheat",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Buckwheat",
+        "ru": "Гречка",
+        "uk": "Гречка",
+        "de": "Buchweizen",
+        "ja": "そば",
+        "zh": "荞麦",
+        "pl": "Kasza gryczana",
+        "es": "Trigo sarraceno"
+      }
+    },
+    {
+      "key": "barley",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Barley",
+        "ru": "Перловка",
+        "uk": "Перлова крупа",
+        "de": "Gerste",
+        "ja": "大麦",
+        "zh": "大麦",
+        "pl": "Kasza pęczak",
+        "es": "Cebada"
+      }
+    },
+    {
+      "key": "semolina",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Semolina",
+        "ru": "Манная крупа",
+        "uk": "Манна крупа",
+        "de": "Grieß",
+        "ja": "セモリナ粉",
+        "zh": "粗粒小麦粉",
+        "pl": "Kasza manna",
+        "es": "Sémola"
+      }
+    },
+    {
+      "key": "penne",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Penne",
+        "ru": "Пенне",
+        "uk": "Пенне",
+        "de": "Penne",
+        "ja": "ペンネ",
+        "zh": "管状意面",
+        "pl": "Penne",
+        "es": "Penne"
+      }
+    },
+    {
+      "key": "couscous",
+      "category": "grains_pasta",
+      "names": {
+        "en": "Couscous",
+        "ru": "Кускус",
+        "uk": "Кускус",
+        "de": "Couscous",
+        "ja": "クスクス",
+        "zh": "北非小米",
+        "pl": "Kuskus",
+        "es": "Cuscús"
+      }
+    },
+    {
+      "key": "potato",
+      "category": "vegetables",
+      "names": {
+        "en": "Potato",
+        "ru": "Картофель",
+        "uk": "Картопля",
+        "de": "Kartoffel",
+        "ja": "じゃがいも",
+        "zh": "土豆",
+        "pl": "Ziemniak",
+        "es": "Patata"
+      }
+    },
+    {
+      "key": "tomato",
+      "category": "vegetables",
+      "names": {
+        "en": "Tomato",
+        "ru": "Помидор",
+        "uk": "Помідор",
+        "de": "Tomate",
+        "ja": "トマト",
+        "zh": "番茄",
+        "pl": "Pomidor",
+        "es": "Tomate"
+      }
+    },
+    {
+      "key": "cucumber",
+      "category": "vegetables",
+      "names": {
+        "en": "Cucumber",
+        "ru": "Огурец",
+        "uk": "Огірок",
+        "de": "Gurke",
+        "ja": "きゅうり",
+        "zh": "黄瓜",
+        "pl": "Ogórek",
+        "es": "Pepino"
+      }
+    },
+    {
+      "key": "carrot",
+      "category": "vegetables",
+      "names": {
+        "en": "Carrot",
+        "ru": "Морковь",
+        "uk": "Морква",
+        "de": "Karotte",
+        "ja": "にんじん",
+        "zh": "胡萝卜",
+        "pl": "Marchew",
+        "es": "Zanahoria"
+      }
+    },
+    {
+      "key": "bell_pepper",
+      "category": "vegetables",
+      "names": {
+        "en": "Bell pepper",
+        "ru": "Болгарский перец",
+        "uk": "Болгарський перець",
+        "de": "Paprika",
+        "ja": "ピーマン",
+        "zh": "甜椒",
+        "pl": "Papryka",
+        "es": "Pimiento"
+      }
+    },
+    {
+      "key": "cabbage",
+      "category": "vegetables",
+      "names": {
+        "en": "Cabbage",
+        "ru": "Капуста",
+        "uk": "Капуста",
+        "de": "Kohl",
+        "ja": "キャベツ",
+        "zh": "卷心菜",
+        "pl": "Kapusta",
+        "es": "Col"
+      }
+    },
+    {
+      "key": "sauerkraut",
+      "category": "vegetables",
+      "names": {
+        "en": "Sauerkraut",
+        "ru": "Квашеная капуста",
+        "uk": "Квашена капуста",
+        "de": "Sauerkraut",
+        "ja": "ザワークラウト",
+        "zh": "酸菜",
+        "pl": "Kiszona kapusta",
+        "es": "Chucrut"
+      }
+    },
+    {
+      "key": "onion",
+      "category": "vegetables",
+      "names": {
+        "en": "Onion",
+        "ru": "Лук",
+        "uk": "Цибуля",
+        "de": "Zwiebel",
+        "ja": "玉ねぎ",
+        "zh": "洋葱",
+        "pl": "Cebula",
+        "es": "Cebolla"
+      }
+    },
+    {
+      "key": "garlic",
+      "category": "vegetables",
+      "names": {
+        "en": "Garlic",
+        "ru": "Чеснок",
+        "uk": "Часник",
+        "de": "Knoblauch",
+        "ja": "にんにく",
+        "zh": "大蒜",
+        "pl": "Czosnek",
+        "es": "Ajo"
+      }
+    },
+    {
+      "key": "corn",
+      "category": "vegetables",
+      "names": {
+        "en": "Corn",
+        "ru": "Кукуруза",
+        "uk": "Кукурудза",
+        "de": "Mais",
+        "ja": "とうもろこし",
+        "zh": "玉米",
+        "pl": "Kukurydza",
+        "es": "Maíz"
+      }
+    },
+    {
+      "key": "radish",
+      "category": "vegetables",
+      "names": {
+        "en": "Radish",
+        "ru": "Редис",
+        "uk": "Редиска",
+        "de": "Radieschen",
+        "ja": "ラディッシュ",
+        "zh": "萝卜",
+        "pl": "Rzodkiewka",
+        "es": "Rábano"
+      }
+    },
+    {
+      "key": "beetroot",
+      "category": "vegetables",
+      "names": {
+        "en": "Beetroot",
+        "ru": "Свекла",
+        "uk": "Буряк",
+        "de": "Rote Bete",
+        "ja": "ビーツ",
+        "zh": "甜菜",
+        "pl": "Burak",
+        "es": "Remolacha"
+      }
+    },
+    {
+      "key": "zucchini",
+      "category": "vegetables",
+      "names": {
+        "en": "Zucchini",
+        "ru": "Кабачок",
+        "uk": "Кабачок",
+        "de": "Zucchini",
+        "ja": "ズッキーニ",
+        "zh": "西葫芦",
+        "pl": "Cukinia",
+        "es": "Calabacín"
+      }
+    },
+    {
+      "key": "broccoli",
+      "category": "vegetables",
+      "names": {
+        "en": "Broccoli",
+        "ru": "Брокколи",
+        "uk": "Броколі",
+        "de": "Brokkoli",
+        "ja": "ブロッコリー",
+        "zh": "西兰花",
+        "pl": "Brokuł",
+        "es": "Brócoli"
+      }
+    },
+    {
+      "key": "eggplant",
+      "category": "vegetables",
+      "names": {
+        "en": "Eggplant",
+        "ru": "Баклажан",
+        "uk": "Баклажан",
+        "de": "Aubergine",
+        "ja": "なす",
+        "zh": "茄子",
+        "pl": "Bakłażan",
+        "es": "Berenjena"
+      }
+    },
+    {
+      "key": "spinach",
+      "category": "vegetables",
+      "names": {
+        "en": "Spinach",
+        "ru": "Шпинат",
+        "uk": "Шпинат",
+        "de": "Spinat",
+        "ja": "ほうれん草",
+        "zh": "菠菜",
+        "pl": "Szpinak",
+        "es": "Espinaca"
+      }
+    },
+    {
+      "key": "lettuce",
+      "category": "vegetables",
+      "names": {
+        "en": "Lettuce",
+        "ru": "Салат листовой",
+        "uk": "Листовий салат",
+        "de": "Salat",
+        "ja": "レタス",
+        "zh": "生菜",
+        "pl": "Sałata",
+        "es": "Lechuga"
+      }
+    },
+    {
+      "key": "asparagus",
+      "category": "vegetables",
+      "names": {
+        "en": "Asparagus",
+        "ru": "Спаржа",
+        "uk": "Спаржа",
+        "de": "Spargel",
+        "ja": "アスパラガス",
+        "zh": "芦笋",
+        "pl": "Szparagi",
+        "es": "Espárrago"
+      }
+    },
+    {
+      "key": "banana",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Banana",
+        "ru": "Банан",
+        "uk": "Банан",
+        "de": "Banane",
+        "ja": "バナナ",
+        "zh": "香蕉",
+        "pl": "Banan",
+        "es": "Plátano"
+      }
+    },
+    {
+      "key": "apple",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Apple",
+        "ru": "Яблоко",
+        "uk": "Яблуко",
+        "de": "Apfel",
+        "ja": "りんご",
+        "zh": "苹果",
+        "pl": "Jabłko",
+        "es": "Manzana"
+      }
+    },
+    {
+      "key": "grape",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Grape",
+        "ru": "Виноград",
+        "uk": "Виноград",
+        "de": "Traube",
+        "ja": "ぶどう",
+        "zh": "葡萄",
+        "pl": "Winogrono",
+        "es": "Uva"
+      }
+    },
+    {
+      "key": "berries",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Berries",
+        "ru": "Ягоды",
+        "uk": "Ягоди",
+        "de": "Beeren",
+        "ja": "ベリー",
+        "zh": "浆果",
+        "pl": "Jagody",
+        "es": "Bayas"
+      }
+    },
+    {
+      "key": "avocado",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Avocado",
+        "ru": "Авокадо",
+        "uk": "Авокадо",
+        "de": "Avocado",
+        "ja": "アボカド",
+        "zh": "牛油果",
+        "pl": "Awokado",
+        "es": "Aguacate"
+      }
+    },
+    {
+      "key": "orange",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Orange",
+        "ru": "Апельсин",
+        "uk": "Апельсин",
+        "de": "Orange",
+        "ja": "オレンジ",
+        "zh": "橙子",
+        "pl": "Pomarańcza",
+        "es": "Naranja"
+      }
+    },
+    {
+      "key": "lemon",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Lemon",
+        "ru": "Лимон",
+        "uk": "Лимон",
+        "de": "Zitrone",
+        "ja": "レモン",
+        "zh": "柠檬",
+        "pl": "Cytryna",
+        "es": "Limón"
+      }
+    },
+    {
+      "key": "strawberry",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Strawberry",
+        "ru": "Клубника",
+        "uk": "Полуниця",
+        "de": "Erdbeere",
+        "ja": "いちご",
+        "zh": "草莓",
+        "pl": "Truskawka",
+        "es": "Fresa"
+      }
+    },
+    {
+      "key": "blueberry",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Blueberry",
+        "ru": "Черника",
+        "uk": "Чорниця",
+        "de": "Blaubeere",
+        "ja": "ブルーベリー",
+        "zh": "蓝莓",
+        "pl": "Borówka",
+        "es": "Arándano"
+      }
+    },
+    {
+      "key": "watermelon",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Watermelon",
+        "ru": "Арбуз",
+        "uk": "Кавун",
+        "de": "Wassermelone",
+        "ja": "スイカ",
+        "zh": "西瓜",
+        "pl": "Arbuz",
+        "es": "Sandía"
+      }
+    },
+    {
+      "key": "pear",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Pear",
+        "ru": "Груша",
+        "uk": "Груша",
+        "de": "Birne",
+        "ja": "洋梨",
+        "zh": "梨",
+        "pl": "Gruszka",
+        "es": "Pera"
+      }
+    },
+    {
+      "key": "mango",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Mango",
+        "ru": "Манго",
+        "uk": "Манго",
+        "de": "Mango",
+        "ja": "マンゴー",
+        "zh": "芒果",
+        "pl": "Mango",
+        "es": "Mango"
+      }
+    },
+    {
+      "key": "pineapple",
+      "category": "fruits_berries",
+      "names": {
+        "en": "Pineapple",
+        "ru": "Ананас",
+        "uk": "Ананас",
+        "de": "Ananas",
+        "ja": "パイナップル",
+        "zh": "菠萝",
+        "pl": "Ananas",
+        "es": "Piña"
+      }
+    },
+    {
+      "key": "mixed_nuts",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Mixed nuts",
+        "ru": "Смесь орехов",
+        "uk": "Суміш горіхів",
+        "de": "Nussmischung",
+        "ja": "ミックスナッツ",
+        "zh": "混合坚果",
+        "pl": "Mieszanka orzechów",
+        "es": "Frutos secos mixtos"
+      }
+    },
+    {
+      "key": "walnut",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Walnut",
+        "ru": "Грецкий орех",
+        "uk": "Грецький горіх",
+        "de": "Walnuss",
+        "ja": "クルミ",
+        "zh": "核桃",
+        "pl": "Orzech włoski",
+        "es": "Nuez"
+      }
+    },
+    {
+      "key": "peanut",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Peanut",
+        "ru": "Арахис",
+        "uk": "Арахіс",
+        "de": "Erdnuss",
+        "ja": "落花生",
+        "zh": "花生",
+        "pl": "Orzeszek ziemny",
+        "es": "Cacahuete"
+      }
+    },
+    {
+      "key": "almond",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Almond",
+        "ru": "Миндаль",
+        "uk": "Мигдаль",
+        "de": "Mandel",
+        "ja": "アーモンド",
+        "zh": "杏仁",
+        "pl": "Migdał",
+        "es": "Almendra"
+      }
+    },
+    {
+      "key": "hazelnut",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Hazelnut",
+        "ru": "Фундук",
+        "uk": "Фундук",
+        "de": "Haselnuss",
+        "ja": "ヘーゼルナッツ",
+        "zh": "榛子",
+        "pl": "Orzech laskowy",
+        "es": "Avellana"
+      }
+    },
+    {
+      "key": "sunflower_seeds",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Sunflower seeds",
+        "ru": "Семечки подсолнуха",
+        "uk": "Насіння соняшнику",
+        "de": "Sonnenblumenkerne",
+        "ja": "ひまわりの種",
+        "zh": "葵花籽",
+        "pl": "Pestki słonecznika",
+        "es": "Pipas de girasol"
+      }
+    },
+    {
+      "key": "sesame",
+      "category": "nuts_seeds",
+      "names": {
+        "en": "Sesame",
+        "ru": "Кунжут",
+        "uk": "Кунжут",
+        "de": "Sesam",
+        "ja": "ごま",
+        "zh": "芝麻",
+        "pl": "Sezam",
+        "es": "Sésamo"
+      }
+    },
+    {
+      "key": "milk_chocolate",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Milk chocolate",
+        "ru": "Молочный шоколад",
+        "uk": "Молочний шоколад",
+        "de": "Vollmilchschokolade",
+        "ja": "ミルクチョコレート",
+        "zh": "牛奶巧克力",
+        "pl": "Czekolada mleczna",
+        "es": "Chocolate con leche"
+      }
+    },
+    {
+      "key": "dark_chocolate",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Dark chocolate",
+        "ru": "Темный шоколад",
+        "uk": "Темний шоколад",
+        "de": "Dunkle Schokolade",
+        "ja": "ダークチョコレート",
+        "zh": "黑巧克力",
+        "pl": "Czekolada gorzka",
+        "es": "Chocolate negro"
+      }
+    },
+    {
+      "key": "sugar",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Sugar",
+        "ru": "Сахар",
+        "uk": "Цукор",
+        "de": "Zucker",
+        "ja": "砂糖",
+        "zh": "糖",
+        "pl": "Cukier",
+        "es": "Azúcar"
+      }
+    },
+    {
+      "key": "honey",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Honey",
+        "ru": "Мёд",
+        "uk": "Мед",
+        "de": "Honig",
+        "ja": "はちみつ",
+        "zh": "蜂蜜",
+        "pl": "Miód",
+        "es": "Miel"
+      }
+    },
+    {
+      "key": "jam",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Jam",
+        "ru": "Варенье",
+        "uk": "Варення",
+        "de": "Marmelade",
+        "ja": "ジャム",
+        "zh": "果酱",
+        "pl": "Dżem",
+        "es": "Mermelada"
+      }
+    },
+    {
+      "key": "candy",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Candy",
+        "ru": "Конфеты",
+        "uk": "Цукерки",
+        "de": "Bonbon",
+        "ja": "キャンディ",
+        "zh": "糖果",
+        "pl": "Cukierki",
+        "es": "Caramelo"
+      }
+    },
+    {
+      "key": "chocolate_glaze",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Chocolate glaze",
+        "ru": "Шоколадная глазурь",
+        "uk": "Шоколадна глазур",
+        "de": "Schokoladenglasur",
+        "ja": "チョコレートグレーズ",
+        "zh": "巧克力釉",
+        "pl": "Polewa czekoladowa",
+        "es": "Glaseado de chocolate"
+      }
+    },
+    {
+      "key": "cocoa_butter",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Cocoa butter",
+        "ru": "Какао-масло",
+        "uk": "Масло какао",
+        "de": "Kakaobutter",
+        "ja": "カカオバター",
+        "zh": "可可脂",
+        "pl": "Masło kakaowe",
+        "es": "Manteca de cacao"
+      }
+    },
+    {
+      "key": "cake",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Cake",
+        "ru": "Торт",
+        "uk": "Торт",
+        "de": "Torte",
+        "ja": "ケーキ",
+        "zh": "蛋糕",
+        "pl": "Tort",
+        "es": "Tarta"
+      }
+    },
+    {
+      "key": "cookie",
+      "category": "sweets_desserts",
+      "names": {
+        "en": "Cookie",
+        "ru": "Печенье",
+        "uk": "Печиво",
+        "de": "Keks",
+        "ja": "クッキー",
+        "zh": "饼干",
+        "pl": "Ciastko",
+        "es": "Galleta"
+      }
+    },
+    {
+      "key": "mayonnaise",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Mayonnaise",
+        "ru": "Майонез",
+        "uk": "Майонез",
+        "de": "Mayonnaise",
+        "ja": "マヨネーズ",
+        "zh": "蛋黄酱",
+        "pl": "Majonez",
+        "es": "Mayonesa"
+      }
+    },
+    {
+      "key": "mustard",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Mustard",
+        "ru": "Горчица",
+        "uk": "Гірчиця",
+        "de": "Senf",
+        "ja": "マスタード",
+        "zh": "芥末",
+        "pl": "Musztarda",
+        "es": "Mostaza"
+      }
+    },
+    {
+      "key": "tomato_sauce",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Tomato sauce",
+        "ru": "Томатный соус",
+        "uk": "Томатний соус",
+        "de": "Tomatensauce",
+        "ja": "トマトソース",
+        "zh": "番茄酱",
+        "pl": "Sos pomidorowy",
+        "es": "Salsa de tomate"
+      }
+    },
+    {
+      "key": "ketchup",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Ketchup",
+        "ru": "Кетчуп",
+        "uk": "Кетчуп",
+        "de": "Ketchup",
+        "ja": "ケチャップ",
+        "zh": "番茄沙司",
+        "pl": "Ketchup",
+        "es": "Ketchup"
+      }
+    },
+    {
+      "key": "soy_sauce",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Soy sauce",
+        "ru": "Соевый соус",
+        "uk": "Соєвий соус",
+        "de": "Sojasoße",
+        "ja": "醤油",
+        "zh": "酱油",
+        "pl": "Sos sojowy",
+        "es": "Salsa de soja"
+      }
+    },
+    {
+      "key": "vinegar",
+      "category": "sauces_condiments",
+      "names": {
+        "en": "Vinegar",
+        "ru": "Уксус",
+        "uk": "Оцет",
+        "de": "Essig",
+        "ja": "酢",
+        "zh": "醋",
+        "pl": "Ocet",
+        "es": "Vinagre"
+      }
+    },
+    {
+      "key": "sunflower_oil",
+      "category": "oils_fats",
+      "names": {
+        "en": "Sunflower oil",
+        "ru": "Подсолнечное масло",
+        "uk": "Соняшникова олія",
+        "de": "Sonnenblumenöl",
+        "ja": "ひまわり油",
+        "zh": "葵花籽油",
+        "pl": "Olej słonecznikowy",
+        "es": "Aceite de girasol"
+      }
+    },
+    {
+      "key": "olive_oil",
+      "category": "oils_fats",
+      "names": {
+        "en": "Olive oil",
+        "ru": "Оливковое масло",
+        "uk": "Оливкова олія",
+        "de": "Olivenöl",
+        "ja": "オリーブオイル",
+        "zh": "橄榄油",
+        "pl": "Oliwa z oliwek",
+        "es": "Aceite de oliva"
+      }
+    },
+    {
+      "key": "coconut_oil",
+      "category": "oils_fats",
+      "names": {
+        "en": "Coconut oil",
+        "ru": "Кокосовое масло",
+        "uk": "Кокосова олія",
+        "de": "Kokosöl",
+        "ja": "ココナッツオイル",
+        "zh": "椰子油",
+        "pl": "Olej kokosowy",
+        "es": "Aceite de coco"
+      }
+    },
+    {
+      "key": "water",
+      "category": "beverages",
+      "names": {
+        "en": "Water",
+        "ru": "Вода",
+        "uk": "Вода",
+        "de": "Wasser",
+        "ja": "水",
+        "zh": "水",
+        "pl": "Woda",
+        "es": "Agua"
+      }
+    },
+    {
+      "key": "coca_cola",
+      "category": "beverages",
+      "names": {
+        "en": "Coca-Cola",
+        "ru": "Кока-Кола",
+        "uk": "Кока-Кола",
+        "de": "Coca-Cola",
+        "ja": "コカ・コーラ",
+        "zh": "可口可乐",
+        "pl": "Coca-Cola",
+        "es": "Coca-Cola"
+      }
+    },
+    {
+      "key": "orange_juice",
+      "category": "beverages",
+      "names": {
+        "en": "Orange juice",
+        "ru": "Апельсиновый сок",
+        "uk": "Апельсиновий сік",
+        "de": "Orangensaft",
+        "ja": "オレンジジュース",
+        "zh": "橙汁",
+        "pl": "Sok pomarańczowy",
+        "es": "Zumo de naranja"
+      }
+    },
+    {
+      "key": "coffee",
+      "category": "beverages",
+      "names": {
+        "en": "Coffee",
+        "ru": "Кофе",
+        "uk": "Кава",
+        "de": "Kaffee",
+        "ja": "コーヒー",
+        "zh": "咖啡",
+        "pl": "Kawa",
+        "es": "Café"
+      }
+    },
+    {
+      "key": "tea",
+      "category": "beverages",
+      "names": {
+        "en": "Tea",
+        "ru": "Чай",
+        "uk": "Чай",
+        "de": "Tee",
+        "ja": "お茶",
+        "zh": "茶",
+        "pl": "Herbata",
+        "es": "Té"
+      }
+    },
+    {
+      "key": "beer",
+      "category": "alcohol",
+      "names": {
+        "en": "Beer",
+        "ru": "Пиво",
+        "uk": "Пиво",
+        "de": "Bier",
+        "ja": "ビール",
+        "zh": "啤酒",
+        "pl": "Piwo",
+        "es": "Cerveza"
+      }
+    },
+    {
+      "key": "wine_white",
+      "category": "alcohol",
+      "names": {
+        "en": "White wine",
+        "ru": "Белое вино",
+        "uk": "Біле вино",
+        "de": "Weißwein",
+        "ja": "白ワイン",
+        "zh": "白葡萄酒",
+        "pl": "Wino białe",
+        "es": "Vino blanco"
+      }
+    },
+    {
+      "key": "wine_red",
+      "category": "alcohol",
+      "names": {
+        "en": "Red wine",
+        "ru": "Красное вино",
+        "uk": "Червоне вино",
+        "de": "Rotwein",
+        "ja": "赤ワイン",
+        "zh": "红葡萄酒",
+        "pl": "Wino czerwone",
+        "es": "Vino tinto"
+      }
+    },
+    {
+      "key": "vodka",
+      "category": "alcohol",
+      "names": {
+        "en": "Vodka",
+        "ru": "Водка",
+        "uk": "Горілка",
+        "de": "Wodka",
+        "ja": "ウォッカ",
+        "zh": "伏特加",
+        "pl": "Wódka",
+        "es": "Vodka"
+      }
+    },
+    {
+      "key": "whiskey",
+      "category": "alcohol",
+      "names": {
+        "en": "Whiskey",
+        "ru": "Виски",
+        "uk": "Віскі",
+        "de": "Whiskey",
+        "ja": "ウイスキー",
+        "zh": "威士忌",
+        "pl": "Whisky",
+        "es": "Whisky"
+      }
+    },
+    {
+      "key": "broth",
+      "category": "soups_ready",
+      "names": {
+        "en": "Broth",
+        "ru": "Бульон",
+        "uk": "Бульйон",
+        "de": "Brühe",
+        "ja": "ブロス",
+        "zh": "高汤",
+        "pl": "Bulion",
+        "es": "Caldo"
+      }
+    },
+    {
+      "key": "chicken_broth",
+      "category": "soups_ready",
+      "names": {
+        "en": "Chicken broth",
+        "ru": "Куриный бульон",
+        "uk": "Курячий бульйон",
+        "de": "Hühnerbrühe",
+        "ja": "チキンブロス",
+        "zh": "鸡汤",
+        "pl": "Bulion drobiowy",
+        "es": "Caldo de pollo"
+      }
+    },
+    {
+      "key": "potato_soup",
+      "category": "soups_ready",
+      "names": {
+        "en": "Potato soup",
+        "ru": "Картофельный суп",
+        "uk": "Картопляний суп",
+        "de": "Kartoffelsuppe",
+        "ja": "ポテトスープ",
+        "zh": "土豆汤",
+        "pl": "Zupa ziemniaczana",
+        "es": "Sopa de patata"
+      }
+    },
+    {
+      "key": "broccoli_cream_soup",
+      "category": "soups_ready",
+      "names": {
+        "en": "Broccoli cream soup",
+        "ru": "Суп-пюре из брокколи",
+        "uk": "Крем-суп з броколі",
+        "de": "Brokkolicremesuppe",
+        "ja": "ブロッコリーポタージュ",
+        "zh": "奶油西兰花汤",
+        "pl": "Krem z brokuła",
+        "es": "Crema de brócoli"
+      }
+    },
+    {
+      "key": "vegetable_soup",
+      "category": "soups_ready",
+      "names": {
+        "en": "Vegetable soup",
+        "ru": "Овощной суп",
+        "uk": "Овочевий суп",
+        "de": "Gemüsesuppe",
+        "ja": "野菜スープ",
+        "zh": "蔬菜汤",
+        "pl": "Zupa warzywna",
+        "es": "Sopa de verduras"
+      }
+    },
+    {
+      "key": "salt",
+      "category": "spices_additives",
+      "names": {
+        "en": "Salt",
+        "ru": "Соль",
+        "uk": "Сіль",
+        "de": "Salz",
+        "ja": "塩",
+        "zh": "盐",
+        "pl": "Sól",
+        "es": "Sal"
+      }
+    },
+    {
+      "key": "black_pepper",
+      "category": "spices_additives",
+      "names": {
+        "en": "Black pepper",
+        "ru": "Черный перец",
+        "uk": "Чорний перець",
+        "de": "Schwarzer Pfeffer",
+        "ja": "黒こしょう",
+        "zh": "黑胡椒",
+        "pl": "Pieprz czarny",
+        "es": "Pimienta negra"
+      }
+    },
+    {
+      "key": "cinnamon",
+      "category": "spices_additives",
+      "names": {
+        "en": "Cinnamon",
+        "ru": "Корица",
+        "uk": "Кориця",
+        "de": "Zimt",
+        "ja": "シナモン",
+        "zh": "肉桂",
+        "pl": "Cynamon",
+        "es": "Canela"
+      }
+    },
+    {
+      "key": "paprika",
+      "category": "spices_additives",
+      "names": {
+        "en": "Paprika",
+        "ru": "Паприка",
+        "uk": "Паприка",
+        "de": "Paprikapulver",
+        "ja": "パプリカ",
+        "zh": "辣椒粉",
+        "pl": "Papryka mielona",
+        "es": "Pimentón"
+      }
+    },
+    {
+      "key": "spices_mix",
+      "category": "spices_additives",
+      "names": {
+        "en": "Spice mix",
+        "ru": "Смесь специй",
+        "uk": "Суміш спецій",
+        "de": "Gewürzmischung",
+        "ja": "ミックススパイス",
+        "zh": "混合香料",
+        "pl": "Mieszanka przypraw",
+        "es": "Mezcla de especias"
+      }
+    },
+    {
+      "key": "lentils",
+      "category": "legumes",
+      "names": {
+        "en": "Lentils",
+        "ru": "Чечевица",
+        "uk": "Сочевиця",
+        "de": "Linsen",
+        "ja": "レンズ豆",
+        "zh": "扁豆",
+        "pl": "Soczewica",
+        "es": "Lentejas"
+      }
+    },
+    {
+      "key": "chickpeas",
+      "category": "legumes",
+      "names": {
+        "en": "Chickpeas",
+        "ru": "Нут",
+        "uk": "Нут",
+        "de": "Kichererbsen",
+        "ja": "ひよこ豆",
+        "zh": "鹰嘴豆",
+        "pl": "Ciecierzyca",
+        "es": "Garbanzos"
+      }
+    },
+    {
+      "key": "beans",
+      "category": "legumes",
+      "names": {
+        "en": "Beans",
+        "ru": "Фасоль",
+        "uk": "Квасоля",
+        "de": "Bohnen",
+        "ja": "豆",
+        "zh": "豆子",
+        "pl": "Fasola",
+        "es": "Judías"
+      }
+    },
+    {
+      "key": "peas",
+      "category": "legumes",
+      "names": {
+        "en": "Peas",
+        "ru": "Горох",
+        "uk": "Горох",
+        "de": "Erbsen",
+        "ja": "えんどう豆",
+        "zh": "豌豆",
+        "pl": "Groch",
+        "es": "Guisantes"
+      }
+    },
+    {
+      "key": "soybeans",
+      "category": "legumes",
+      "names": {
+        "en": "Soybeans",
+        "ru": "Соя",
+        "uk": "Соя",
+        "de": "Sojabohnen",
+        "ja": "大豆",
+        "zh": "大豆",
+        "pl": "Soja",
+        "es": "Soja"
+      }
+    },
+    {
+      "key": "mushrooms",
+      "category": "mushrooms",
+      "names": {
+        "en": "Mushrooms",
+        "ru": "Грибы",
+        "uk": "Гриби",
+        "de": "Pilze",
+        "ja": "きのこ",
+        "zh": "蘑菇",
+        "pl": "Grzyby",
+        "es": "Setas"
+      }
+    },
+    {
+      "key": "champignon",
+      "category": "mushrooms",
+      "names": {
+        "en": "Champignon",
+        "ru": "Шампиньон",
+        "uk": "Шампіньйон",
+        "de": "Champignon",
+        "ja": "マッシュルーム",
+        "zh": "口蘑",
+        "pl": "Pieczarka",
+        "es": "Champiñón"
+      }
+    },
+    {
+      "key": "shiitake",
+      "category": "mushrooms",
+      "names": {
+        "en": "Shiitake",
+        "ru": "Шиитаке",
+        "uk": "Шиітаке",
+        "de": "Shiitake",
+        "ja": "しいたけ",
+        "zh": "香菇",
+        "pl": "Shiitake",
+        "es": "Shiitake"
+      }
+    }
+  ]
+}

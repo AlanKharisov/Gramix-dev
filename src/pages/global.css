@@ -1,0 +1,605 @@
+/* ===== ГЛОБАЛЬНІ СТИЛІ ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden; /* ЗАБОРОНЯЄМО ГОРИЗОНТАЛЬНИЙ СКРОЛ */
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  background-color: var(--bg-base);
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ===== БАЗОВИЙ КОНТЕЙНЕР ===== */
+.app-page {
+  min-height: 100vh;
+  width: 100%;
+  background-color: var(--bg-base);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ОСНОВНИЙ КОНТЕЙНЕР - СТАТИЧНА ШИРИНА */
+.app-container {
+  width: 100%;
+  max-width: 430px;
+  min-height: 100vh;
+  background-color: var(--bg-base);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 60px 0 70px 0; /* Висота header + footer */
+  box-sizing: border-box;
+}
+
+/* ===== HEADER - АБСОЛЮТНО ФІКСОВАНИЙ ===== */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--surface-1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+  z-index: 1000;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Центрування header на великих екранах */
+@media (min-width: 431px) {
+  .app-header {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 430px;
+  }
+}
+
+/* Для малих екранів - на всю ширину */
+@media (max-width: 430px) {
+  .app-header {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+}
+
+.app-header-text {
+  color: #ffffff;
+  font-size: clamp(18px, 5vw, 22px);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.app-header-text span:first-child {
+  color: var(--text-primary);
+}
+
+.app-header-text span:last-child {
+  color: var(--brand-mint);
+}
+
+.app-profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  border: 1px solid var(--line-soft);
+}
+
+.app-profile-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ===== BOTTOM NAVIGATION - АБСОЛЮТНО ФІКСОВАНИЙ ===== */
+.app-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: var(--surface-1);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  z-index: 1000;
+  border-top: 1px solid var(--line-soft);
+  backdrop-filter: blur(12px);
+}
+
+/* Центрування bottom-nav на великих екранах */
+@media (min-width: 431px) {
+  .app-bottom-nav {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 430px;
+  }
+}
+
+/* Для малих екранів - на всю ширину */
+@media (max-width: 430px) {
+  .app-bottom-nav {
+    left: 0;
+    transform: none;
+    width: 100%;
+  }
+}
+
+.app-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  cursor: pointer;
+  width: 33.33%;
+  height: 70px;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.app-nav-item svg {
+  fill: currentColor;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
+}
+
+.app-nav-item span {
+  font-size: 14px;
+  color: currentColor;
+}
+
+.app-nav-item.active {
+  color: var(--brand-mint);
+}
+
+/* ===== КОНТЕНТ - ТІЛЬКИ ВІН СКРОЛИТЬСЯ ===== */
+.app-content {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 16px 20px;
+  -webkit-overflow-scrolling: touch; /* Плавний скрол на iOS */
+}
+
+/* ===== ЛОГОТИП ===== */
+.app-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-image: url('https://assets.api.uizard.io/api/cdn/stream/5f2b344d-d841-4e70-99eb-61b29cde72d7.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 20px auto 24px;
+}
+
+/* ===== ЗАГОЛОВКИ ===== */
+.app-title {
+  color: #ffffff;
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 375px) {
+  .app-title {
+    font-size: 34px;
+  }
+}
+
+.app-title span:first-child {
+  color: var(--text-primary);
+}
+
+.app-title span:last-child {
+  color: var(--brand-mint);
+}
+
+.app-subtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 19px;
+  text-align: center;
+  opacity: 0.53;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+@media (max-width: 375px) {
+  .app-subtitle {
+    font-size: 17px;
+  }
+}
+
+/* ===== ФОРМИ ===== */
+.app-input {
+  width: 100%;
+  height: 56px;
+  margin-bottom: 16px;
+  padding: 0 20px;
+  border-radius: 28px;
+  border: 1px solid var(--line-strong);
+  background-color: var(--surface-2);
+  color: var(--text-primary);
+  font-size: 19px;
+  outline: none;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.app-input:focus {
+  border-color: var(--brand-mint);
+}
+
+.app-checkbox-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 30px;
+  color: var(--text-dim);
+  font-size: 17px;
+}
+
+.app-checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--brand-mint);
+}
+
+.app-button-primary {
+  width: 100%;
+  height: 56px;
+  border-radius: 28px;
+  border: none;
+  background-color: var(--brand-mint);
+  color: var(--bg-base);
+  font-size: 19px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s, transform 0.1s;
+  box-shadow: 0 8px 20px -8px var(--brand-mint-glow);
+}
+
+.app-button-primary:hover {
+  background-color: var(--brand-mint-deep);
+}
+.app-button-primary:active { transform: scale(0.98); }
+
+.app-button-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== КНОПКА З ВІДБИТКОМ ===== */
+.app-fingerprint-button {
+  width: 100%;
+  height: 56px;
+  border-radius: 28px;
+  border: none;
+  background: transparent;
+  color: var(--brand-mint);
+  font-size: 19px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  transition: background-color 0.3s;
+}
+
+.app-fingerprint-button svg {
+  fill: var(--brand-mint);
+  width: 28px;
+  height: 28px;
+}
+
+.app-fingerprint-button:hover {
+  background-color: oklch(0.78 0.14 165 / 0.12);
+}
+
+/* ===== РОЗДІЛЬНИК ===== */
+.app-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 20px 0;
+}
+
+/* ===== ПОСИЛАННЯ ===== */
+.app-link {
+  margin-top: 25px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 18px;
+  text-align: center;
+}
+
+.app-link span {
+  color: var(--brand-peach-deep);
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.app-link span:hover {
+  text-decoration: underline;
+}
+
+/* ===== ПОМИЛКИ ===== */
+.app-error {
+  color: var(--brand-coral-deep);
+  font-size: 17px;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* ===== СТАТИСТИКА ===== */
+.stats-period-selector {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  background-color: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  margin: 16px 0;
+  border-radius: 14px;
+}
+
+.stats-period-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.stats-period-btn.active {
+  background-color: var(--brand-mint);
+  color: var(--bg-base);
+}
+
+.stats-month-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  margin: 16px 0;
+}
+
+.stats-month-btn {
+  background: none;
+  border: none;
+  color: var(--brand-mint);
+  font-size: 29px;
+  cursor: pointer;
+  padding: 8px 16px;
+}
+
+.stats-month-year {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.stats-calendar {
+  background-color: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  padding: 16px;
+  border-radius: 18px;
+  margin-bottom: 16px;
+}
+
+.stats-calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.stats-calendar-weekday {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.stats-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.stats-calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.stats-calendar-day:hover {
+  transform: scale(1.1);
+}
+
+.stats-calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.stats-calendar-day.selected {
+  border: 2px solid var(--brand-mint);
+}
+
+.stats-day-over {
+  background-color: var(--brand-coral);
+  color: var(--bg-base);
+}
+
+.stats-day-good {
+  background-color: #4CAF50;
+  color: #ffffff;
+}
+
+.stats-day-under {
+  background-color: #FFA500;
+  color: #ffffff;
+}
+
+.stats-day-future {
+  background-color: #4a4a4a;
+  color: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.stats-week-view {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 16px;
+  background-color: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  margin: 16px 0;
+  border-radius: 20px;
+}
+
+.stats-week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stats-week-number {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.stats-week-name {
+  color: #94a3b8;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.stats-card {
+  background-color: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  margin: 16px 0;
+  padding: 20px;
+  border-radius: 18px;
+}
+
+.stats-title {
+  color: #ffffff;
+  font-size: 17px;
+  margin-bottom: 20px;
+}
+
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.stats-label {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.stats-value {
+  color: #94a3b8;
+  font-size: 17px;
+}
+
+.stats-progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: var(--surface-2);
+  border-radius: 10px;
+  margin-bottom: 16px;
+}
+
+.stats-progress-fill {
+  height: 10px;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.stats-meal-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #4a4a4a;
+}
+
+.stats-meal-item:last-child {
+  border-bottom: none;
+}
+
+.stats-meal-name {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.stats-meal-calories {
+  color: #94a3b8;
+  font-size: 17px;
+}
+
+.phone, .main-phone, .stats-phone, .history-phone {
+  width: 100%;       /* Було 430px, ставимо 100% */
+  max-width: 100%;   /* Прибираємо обмеження */
+  min-height: 100vh;
+  margin: 0;         /* Прибираємо центрування, бо ми вже на весь екран */
+}
+/* Centered loading state used by App.jsx, Profile/Stats/History/Main pages */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  z-index: 4000;
+  padding: 24px;
+}
+.loading-screen h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+}

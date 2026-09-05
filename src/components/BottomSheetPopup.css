@@ -1,0 +1,131 @@
+.bs-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  padding: 20px;
+  animation: bs-fade-in 0.18s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes bs-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.bs-popup-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 22px 20px 18px;
+  border-radius: 22px;
+  background: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  box-shadow: 0 24px 60px -10px rgba(0, 0, 0, 0.6);
+  animation: bs-pop-in 0.22s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes bs-pop-in {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.bs-popup-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.bs-popup-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+}
+
+.bs-popup-icon-warning,
+.bs-popup-icon-error {
+  background: oklch(0.7 0.18 25 / 0.12);
+  color: var(--brand-coral-deep);
+  border: 1px solid oklch(0.7 0.18 25 / 0.25);
+}
+
+.bs-popup-icon-info {
+  background: oklch(0.78 0.14 165 / 0.15);
+  color: var(--brand-mint-deep);
+  border: 1px solid oklch(0.78 0.14 165 / 0.25);
+}
+
+.bs-popup-text {
+  flex: 1;
+  min-width: 0;
+  padding-top: 1px;
+}
+.bs-popup-row:has(.bs-popup-icon) .bs-popup-text {
+  padding-top: 1px;
+}
+.bs-popup-row:not(:has(.bs-popup-icon)) .bs-popup-text {
+  padding-top: 10px;
+}
+
+.bs-popup-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  line-height: 1.25;
+  color: var(--text-primary);
+  text-wrap: pretty;
+}
+
+.bs-popup-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-weight: 500;
+  margin-top: 4px;
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+.bs-popup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 8px;
+}
+
+.bs-popup-actions:has(> :only-child) {
+  grid-template-columns: 1fr;
+}
+
+.bs-popup-secondary,
+.bs-popup-primary {
+  height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: -0.1px;
+}
+
+.bs-popup-secondary {
+  background: var(--bg-base);
+  color: var(--text-dim);
+  border: 1px solid var(--line-soft);
+}
+
+.bs-popup-primary {
+  background: var(--brand-mint);
+  color: var(--bg-base);
+  border: none;
+}
+
+.bs-popup-primary:active {
+  transform: scale(0.98);
+}

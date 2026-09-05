@@ -1,0 +1,310 @@
+/* Geist font is loaded once in src/index.css */
+
+:root {
+  --primary-red: var(--brand-mint);
+  --bg-dark: var(--bg-base);
+  --header-bg: var(--surface-1);
+  --card-bg: var(--surface-1);
+  --text-gray: var(--text-dim);
+}
+
+body, html, #root {
+    background-color: var(--bg-dark) !important;
+    color: var(--text-primary);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    width: 100%;
+    overscroll-behavior-y: none;
+}
+
+/* Базовий контейнер для історії */
+.history-page {
+  background-color: var(--bg-dark) !important;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Використовуємо max(), щоб гарантувати відступ на всіх пристроях */
+  padding-top: max(env(safe-area-inset-top), 35px); 
+  box-sizing: border-box;
+}
+
+/* Універсальний Header для всіх сторінок */
+.main-header {
+  background-color: var(--header-bg) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  height: 60px;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.main-header-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary) !important;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.4px;
+}
+
+.red-part {
+  color: var(--text-primary) !important;
+  margin-right: 2px;
+}
+.main-header-text > :not(.red-part) { color: var(--text-primary); }
+
+/* Mechanical word for Gramix — entire word */
+.red-part .mechanical-g,
+.main-header-text > :not(.red-part) {
+  font-family: Georgia, serif;
+  font-weight: 700;
+  display: inline-block;
+}
+
+/* Кнопка профілю справа в шапці */
+.main-profile-btn {
+  position: absolute;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-soft);
+  cursor: pointer;
+  color: var(--text-primary);
+}
+
+.main-profile-btn img { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+}
+
+/* Контент */
+.history-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  padding-bottom: 120px; /* Запас для нижнього бару */
+}
+
+/* Календар та вибір періоду */
+.period-selector {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 15px;
+  background: var(--surface-1);
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.period-selector button {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: 0.18s;
+  font-family: inherit;
+}
+
+.period-selector button.active {
+  background: var(--brand-mint);
+  color: var(--bg-base);
+}
+
+/* --- КАЛЕНДАР --- */
+.calendar-card {
+  background: var(--surface-1);
+  border-radius: 22px;
+  padding: 18px;
+  margin-bottom: 15px;
+  border: 1px solid var(--line-soft);
+}
+
+.calendar-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-nav h3 {
+  margin: 0;
+  font-size: 1rem;
+  text-transform: capitalize;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.2px;
+}
+
+.nav-btns button {
+  background: var(--surface-2);
+  border: 1px solid var(--line-soft);
+  color: var(--text-primary);
+  padding: 5px 14px;
+  border-radius: 8px;
+  margin-left: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.weekday {
+  font-size: 0.7rem;
+  color: var(--text-mute);
+  margin-bottom: 5px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.day-good { background: oklch(0.78 0.14 165 / 0.12); color: var(--brand-mint); }
+.day-over { background: oklch(0.74 0.14 30 / 0.12); color: var(--brand-coral-deep); }
+.day-empty { color: var(--text-mute); }
+.day-future {
+    color: var(--text-mute);
+    opacity: 0.4;
+    cursor: default;
+}
+.calendar-day.selected { background: var(--brand-mint); color: var(--bg-base); border: none; }
+
+/* Таблиця Інгредієнтів */
+.ingredients-table-card {
+  background: var(--surface-1);
+  border-radius: 22px;
+  padding: 18px;
+  margin-top: 10px;
+  border: 1px solid var(--line-soft);
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 0.72rem;
+  color: var(--text-mute);
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* Останній рядок без лінії */
+.table-row:last-child {
+  border-bottom: none;
+}
+
+.ing-weight {
+  width: 50px;
+  color: var(--text-dim);
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.ing-name-wrap {
+  flex: 1;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 0 10px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.25;
+  letter-spacing: -0.1px;
+}
+
+/* Об'єднані класи метрик (Колонки БЖУ + Ккал) */
+.col-metrics, .ing-metrics {
+  display: flex;
+  gap: 8px; 
+  width: 150px; /* Фіксована ширина для 4-х колонок (Ккал, Б, Ж, У) */
+  justify-content: flex-end;
+}
+
+.col-metrics span, .ing-metrics span {
+  width: 32px;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.m-cal { color: var(--brand-mint-deep); }
+.m-val { color: var(--text-dim); }
+
+.empty-msg {
+  text-align: center;
+  padding: 30px;
+  color: var(--text-mute);
+  font-size: 0.95rem;
+}
+
+/* Універсальний монолітний фон для всіх екранів */
+.main-phone, .history-phone, .stats-phone, .profile-phone {
+    background-color: var(--bg-base) !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.main-content, .stats-content, .history-content, .scroll-container {
+    flex: 1;
+    height: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none; /* ВБИВАЄМО ЗАТЕМНЕННЯ ВСЕРЕДИНІ БЛОКІВ */
+    padding: 20px;
+    padding-bottom: 100px !important; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--bg-dark) !important;
+}
