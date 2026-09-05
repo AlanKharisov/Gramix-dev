@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { initializeAuth, indexedDBLocalPersistence } from "firebase/auth";
+import { initializeAuth, indexedDBLocalPersistence, browserPopupRedirectResolver } from "firebase/auth";
+import { Capacitor } from "@capacitor/core";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -12,7 +13,11 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app, { persistence: indexedDBLocalPersistence });
+export const auth = initializeAuth(app, {
+  persistence: indexedDBLocalPersistence,
+  // Native Google login supplies a credential; web OAuth needs a popup resolver.
+  ...(Capacitor.isNativePlatform() ? {} : { popupRedirectResolver: browserPopupRedirectResolver }),
+});
 // Kept as a lightweight path root for the Firestore-compatible API adapter.
 // User data is stored in Cloudflare D1; Firebase is used only for Auth.
 export const db = { __apiDb: true };
