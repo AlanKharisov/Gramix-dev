@@ -257,6 +257,13 @@ function AppRoutes() {
 
   // App launch defaults to /main — last-route restoration intentionally disabled.
 
+  // Pages serves directory entry points as /main/. Router matches that URL,
+  // but the persistent hub uses exact keys. Canonicalize before rendering.
+  const canonicalPath = location.pathname.replace(/\/+$/, '') || '/';
+  if (canonicalPath !== location.pathname) {
+    return <Navigate to={{ pathname: canonicalPath, search: location.search, hash: location.hash }} state={location.state} replace />;
+  }
+
   if (isCheckingAuth) {
     return <div className="page loading-screen"><h2><span className="mechanical-g">G</span>ramix...</h2></div>;
   }
@@ -283,6 +290,7 @@ function AppRoutes() {
           <Route path="/profile"      element={sessionUid ? null : <Navigate to="/" replace />} />
           <Route path="/manual-entry" element={<ManualEntryPage />} />
           {/* <Route path="/subscription" element={<SubscriptionPage />} /> */}
+          <Route path="*" element={<Navigate to={sessionUid ? "/main" : "/"} replace />} />
           </Routes>
         </Suspense>
 

@@ -48,8 +48,8 @@ try {
     if (path === '/analyze') return fulfill({}); // Malformed provider result.
     return fulfill({ ok: true });
   });
-  await page.goto('http://127.0.0.1:5179/main');
-  await page.locator('.main-page:visible').waitFor();
+  await page.goto('http://127.0.0.1:5179' + (process.env.TEST_START_PATH || '/main'));
+  await page.locator('.main-page:visible').waitFor({ timeout: 10000 });
   await page.locator('.main-page:visible .home-tabbar button').nth(1).click();
   await page.locator('.stats-page:visible').waitFor();
   const mealsReads = () => requests.filter(r => r.path === '/collection' && r.docPath.endsWith('/meals')).length;
@@ -124,6 +124,16 @@ try {
   await page.clock.resume();
   await page.waitForFunction(() => !JSON.parse(localStorage.getItem('_gramix_incidents_v1') || '[]').length);
   assert(incidents.some(event => event.kind === 'analysis_timeout'));
+  // Home-screen shortcuts reopen Pages directory URLs with a trailing slash.
+  for (const [path, selector] of [['main', '.main-page'], ['stats', '.stats-page'], ['profile', '.profile-page']]) {
+    await page.goto(`http://127.0.0.1:5179/${path}/?launch=shortcut#resume`);
+    await page.locator(`${selector}:visible`).waitFor({ timeout: 10000 });
+    assert.equal(new URL(page.url()).pathname, `/${path}`);
+    assert.equal(new URL(page.url()).search, '?launch=shortcut');
+    assert.equal(new URL(page.url()).hash, '#resume');
+    await page.reload();
+    await page.locator(`${selector}:visible`).waitFor({ timeout: 10000 });
+  }
   assert.deepEqual(errors, []);
   await page.screenshot({ path: '/tmp/gramix-reliability-stats.png' });
   console.log(JSON.stringify({ passed: true, mealListRequests: mealsReads(), imageRequests: requests.filter(r => r.docPath.startsWith('meal_images/')).length, incidents: incidents.length }));
