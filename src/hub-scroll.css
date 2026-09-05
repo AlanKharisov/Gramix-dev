@@ -1,0 +1,22 @@
+/* Keep one scroll surface per page and size it to the visible mobile viewport. */
+html, body, #root,
+.main-page, .stats-page, .profile-page,
+.main-phone, .stats-phone, .profile-phone {
+  height: 100dvh;
+}
+.main-phone, .stats-phone, .profile-phone { min-height: 0; overflow: hidden; }
+.main-content, .stats-content, .profile-scroll {
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)) !important;
+}
+.main-content > *, .stats-content > * { flex-shrink: 0; }
+.add-sheet { max-height: 90dvh; overflow-y: auto; overscroll-behavior: contain; }
+.add-sheet-drag-area { touch-action: none; cursor: grab; padding: 8px 0; user-select: none; }
+.add-sheet-drag-area:active { cursor: grabbing; }
+.add-sheet-backdrop { overscroll-behavior: contain; }
+.add-sheet-row, .add-sheet-cancel { flex-shrink: 0; touch-action: manipulation; }

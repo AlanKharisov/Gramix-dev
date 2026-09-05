@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { auth, db } from "./firebase-config";
 import { useSwipeNavigation } from "../hooks/useSwipeNavigation";
+import AddMealSheet from '../components/AddMealSheet';
 import { useDailyQuota } from "../hooks/useDailyQuota";
 import { useBackHandler } from "../hooks/useBackHandler";
 import { learnIngredients, learnIngredient } from "../services/productService";
@@ -138,7 +139,7 @@ export default function MainPage() {
   });
 
   const f = (num) => Math.round(Number(num || 0) * 10) / 10;
-  const swipeHandlers = useSwipeNavigation(location.pathname, showResult);
+  const swipeHandlers = useSwipeNavigation(location.pathname, showResult || showAddSheet);
 
   useBackHandler([
     { when: () => fullscreenImage,                  do: () => setFullscreenImage(null) },
@@ -728,7 +729,7 @@ export default function MainPage() {
 
   return (
     <div className="main-page" {...(showResult ? {} : swipeHandlers)}>
-      <div className="main-phone scroll-container">
+      <div className="main-phone">
         {loadFailed && <LoadError inline onRetry={() => { void fetchUserData(); }} />}
         <header className="main-header">
           <div className="main-header-text">
@@ -933,10 +934,7 @@ export default function MainPage() {
         </nav>
 
         {showAddSheet && (
-          <div className="add-sheet-backdrop" onClick={() => setShowAddSheet(false)}>
-            <div className="add-sheet" onClick={(e) => e.stopPropagation()}>
-              <div className="add-sheet-grip" />
-              <div className="add-sheet-title">{t("add_meal")}</div>
+          <AddMealSheet title={t("add_meal")} onClose={() => setShowAddSheet(false)}>
 
               <button
                 className="add-sheet-row"
@@ -1001,8 +999,7 @@ export default function MainPage() {
               <button className="add-sheet-cancel" onClick={() => setShowAddSheet(false)}>
                 {t("close")}
               </button>
-            </div>
-          </div>
+          </AddMealSheet>
         )}
 
         {/* ── Analyzing spinner ── */}

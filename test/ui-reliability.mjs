@@ -1,6 +1,7 @@
 // Run against `npm run dev -- --host 127.0.0.1 --port 5179`.
 // All auth/data/provider calls are mocked; this never writes production data.
 import assert from 'node:assert/strict';
+const base = process.env.TEST_BASE_URL || 'http://127.0.0.1:5179';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 const { chromium } = process.env.PLAYWRIGHT_MODULE ? await import(process.env.PLAYWRIGHT_MODULE) : require('playwright');
@@ -48,8 +49,20 @@ try {
     if (path === '/analyze') return fulfill({}); // Malformed provider result.
     return fulfill({ ok: true });
   });
-  await page.goto('http://127.0.0.1:5179' + (process.env.TEST_START_PATH || '/main'));
+  await page.goto(base + (process.env.TEST_START_PATH || '/main'));
   await page.locator('.main-page:visible').waitFor({ timeout: 10000 });
+  await page.locator('.main-page:visible .home-fab').click();
+  await page.locator('.add-sheet').waitFor();
+  await page.locator('.add-sheet-backdrop').click({ position: { x: 8, y: 8 } });
+  await page.locator('.add-sheet').waitFor({ state: 'detached' });
+  await page.locator('.main-page:visible .home-fab').click();
+  await page.locator('.add-sheet-drag-area').hover();
+  const grip = await page.locator('.add-sheet-drag-area').boundingBox();
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 20);
+  await page.mouse.down();
+  await page.mouse.move(grip.x + grip.width / 2, grip.y + 110, { steps: 8 });
+  await page.mouse.up();
+  await page.locator('.add-sheet').waitFor({ state: 'detached' });
   await page.locator('.main-page:visible .home-tabbar button').nth(1).click();
   await page.locator('.stats-page:visible').waitFor();
   const mealsReads = () => requests.filter(r => r.path === '/collection' && r.docPath.endsWith('/meals')).length;
@@ -126,13 +139,21 @@ try {
   assert(incidents.some(event => event.kind === 'analysis_timeout'));
   // Home-screen shortcuts reopen Pages directory URLs with a trailing slash.
   for (const [path, selector] of [['main', '.main-page'], ['stats', '.stats-page'], ['profile', '.profile-page']]) {
-    await page.goto(`http://127.0.0.1:5179/${path}/?launch=shortcut#resume`);
+    await page.goto(`${base}/${path}/?launch=shortcut#resume`);
     await page.locator(`${selector}:visible`).waitFor({ timeout: 10000 });
     assert.equal(new URL(page.url()).pathname, `/${path}`);
     assert.equal(new URL(page.url()).search, '?launch=shortcut');
     assert.equal(new URL(page.url()).hash, '#resume');
     await page.reload();
     await page.locator(`${selector}:visible`).waitFor({ timeout: 10000 });
+    await page.setViewportSize({ width: 390, height: 560 });
+    const scrollSelector = path === 'profile' ? '.profile-scroll' : `.${path}-content`;
+    const surface = page.locator(`${selector}:visible ${scrollSelector}`);
+    await surface.hover();
+    await page.mouse.wheel(0, 600);
+    await page.waitForFunction(sel => document.querySelector(sel).scrollTop > 0, `${selector} ${scrollSelector}`);
+    assert.equal(await page.evaluate(() => document.scrollingElement.scrollTop), 0);
+    await page.setViewportSize({ width: 390, height: 844 });
   }
   assert.deepEqual(errors, []);
   await page.screenshot({ path: '/tmp/gramix-reliability-stats.png' });
