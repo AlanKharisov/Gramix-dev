@@ -9,6 +9,7 @@
 .gx-steps-toggle p { padding: 0 16px 12px; font-size: 12px; color: var(--text-dim); }
 .gx-calorie-overview { width: 100%; display: flex; flex-direction: column; align-items: center; --budget-accent: var(--brand-mint); }
 .gx-calorie-overview.is-over { --budget-accent: var(--brand-coral); }
+.gx-calorie-overview > .home-rings-card { width: calc(100% - 8px); box-sizing: border-box; }
 .gx-calorie-label { font-size: 11px; color: var(--text-dim); }
 .gx-calorie-eaten { font-size: 40px; line-height: 1.15; letter-spacing: -1px; color: var(--text-primary); font-variant-numeric: tabular-nums; }
 .gx-calorie-limit { border: 0; background: none; color: var(--text-primary); font: inherit; font-size: 12px; min-height: 44px; padding: 4px 10px; cursor: pointer; }
@@ -30,9 +31,9 @@
 .gx-budget-details p { font-size: 12px; line-height: 1.5; color: var(--text-dim); }
 .gx-budget-average { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 10px; padding: 12px 0; font-size: 12px; }
 .gx-budget-average small { width: 100%; color: var(--text-dim); }
-.gx-calorie-overview.is-over > .ring-progress { animation: gx-budget-glow .7s ease-out; }
+.gx-calorie-overview.is-over > .home-rings-card > .ring-progress { animation: gx-budget-glow .7s ease-out; }
 @keyframes gx-budget-glow { 50% { filter: drop-shadow(0 0 9px var(--brand-coral)); } }
-@media (prefers-reduced-motion: reduce) { .gx-calorie-overview.is-over > .ring-progress { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .gx-calorie-overview.is-over > .home-rings-card > .ring-progress { animation: none; } }
 .gx-daily-rings { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; }
 .gx-daily-ring { display: flex; justify-content: center; min-width: 0; }
 .gx-daily-ring .ring-progress { width: 100% !important; max-width: 160px; height: auto !important; aspect-ratio: 1; }

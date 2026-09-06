@@ -23,7 +23,7 @@ try {
     export const loadStepHistory=async()=>({days:history});
     export const saveStepDay=async(uid,day)=>{history=[...history.filter(d=>d.date!==day.date),{...day,updatedAt:Date.now()}];return{days:history};};
   ` }));
-  const profile={profileCompleted:true,emailVerified:true,language:'ru',weight:70,height:175,age:30,gender:'male',goal:'maintain',activityLevel:'sedentary',dailyNorm:{calories:1979,proteins:124,fats:55,carbs:247}};
+  const profile={profileCompleted:true,emailVerified:true,language:process.env.TEST_LANG || 'ru',weight:70,height:175,age:30,gender:'male',goal:'maintain',activityLevel:'sedentary',dailyNorm:{calories:1979,proteins:124,fats:55,carbs:247}};
   const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
   const meals=[{id:'today',data:{date:new Date().toISOString(),name:'Today',calories:1500,ingredients:[]}},
     {id:'yesterday',data:{date:yesterday.toISOString(),name:'Yesterday',calories:2500,ingredients:[]}}];
@@ -37,6 +37,8 @@ try {
   await page.goto(base+'/main');
   if (process.env.TEST_PERSONAL_EMAIL) {
     await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='657');
+    assert.equal(await page.locator('.home-rings-card .gx-budget-status').count(),0);
+    if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'Залишилось');
     assert.match((await page.locator('.gx-budget-status strong').innerText()).replace(/\D/g,''),/2000/);
     await page.evaluate(()=>{window.__steps=12000;window.dispatchEvent(new Event('focus'));});
     await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='707');
@@ -57,13 +59,14 @@ try {
   await page.waitForFunction(()=>document.querySelector('.gx-calorie-balance')?.textContent.includes('707'));
   await page.locator('.main-page:visible .home-tabbar button').nth(1).click();
   await page.locator('.stats-page:visible .gx-calorie-overview').waitFor();
+  assert.equal(await page.locator('.stats-page .gx-budget-status').count(),0);
   assert.equal(await page.locator('.stats-page .gx-activity-summary, .stats-page .gx-eaten-summary').count(),0);
   for (const index of [0,1,2,3]) {
     await page.locator('.period-selector button').nth(index).click();
     const expected=[707,7*1979+355-4000,30*1979+355-4000,365*1979+355-4000][index];
     await page.waitForFunction(expected=>Number(document.querySelector('.stats-page .gx-calorie-balance')?.textContent.replace(/\D/g,''))===expected,expected);
     const count=[7,7,30,365][index];
-    await page.locator('.stats-page:visible .gx-budget-status').click();
+    await page.locator('.stats-page:visible .gx-calorie-limit').click();
     assert.match(await page.locator('.gx-budget-average').innerText(),new RegExp(String(count)));
     await page.keyboard.press('Escape');
   }

@@ -657,12 +657,12 @@ export default function StatsPage() {
             </div>
           )}
 
-          <section className="home-rings-card stats-rings-card">
               <CalorieOverview
+                showStatus={false}
                 personalAverage={personalAverage(allMeals)}
                 averages={[diaryAverage(allMeals, period === 'day' ? periodWindow('week', selectedDay.date, selectedDay.date) : range)]}
                 goal={calGoal} eaten={periodStats.calories} base={baseGoal} extra={activitySummary.extra}
-                today={period === 'day' && localDay(selectedDay.date) === localDay()} />
+                today={period === 'day' && localDay(selectedDay.date) === localDay()}>
 
             <div className="home-mini-rings">
               {macros.map((m) => {
@@ -689,7 +689,7 @@ export default function StatsPage() {
                 );
               })}
             </div>
-          </section>
+          </CalorieOverview>
 
           <div className="stats-tabs">
             <button

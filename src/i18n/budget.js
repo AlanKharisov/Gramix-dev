@@ -10,3 +10,4 @@ const words = {
   zh: ['超过限额','当前剩余','限额如何计算','共 {{n}} 千卡','当前限额','限额＝基础目标＋符合条件的步数增加量。剩余＝限额−已记录饮食。这是估算，并非医疗建议。','平均值仅使用有记录的日期，不会改变限额。缺少记录不代表摄入为零。'],
 };
 export const budgetTranslations = Object.fromEntries(Object.entries(words).map(([lang, values]) => [lang, Object.fromEntries(keys.map((key, i) => ['b_' + key, values[i]]))]));
+for (const [lang, value] of Object.entries({ru:'Осталось',uk:'Залишилось',en:'Remaining',es:'Restante',de:'Verbleibend',pl:'Pozostało',ja:'残り',zh:'剩余'})) budgetTranslations[lang].remaining = value;

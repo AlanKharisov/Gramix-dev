@@ -791,9 +791,8 @@ export default function MainPage() {
                   <div className="home-date-main">{dateLabel}</div>
                 </div>
 
-                <section className="home-rings-card">
                   <CalorieOverview personalAverage={personalAverage(allMealsRef.current)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
-                    goal={calorieGoal} eaten={dailyTotal.calories} base={dailyNorm.calories} extra={steps.budget.extra} />
+                    goal={calorieGoal} eaten={dailyTotal.calories} base={dailyNorm.calories} extra={steps.budget.extra}>
 
                   <div className="home-mini-rings">
                     {macros.map((m) => {
@@ -820,7 +819,7 @@ export default function MainPage() {
                       );
                     })}
                   </div>
-                </section>
+                </CalorieOverview>
               </>
             );
           })()}
