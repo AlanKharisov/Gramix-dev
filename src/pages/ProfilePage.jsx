@@ -17,6 +17,7 @@ import "./profile.css";
 import ProfileExtras from '../components/ProfileExtras';
 import { APP_RELEASE } from '../config';
 import StepsToggle from '../components/StepsToggle';
+import AccrualSettings from '../components/AccrualSettings';
 import { useStepBudget } from '../hooks/useStepBudget';
 
 const LANGUAGES = [
@@ -139,7 +140,7 @@ export default function ProfilePage() {
       await setDoc(doc(db, "users", accountId), profileUpdate, { merge: true });
       try { await appendNormHistory(accountId, updatedNorm, { goal: data.goal || null }); } catch (err) { console.warn("appendNormHistory failed", err); }
       setData(prev => ({ ...prev, dailyNorm: updatedNorm }));
-      setSavedProfile(profileUpdate);
+      setSavedProfile(previous => ({ ...previous, ...profileUpdate }));
       gramixStorage.set(STORAGE_KEYS.LANG, data.language);
       i18n.changeLanguage(data.language);
       setShowProfileUpdated(true);
@@ -306,6 +307,7 @@ export default function ProfilePage() {
             ))}
           </div>
 
+          <AccrualSettings profile={savedProfile} onChange={setSavedProfile} native={steps.available} />
           {steps.available && <StepsToggle {...steps} />}
 
           {/* Предпочтения — только Язык */}

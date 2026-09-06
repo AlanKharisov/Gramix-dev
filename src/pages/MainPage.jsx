@@ -10,6 +10,7 @@ import { useStepBudget } from '../hooks/useStepBudget';
 import CalorieOverview from '../components/CalorieOverview';
 import { personalAverage } from '../services/personalBudget';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
+import { useAccrualBudget } from '../hooks/useAccrualBudget';
 import { diaryAverage, periodWindow } from '../services/activityStats';
 import { useDailyQuota } from "../hooks/useDailyQuota";
 import { useBackHandler } from "../hooks/useBackHandler";
@@ -140,7 +141,8 @@ export default function MainPage() {
   });
   const [budgetProfile, setBudgetProfile] = useState(null);
   const steps = useStepBudget(budgetProfile);
-  const calorieGoal = steps.budget.goal || dailyNorm.calories;
+  const accrued = useAccrualBudget(budgetProfile, steps.reading);
+  const calorieGoal = accrued.enabled ? accrued.accrued : steps.budget.goal || dailyNorm.calories;
   const [dailyTotal, setDailyTotal] = useState({
     calories: 0,
     proteins: 0,
@@ -792,7 +794,7 @@ export default function MainPage() {
                 </div>
 
                   <CalorieOverview personalAverage={personalAverage(allMealsRef.current)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
-                    goal={calorieGoal} eaten={dailyTotal.calories} base={dailyNorm.calories} extra={steps.budget.extra}>
+                    autoBudget={accrued.enabled ? accrued : null} goal={calorieGoal} eaten={dailyTotal.calories} base={accrued.enabled ? accrued.resting : dailyNorm.calories} extra={accrued.enabled ? accrued.movement : steps.budget.extra}>
 
                   <div className="home-mini-rings">
                     {macros.map((m) => {

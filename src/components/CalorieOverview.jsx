@@ -6,22 +6,22 @@ import { useBackHandler } from '../hooks/useBackHandler';
 import { auth } from '../pages/firebase-config';
 import { isPersonalBudget } from '../services/personalBudget';
 
-export default function CalorieOverview({ eaten, goal, base, extra, averages = [], today = true, personalAverage, showStatus = true, children }) {
+export default function CalorieOverview({ eaten, goal, base, extra, averages = [], today = true, personalAverage, showStatus = true, children, autoBudget = null }) {
   const { t, i18n } = useTranslation();
   const [open, setOpen] = useState(false);
   const remaining = Math.round(goal - eaten);
-  const over = remaining < 0;
+  const over = !autoBudget && remaining < 0;
   const personal = isPersonalBudget(auth.currentUser);
   const status = t(over ? 'b_above' : today ? 'b_available' : 'x_periodRemaining');
   const amount = n => Math.round(n).toLocaleString(i18n.language);
   useBackHandler([{ when: () => open, do: () => setOpen(false) }]);
   return <div className={'gx-calorie-overview' + (over ? ' is-over' : '')}>
     <section className="home-rings-card">
-    <RingProgress size={224} stroke={10} value={eaten} max={goal}>
-      <span className="gx-calorie-label">{personal ? t('remaining') : t('calories')}</span>
+    <RingProgress size={224} stroke={10} value={autoBudget ? autoBudget.resting : eaten} max={autoBudget ? Math.max(autoBudget.daily, autoBudget.resting) : goal}>
+      <span className="gx-calorie-label">{autoBudget ? t('a_balance') : personal ? t('remaining') : t('calories')}</span>
       <strong className="gx-calorie-eaten">{amount(personal ? remaining : eaten)}</strong>
       <button className="gx-calorie-limit" onClick={() => setOpen(true)} aria-label={t('b_details')}>
-        {t('b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
+        {t(autoBudget ? 'a_accrued' : 'b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
       </button>
       {!personal && <><span className="gx-calorie-divider" />
       <span className="gx-calorie-label">{t(over ? 'b_above' : 'remaining')}</span>
@@ -38,12 +38,15 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
     {open && <AddMealSheet title={t('b_details')} onClose={() => setOpen(false)}>
       <div className="gx-budget-details">
         <dl>
-          <div><dt>{t('b_current')}</dt><dd>{amount(goal)} {t('kcal')}</dd></div>
-          <div><dt>{t('x_baseBudget')}</dt><dd>{amount(base)} {t('kcal')}</dd></div>
+          <div><dt>{t(autoBudget ? 'a_balance' : 'b_current')}</dt><dd>{amount(autoBudget ? remaining : goal)} {t('kcal')}</dd></div>
+          <div><dt>{t(autoBudget ? 'a_rest' : 'x_baseBudget')}</dt><dd>{amount(base)} {t('kcal')}</dd></div>
           <div><dt>{t('x_stepBonus')}</dt><dd>+{amount(extra)} {t('kcal')}</dd></div>
           <div><dt>{t('x_recordedFood')}</dt><dd>{amount(eaten)} {t('kcal')}</dd></div>
+          {autoBudget && <div><dt>{t('a_daily')}</dt><dd>{amount(autoBudget.daily)} {t('kcal')}</dd></div>}
         </dl>
-        <p>{t('b_formula')}</p>
+        <p>{t(autoBudget ? 'a_formula' : 'b_formula')}</p>
+        {autoBudget && !autoBudget.hasSteps && <p>{t('a_noSteps')}</p>}
+        {autoBudget?.hasSteps && autoBudget.partial && <p>{t('x_stepsPartial')}</p>}
         {averages.map(average => <div className="gx-budget-average" key={average.days}>
           <span>{t('x_averageDays', { days: average.days })}</span>
           <strong>{average.value === null ? '—' : amount(average.value)} {t('kcal')}</strong>

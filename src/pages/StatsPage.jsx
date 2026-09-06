@@ -40,6 +40,7 @@ import LoadError from '../components/LoadError';
 import CalorieOverview from '../components/CalorieOverview';
 import { personalAverage } from '../services/personalBudget';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
+import { useAccrualBudget } from '../hooks/useAccrualBudget';
 import { useStepBudget } from '../hooks/useStepBudget';
 import { periodWindow, diaryAverage, summarizeActivity } from '../services/activityStats';
 import { localDay } from '../services/stepBudget';
@@ -85,6 +86,8 @@ export default function StatsPage() {
   const [normHistory, setNormHistory] = useState([]);
   const [budgetProfile, setBudgetProfile] = useState(null);
   const activity = useStepBudget(budgetProfile);
+  const accrued = useAccrualBudget(budgetProfile, activity.reading);
+  const liveAccrual = accrued.enabled && period === 'day' && localDay(selectedDay.date) === localDay() ? accrued : null;
   const range = periodWindow(period, selectedDay.date);
   const activitySummary = summarizeActivity(activity.history, range);
   const [calendarExpanded, setCalendarExpanded] = useState(false);
@@ -661,7 +664,7 @@ export default function StatsPage() {
                 showStatus={false}
                 personalAverage={personalAverage(allMeals)}
                 averages={[diaryAverage(allMeals, period === 'day' ? periodWindow('week', selectedDay.date, selectedDay.date) : range)]}
-                goal={calGoal} eaten={periodStats.calories} base={baseGoal} extra={activitySummary.extra}
+                autoBudget={liveAccrual} goal={liveAccrual ? liveAccrual.accrued : calGoal} eaten={periodStats.calories} base={liveAccrual ? liveAccrual.resting : baseGoal} extra={liveAccrual ? liveAccrual.movement : activitySummary.extra}
                 today={period === 'day' && localDay(selectedDay.date) === localDay()}>
 
             <div className="home-mini-rings">

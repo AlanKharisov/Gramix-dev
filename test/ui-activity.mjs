@@ -6,6 +6,7 @@ const browser = await chromium.launch({ headless: true, ...(process.env.TEST_CHR
 const base = process.env.TEST_BASE_URL || 'http://127.0.0.1:5181';
 try {
   const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  if (process.env.TEST_AUTO) { const morning=new Date();morning.setHours(6,0,0,0);await page.clock.install({time:morning}); }
   const errors = []; page.on('pageerror', e => errors.push(e.message));
   await page.route('**/src/pages/firebase-config*', route => route.fulfill({ contentType: 'text/javascript', body: `
     const user = { uid:'activity-test', email:${JSON.stringify(process.env.TEST_PERSONAL_EMAIL || 'test@example.invalid')}, emailVerified:true, providerData:[{providerId:'google.com'}], getIdToken:async()=>'test' };
@@ -16,26 +17,42 @@ try {
     const date = d => [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
     const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
     let history=[{date:date(yesterday),steps:8000,baseGoal:1979,extra:127,activeKcal:203,source:'health_connect',partial:false,updatedAt:1}];
-    export const stepsAvailable=true;
+    export const stepsAvailable=${!process.env.TEST_WEB};
     export const readSteps=async(uid,method)=>({status:method==='disconnect'?'disabled':'ready',enabled:method!=='disconnect',healthAvailable:true,date:date(new Date()),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:window.__steps||10000,source:'health_connect',partial:false});
     export const watchSteps=async()=>({remove(){}});
     export const pauseSteps=async()=>{};
     export const loadStepHistory=async()=>({days:history});
     export const saveStepDay=async(uid,day)=>{history=[...history.filter(d=>d.date!==day.date),{...day,updatedAt:Date.now()}];return{days:history};};
   ` }));
-  const profile={profileCompleted:true,emailVerified:true,language:process.env.TEST_LANG || 'ru',weight:70,height:175,age:30,gender:'male',goal:'maintain',activityLevel:'sedentary',dailyNorm:{calories:1979,proteins:124,fats:55,carbs:247}};
+  const profile={personalAccrualEnabled:!!process.env.TEST_AUTO,profileCompleted:true,emailVerified:true,language:process.env.TEST_LANG || 'ru',weight:70,height:175,age:30,gender:'male',goal:'maintain',activityLevel:'sedentary',dailyNorm:{calories:1979,proteins:124,fats:55,carbs:247}};
   const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
   const meals=[{id:'today',data:{date:new Date().toISOString(),name:'Today',calories:1500,ingredients:[]}},
     {id:'yesterday',data:{date:yesterday.toISOString(),name:'Yesterday',calories:2500,ingredients:[]}}];
   await page.route('**/api/**', route=>{
     const url=new URL(route.request().url()), target=url.searchParams.get('path')||'';
+    if (url.pathname.endsWith('/document') && route.request().method()==='PUT') Object.assign(profile,route.request().postDataJSON().data);
     const data=url.pathname.endsWith('/account')?{publicId:'0000001'}:
       url.pathname.endsWith('/collection')?{documents:target.endsWith('/meals')?meals:[]}:
       {exists:true,data:target.includes('normHistory')?{effectiveFrom:'1970-01-01',...profile.dailyNorm}:profile};
     return route.fulfill({contentType:'application/json',body:JSON.stringify(data)});
   });
   await page.goto(base+'/main');
-  if (process.env.TEST_PERSONAL_EMAIL) {
+  if (process.env.TEST_AUTO) {
+    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_WEB?'-1088':'-834');
+    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Баланс сейчас');
+    await page.clock.fastForward(3600000);
+    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_WEB?'-1019':'-765');
+    await page.screenshot({path:'/tmp/gramix-auto.png'});
+    await page.locator('.main-page:visible .main-profile-btn').click();
+    const automatic=page.getByRole('switch',{name:'Авто · с полуночи'});
+    await automatic.click();
+    await page.waitForFunction(()=>document.querySelector('[role="switch"]')?.getAttribute('aria-checked')==='false');
+    assert.equal(profile.personalAccrualEnabled,false);
+    await page.locator('.profile-page:visible .home-tabbar button').first().click();
+    await page.waitForFunction(expected=>document.querySelector('.main-page .gx-calorie-eaten')?.textContent===expected,process.env.TEST_WEB?'479':'657');
+    assert.deepEqual(errors,[]);
+    console.log(JSON.stringify({passed:true,auto:true,midnightRate:true,hourly:true,optOut:true}));
+  } else if (process.env.TEST_PERSONAL_EMAIL) {
     await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='657');
     assert.equal(await page.locator('.home-rings-card .gx-budget-status').count(),0);
     if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'Залишилось');
