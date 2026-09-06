@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from '../hooks/useAppNavigate';
 import { useTranslation } from "react-i18next";
 import { auth, db } from "./firebase-config";
 import { useSwipeNavigation } from "../hooks/useSwipeNavigation";

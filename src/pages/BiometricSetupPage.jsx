@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from '../hooks/useAppNavigate';
 import { useTranslation } from "react-i18next";
 import { auth } from "./firebase-config";
 import { NativeBiometric, BiometryType } from "capacitor-native-biometric";

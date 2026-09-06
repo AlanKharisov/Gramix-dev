@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from '../hooks/useAppNavigate';
 import { useTranslation } from "react-i18next";
 import { collection, getDocs } from "../services/firestoreCompat";
 import { auth, db } from "./firebase-config";
@@ -12,13 +12,15 @@ import errorPlateImg from "../assets/gramix-preview.webp";
 import { apiFetch } from "../services/apiClient";
 import { gramixStorage, STORAGE_KEYS } from "../utils/storage";
 import "./main.css";
+import { loadDraft, saveDraft } from '../services/drafts';
 
-export default function ManualEntryPage() {
+export default function ManualEntryPage({ offlineOnly = false }) {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const dishNameRef = useRef(null);
+  const [draftUid] = useState(() => auth.currentUser?.uid);
 
-  const { canTakePhoto, incrementQuota, userLimit } = useDailyQuota();
+  const { canTakePhoto, incrementQuota, userLimit } = useDailyQuota(!offlineOnly);
 
   useEffect(() => {
     if (dishNameRef.current) {
@@ -26,8 +28,16 @@ export default function ManualEntryPage() {
     }
   }, []);
 
-  const [dishName, setDishName] = useState("");
-  const [ingredients, setIngredients] = useState([{ name: "", weight: "" }]);
+  const [dishName, setDishName] = useState(() => loadDraft().dishName);
+  const [ingredients, setIngredients] = useState(() => loadDraft().ingredients);
+  const [draftSaved, setDraftSaved] = useState(true);
+  const [online, setOnline] = useState(navigator.onLine);
+  useEffect(() => { setDraftSaved(saveDraft({ dishName, ingredients }, draftUid)); }, [dishName, ingredients, draftUid]);
+  useEffect(() => {
+    const update = () => setOnline(navigator.onLine);
+    window.addEventListener('online', update); window.addEventListener('offline', update);
+    return () => { window.removeEventListener('online', update); window.removeEventListener('offline', update); };
+  }, []);
   const [analyzing, setAnalyzing] = useState(false);
   const [validationError, setValidationError] = useState("");
   const [serverError, setServerError] = useState(false);
@@ -40,6 +50,7 @@ export default function ManualEntryPage() {
   useEffect(() => () => abortRef.current?.abort(), []);
 
   useEffect(() => {
+    if (offlineOnly || !navigator.onLine) return;
     const unsub = auth.onAuthStateChanged(async (user) => {
       if (!user) return;
       try {
@@ -63,7 +74,7 @@ export default function ManualEntryPage() {
       }
     });
     return () => unsub();
-  }, []);
+  }, [offlineOnly]);
 
   const addIngredient = () => {
     setIngredients(prev => [...prev, { name: "", weight: "" }]);
@@ -111,6 +122,8 @@ export default function ManualEntryPage() {
   };
 
   const handleSubmit = async () => {
+    if (offlineOnly) { setValidationError(t('x_reconnectDraft')); return; }
+    if (!navigator.onLine) { setValidationError(t('x_offlineDraft')); return; }
     if (!canTakePhoto()) {
       setShowDailyLimit(true);
       return;
@@ -173,7 +186,9 @@ export default function ManualEntryPage() {
           carbs:       Number(data.carbs || 0),
           ingredients: aiIngredients,
           image:       null,
-          isNew:       true
+          isNew:       true,
+          fromDraft:   true,
+          draftSnapshot: { uid: draftUid, value: JSON.stringify({ dishName, ingredients }) }
         };
 
         learnIngredients(aiIngredients, lang);
@@ -208,6 +223,7 @@ export default function ManualEntryPage() {
       </header>
 
       <div className="me-scroll">
+        <p className="gx-draft-status" role="status">{t(!draftSaved ? 'x_draftFailed' : !online ? 'x_offlineDraft' : 'x_draft')}</p>
         <div className="me-photo-placeholder">
           <img src={errorPlateImg} alt="" className="me-photo-img" />
         </div>

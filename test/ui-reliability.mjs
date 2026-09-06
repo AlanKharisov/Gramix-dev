@@ -51,6 +51,7 @@ try {
   });
   await page.goto(base + (process.env.TEST_START_PATH || '/main'));
   await page.locator('.main-page:visible').waitFor({ timeout: 10000 });
+  const historyLength = await page.evaluate(() => history.length);
   await page.locator('.main-page:visible .home-fab').click();
   await page.locator('.add-sheet').waitFor();
   await page.locator('.add-sheet-backdrop').click({ position: { x: 8, y: 8 } });
@@ -67,6 +68,7 @@ try {
   await page.locator('.stats-page:visible').waitFor();
   const mealsReads = () => requests.filter(r => r.path === '/collection' && r.docPath.endsWith('/meals')).length;
   assert.equal(mealsReads(), 1, 'Main and Stats should share the meal-list read: ' + JSON.stringify(requests));
+  assert.equal(await page.evaluate(() => history.length), historyLength, 'Hub navigation must replace, not push browser history');
   await page.evaluate(() => {
     window.__statsNode = document.querySelector('.stats-page');
     window.__loadingSeen = false;
@@ -155,6 +157,42 @@ try {
     assert.equal(await page.evaluate(() => document.scrollingElement.scrollTop), 0);
     await page.setViewportSize({ width: 390, height: 844 });
   }
+  // New profile actions stay usable within the existing narrow-screen layout.
+  await page.locator('.gx-profile-extras button').click();
+  await page.locator('.gx-settings textarea').fill('Test feedback from the mocked browser');
+  await page.locator('.gx-settings .gx-primary').click();
+  await page.waitForFunction(() => document.querySelector('.gx-settings [role=status]')?.textContent.includes('отправлено'));
+  await page.keyboard.press('Escape');
+  await page.goto(base + '/manual-entry');
+  await page.locator('.me-text-input').first().fill('Soup draft');
+  await page.locator('.me-ingredient-row input').first().fill('Potato');
+  await page.reload();
+  assert.equal(await page.locator('.me-text-input').first().inputValue(), 'Soup draft');
+  assert.equal(await page.locator('.me-ingredient-row input').first().inputValue(), 'Potato');
+  await page.evaluate(() => { Object.defineProperty(navigator, 'onLine', { configurable: true, get: () => false }); window.dispatchEvent(new Event('offline')); });
+  await page.locator('.me-text-input').first().fill('Offline soup');
+  await page.locator('.me-submit-btn').click();
+  assert.match(await page.locator('.gx-draft-status').textContent(), /Нет сети/);
+  // Cold offline launch with a restored identity must not wait for API checks.
+  await page.addInitScript(() => Object.defineProperty(navigator, 'onLine', { configurable: true, get: () => false }));
+  const beforeOffline = requests.length;
+  await page.reload();
+  assert.equal(await page.locator('.me-text-input').first().inputValue(), 'Offline soup');
+  assert.equal(requests.length, beforeOffline, 'Offline draft must not require server reads');
+  assert.equal(await page.evaluate(async () => {
+    const { loadDraft, saveDraft, clearDraft } = await import('/src/services/drafts.js');
+    const uid = window.__testAuth.currentUser.uid;
+    const old = { uid, value: localStorage.getItem('gramix_manual_draft_' + uid) };
+    const newer = { dishName: 'Newer draft', ingredients: [{ name: 'Rice', weight: '100' }] };
+    saveDraft(newer); clearDraft(old);
+    if (loadDraft().dishName !== 'Newer draft') return false;
+    window.__testAuth.currentUser = { uid: 'other-user' };
+    const isolated = loadDraft().dishName === '' && !saveDraft(newer, uid);
+    window.__testAuth.currentUser = { uid };
+    localStorage.setItem('gramix_manual_draft_' + uid, '{broken');
+    const recovered = loadDraft().dishName === '';
+    saveDraft(newer); return isolated && recovered;
+  }), true);
   assert.deepEqual(errors, []);
   await page.screenshot({ path: '/tmp/gramix-reliability-stats.png' });
   console.log(JSON.stringify({ passed: true, mealListRequests: mealsReads(), imageRequests: requests.filter(r => r.docPath.startsWith('meal_images/')).length, incidents: incidents.length }));

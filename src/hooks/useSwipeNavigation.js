@@ -1,5 +1,5 @@
 import { useSwipeable } from 'react-swipeable';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from './useAppNavigate';
 
 const PAGES = ['/main', '/stats'];
 

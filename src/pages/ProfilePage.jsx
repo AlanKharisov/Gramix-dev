@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from '../hooks/useAppNavigate';
 import { useTranslation } from "react-i18next";
 import { auth, db } from "./firebase-config";
 import { signOut, deleteUser } from "firebase/auth";
@@ -13,6 +14,7 @@ import { gramixStorage, STORAGE_KEYS } from "../utils/storage";
 import { apiFetchWithToken } from "../services/apiClient";
 import "./main.css";
 import "./profile.css";
+import ProfileExtras from '../components/ProfileExtras';
 
 const LANGUAGES = [
   { code: 'uk', label: 'Українська', flag: '🇺🇦' },
@@ -313,6 +315,7 @@ export default function ProfilePage() {
             </button>
           </div>
 
+          <ProfileExtras />
           {/* Подписка — раздел временно отключён */}
           {/*
           <div className="profile-section-header">{t('subscription')}</div>

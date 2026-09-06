@@ -17,7 +17,7 @@ export default function AddMealSheet({ title, onClose, children }) {
         onKeyDown={event => {
           if (event.key === 'Escape') onClose();
           if (event.key === 'Tab') {
-            const buttons = panel.current.querySelectorAll('button:not(:disabled)');
+            const buttons = panel.current.querySelectorAll('button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), a[href]');
             const first = buttons[0], last = buttons[buttons.length - 1];
             if (event.shiftKey && (document.activeElement === first || document.activeElement === panel.current)) { event.preventDefault(); last?.focus(); }
             else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }

@@ -1,0 +1,16 @@
+.gx-profile-extras { margin-top: 12px; }
+.gx-feature-icon { width: 28px; color: var(--brand-mint); font-size: 23px; }
+.gx-settings { overflow-y: auto; min-height: 0; touch-action: pan-y; }
+.gx-settings p { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+.gx-settings textarea { color: var(--text-primary); background: var(--surface-2); border: 1px solid var(--line-soft); border-radius: 12px; padding: 10px; font: inherit; width: 100%; min-height: 140px; resize: vertical; box-sizing: border-box; }
+.gx-primary { border: 1px solid var(--line-soft); border-radius: 14px; min-height: 44px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; width: 100%; margin-top: 16px; background: var(--brand-mint); color: var(--bg-base); }
+.gx-settings button:disabled { opacity: .5; cursor: default; }
+.gx-draft-status { color: var(--text-dim); padding: 10px 18px; font-size: 12px; }
+.gx-steps { padding: 16px; margin: 12px 0 20px; border: 1px solid var(--line-soft); background: var(--surface-1); border-radius: 22px; }
+.gx-steps-top { display: flex; justify-content: space-between; gap: 12px; color: var(--text-primary); }
+.gx-steps-top span { color: var(--brand-mint); font-variant-numeric: tabular-nums; }
+.gx-steps p { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+.gx-steps small { display: block; font-size: 11px; line-height: 1.5; color: var(--text-dim); }
+.gx-steps-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+.gx-steps-actions button { min-height: 44px; padding: 8px 12px; border-radius: 12px; background: var(--surface-2); color: var(--brand-mint); border: 1px solid var(--line-soft); font: inherit; font-size: 12px; }
+.gx-steps-actions button:disabled { opacity: .5; }

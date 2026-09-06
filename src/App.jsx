@@ -1,5 +1,6 @@
 import React, { Activity, useEffect, useRef, useState, lazy, Suspense } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useNavigate } from './hooks/useAppNavigate';
 import { doc, getDoc, setDoc } from "./services/firestoreCompat";
 import { auth, db } from "./pages/firebase-config";
 import i18n from "./i18n/index.js";
@@ -172,6 +173,13 @@ function AppRoutes() {
       const run = ++generation;
       setSessionUid(user?.uid || null);
       if (user) {
+        // An offline launch may still restore Firebase's local identity.
+        // Expose only the device draft, never infer account authorization.
+        if (!navigator.onLine) {
+          setAuthError(true);
+          setIsCheckingAuth(false);
+          return;
+        }
         let profileCompleted = false;
         let emailVerified = false;
         let blocked = false;
@@ -267,7 +275,11 @@ function AppRoutes() {
   if (isCheckingAuth) {
     return <div className="page loading-screen"><h2><span className="mechanical-g">G</span>ramix...</h2></div>;
   }
-  if (authError) return <LoadError onRetry={() => { setAuthError(false); setIsCheckingAuth(true); setAuthAttempt(value => value + 1); }} />;
+  if (authError && sessionUid && location.pathname === '/manual-entry') return <ManualEntryPage key={sessionUid} offlineOnly />;
+  if (authError) return <div className="page loading-screen">
+    <LoadError inline onRetry={() => { setAuthError(false); setIsCheckingAuth(true); setAuthAttempt(value => value + 1); }} />
+    {sessionUid && <button className="gx-primary" style={{ width: 'auto' }} onClick={() => navigate('/manual-entry')}>{t('add_manually')}</button>}
+  </div>;
 
   const direction = location.state?.direction;
   const animClass = direction === 'left' ? 'slide-in-right' : direction === 'right' ? 'slide-in-left' : '';
@@ -288,7 +300,7 @@ function AppRoutes() {
           <Route path="/stats"     element={sessionUid ? null : <Navigate to="/" replace />} />
           <Route path="/history"   element={<Navigate to="/stats" replace />} />
           <Route path="/profile"      element={sessionUid ? null : <Navigate to="/" replace />} />
-          <Route path="/manual-entry" element={<ManualEntryPage />} />
+          <Route path="/manual-entry" element={sessionUid ? <ManualEntryPage key={sessionUid} /> : <Navigate to="/" replace />} />
           {/* <Route path="/subscription" element={<SubscriptionPage />} /> */}
           <Route path="*" element={<Navigate to={sessionUid ? "/main" : "/"} replace />} />
           </Routes>

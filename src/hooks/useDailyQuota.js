@@ -27,7 +27,7 @@ async function getDeviceId() {
   }
 }
 
-export function useDailyQuota() {
+export function useDailyQuota(enabled = true) {
   // Refs let canTakePhoto / incrementQuota read the absolute latest values
   // without stale-closure bugs, even when called synchronously right after
   // an increment (before the next React render).
@@ -115,6 +115,7 @@ export function useDailyQuota() {
   };
 
   useEffect(() => {
+    if (!enabled) return;
     let active = true;
     // onAuthStateChanged fires immediately for the current session and again
     // on every login / logout / account switch.
@@ -133,7 +134,7 @@ export function useDailyQuota() {
     });
 
     return () => { active = false; unsubscribe(); };
-  }, []);
+  }, [enabled]);
 
   // ─── public API ───────────────────────────────────────────────────────────
 

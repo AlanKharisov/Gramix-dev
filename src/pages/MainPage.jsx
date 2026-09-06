@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useEffectEvent } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useNavigate } from '../hooks/useAppNavigate';
 import { useTranslation } from "react-i18next";
 import { auth, db } from "./firebase-config";
 import { useSwipeNavigation } from "../hooks/useSwipeNavigation";
 import AddMealSheet from '../components/AddMealSheet';
+import { clearDraft } from '../services/drafts';
+import { useStepBudget } from '../hooks/useStepBudget';
+import StepsCard from '../components/StepsCard';
 import { useDailyQuota } from "../hooks/useDailyQuota";
 import { useBackHandler } from "../hooks/useBackHandler";
 import { learnIngredients, learnIngredient } from "../services/productService";
@@ -131,12 +135,41 @@ export default function MainPage() {
     fats: 80,
     carbs: 300,
   });
+  const [budgetProfile, setBudgetProfile] = useState(null);
+  const steps = useStepBudget(budgetProfile);
+  const calorieGoal = steps.budget.goal || dailyNorm.calories;
   const [dailyTotal, setDailyTotal] = useState({
     calories: 0,
     proteins: 0,
     fats: 0,
     carbs: 0,
   });
+
+  const allMealsRef = React.useRef([]);
+  const displayedDay = React.useRef('');
+  const updateToday = (allMeals) => {
+    const day = new Date().toDateString();
+    displayedDay.current = day;
+    const meals = allMeals.filter(meal => new Date(meal.date).toDateString() === day)
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    setTodayMeals(meals);
+    setDailyTotal(meals.reduce((total, meal) => ({
+      calories: total.calories + Number(meal.calories || 0),
+      proteins: total.proteins + Number(meal.protein || 0),
+      fats: total.fats + Number(meal.fat || 0),
+      carbs: total.carbs + Number(meal.carbs || 0),
+    }), { calories: 0, proteins: 0, fats: 0, carbs: 0 }));
+  };
+  useEffect(() => {
+    const checkDay = () => {
+      if (!document.hidden && displayedDay.current !== new Date().toDateString()) updateToday(allMealsRef.current);
+    };
+    checkDay();
+    document.addEventListener('visibilitychange', checkDay);
+    window.addEventListener('focus', checkDay);
+    const timer = setInterval(checkDay, 30000);
+    return () => { clearInterval(timer); document.removeEventListener('visibilitychange', checkDay); window.removeEventListener('focus', checkDay); };
+  }, []);
 
   const f = (num) => Math.round(Number(num || 0) * 10) / 10;
   const swipeHandlers = useSwipeNavigation(location.pathname, showResult || showAddSheet);
@@ -211,25 +244,13 @@ export default function MainPage() {
       ]);
       if (userDoc.exists() && userDoc.data().dailyNorm)
         setDailyNorm(userDoc.data().dailyNorm);
+      if (userDoc.exists()) setBudgetProfile(userDoc.data());
       const allMeals = snapshot.docs.map((d) => ({ ...d.data(), id: d.id }));
-      const todayFiltered = allMeals.filter(
-        (m) => new Date(m.date).toDateString() === new Date().toDateString(),
-      ).sort((a, b) => new Date(b.date) - new Date(a.date));
-      setTodayMeals(todayFiltered);
+      allMealsRef.current = allMeals;
+      updateToday(allMeals);
       const ingSet = new Set();
       allMeals.forEach((m) => (m.ingredients || []).forEach((ing) => { if (ing.name) ingSet.add(ing.name); }));
       setAllIngredientNames([...ingSet].sort((a, b) => a.localeCompare(b)));
-      const total = todayFiltered.reduce(
-        (acc, m) => {
-          acc.calories += Number(m.calories || 0);
-          acc.proteins += Number(m.protein || 0);
-          acc.fats += Number(m.fat || 0);
-          acc.carbs += Number(m.carbs || 0);
-          return acc;
-        },
-        { calories: 0, proteins: 0, fats: 0, carbs: 0 },
-      );
-      setDailyTotal(total);
       setHasLoaded(true);
     } catch (e) {
       setLoadFailed(true);
@@ -649,6 +670,7 @@ export default function MainPage() {
       }
 
       await batch.commit();
+      if (selectedMeal.fromDraft) clearDraft(selectedMeal.draftSnapshot);
       if (selectedMeal.isNew) trackMealAdded();
       // Cache image locally so the meal card renders it immediately after refresh
       if (imageToSave) {
@@ -745,8 +767,8 @@ export default function MainPage() {
 
         <main className="main-content">
           {(() => {
-            const overKcal = dailyTotal.calories > dailyNorm.calories;
-            const remaining = Math.round(dailyNorm.calories - dailyTotal.calories);
+            const overKcal = dailyTotal.calories > calorieGoal;
+            const remaining = Math.round(calorieGoal - dailyTotal.calories);
             const today = new Date();
             const lang = (typeof navigator !== "undefined" && navigator.language) || "ru";
             const dateLabel = today.toLocaleDateString(lang, {
@@ -771,7 +793,7 @@ export default function MainPage() {
                     size={180}
                     stroke={10}
                     value={dailyTotal.calories}
-                    max={dailyNorm.calories}
+                    max={calorieGoal}
                     color="var(--brand-mint)"
                     pulse
                   >
@@ -779,7 +801,7 @@ export default function MainPage() {
                       {Math.round(dailyTotal.calories)}
                     </div>
                     <div className="ring-kcal-of">
-                      {t("of_kcal", { goal: Math.round(dailyNorm.calories) })}
+                      {t("of_kcal", { goal: Math.round(calorieGoal) })}
                     </div>
                     <div className={`ring-kcal-rem${overKcal ? " is-over" : ""}`}>
                       {overKcal
@@ -814,6 +836,7 @@ export default function MainPage() {
                     })}
                   </div>
                 </section>
+                {steps.available && <StepsCard {...steps} />}
               </>
             );
           })()}
