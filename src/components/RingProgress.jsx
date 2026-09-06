@@ -24,7 +24,7 @@ const RingProgress = memo(function RingProgress({
       className={`ring-progress${over && pulse ? " ring-pulse" : ""}`}
       style={{ position: "relative", width: size, height: size }}
     >
-      <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ transform: "rotate(-90deg)" }}>
         <circle
           cx={size / 2}
           cy={size / 2}

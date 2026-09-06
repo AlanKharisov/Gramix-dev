@@ -1,18 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { App } from '@capacitor/app';
 import { auth } from '../pages/firebase-config';
-import { stepsAvailable, readSteps, watchSteps, pauseSteps } from '../services/steps';
+import { stepsAvailable, readSteps, watchSteps, pauseSteps, loadStepHistory, saveStepDay } from '../services/steps';
 import { localDay, stepBudget } from '../services/stepBudget';
 
 export function useStepBudget(profile) {
   const [reading, setReading] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [historyError, setHistoryError] = useState(false);
+  const budget = useMemo(() => stepBudget(profile, reading), [profile, reading]);
   const refreshRef = useRef(() => {});
   useEffect(() => {
     if (!stepsAvailable || !auth.currentUser) return;
     const uid = auth.currentUser.uid;
     let active = true, pending = false;
     const handles = [];
+    loadStepHistory(uid).then(result => {
+      if (active && auth.currentUser?.uid === uid) { setHistory(result.days || []); setHistoryError(false); }
+    }).catch(() => { if (active) setHistoryError(true); });
     const refresh = async (method = 'getToday') => {
       if (!active || pending || auth.currentUser?.uid !== uid) return;
       pending = true; setBusy(true);
@@ -44,6 +50,17 @@ export function useStepBudget(profile) {
       void pauseSteps(uid).catch(() => {});
     };
   }, []);
-  return { available: stepsAvailable, reading, busy, budget: stepBudget(profile, reading),
+  useEffect(() => {
+    const uid = auth.currentUser?.uid;
+    if (!stepsAvailable || !uid || !profile?.dailyNorm?.calories || reading?.status !== 'ready' || reading.date !== localDay()) return;
+    let active = true;
+    saveStepDay(uid, { ...reading, baseGoal: Number(profile.dailyNorm.calories), extra: budget.extra, activeKcal: budget.activeKcal })
+      .then(result => { if (active && auth.currentUser?.uid === uid) { setHistory(result.days || []); setHistoryError(false); } })
+      .catch(() => { if (active) setHistoryError(true); });
+    return () => { active = false; };
+  }, [reading, budget, profile]);
+  const today = localDay();
+  const currentHistory = useMemo(() => history.filter(day => day.date !== today || reading?.status === 'ready'), [history, reading?.status, today]);
+  return { available: stepsAvailable, reading, busy, budget, history: currentHistory, historyError,
     refresh: method => refreshRef.current(method) };
 }

@@ -15,6 +15,9 @@ import { apiFetchWithToken } from "../services/apiClient";
 import "./main.css";
 import "./profile.css";
 import ProfileExtras from '../components/ProfileExtras';
+import { APP_RELEASE } from '../config';
+import StepsToggle from '../components/StepsToggle';
+import { useStepBudget } from '../hooks/useStepBudget';
 
 const LANGUAGES = [
   { code: 'uk', label: 'Українська', flag: '🇺🇦' },
@@ -53,6 +56,8 @@ export default function ProfilePage() {
   const [confirmRelogin, setConfirmRelogin] = useState(false);
   const [showProfileUpdated, setShowProfileUpdated] = useState(false);
   const [showLangPicker, setShowLangPicker] = useState(false);
+  const [savedProfile, setSavedProfile] = useState(null);
+  const steps = useStepBudget(savedProfile);
 
   const [data, setData] = useState({
     gender: "male",
@@ -86,6 +91,7 @@ export default function ProfilePage() {
       if (!accountId) accountId = await ensureAccount(auth.currentUser);
       const userDoc = await getDoc(doc(db, "users", accountId));
       if (userDoc.exists()) {
+        setSavedProfile(userDoc.data());
         setData(prev => ({ ...prev, ...userDoc.data() }));
       }
     } catch (e) { setLoadFailed(true); console.error(e); }
@@ -133,6 +139,7 @@ export default function ProfilePage() {
       await setDoc(doc(db, "users", accountId), profileUpdate, { merge: true });
       try { await appendNormHistory(accountId, updatedNorm, { goal: data.goal || null }); } catch (err) { console.warn("appendNormHistory failed", err); }
       setData(prev => ({ ...prev, dailyNorm: updatedNorm }));
+      setSavedProfile(profileUpdate);
       gramixStorage.set(STORAGE_KEYS.LANG, data.language);
       i18n.changeLanguage(data.language);
       setShowProfileUpdated(true);
@@ -299,6 +306,8 @@ export default function ProfilePage() {
             ))}
           </div>
 
+          {steps.available && <StepsToggle {...steps} />}
+
           {/* Предпочтения — только Язык */}
           <div className="profile-section-header">{t('section_preferences')}</div>
           <div className="profile-group">
@@ -315,7 +324,6 @@ export default function ProfilePage() {
             </button>
           </div>
 
-          <ProfileExtras />
           {/* Подписка — раздел временно отключён */}
           {/*
           <div className="profile-section-header">{t('subscription')}</div>
@@ -334,8 +342,9 @@ export default function ProfilePage() {
           </div>
           */}
 
-          {/* Поддержка — только Политика */}
+          {/* Поддержка */}
           <div className="profile-section-header">{t('section_support')}</div>
+          <ProfileExtras />
           <div className="profile-group">
             <button
               type="button"
@@ -355,7 +364,7 @@ export default function ProfilePage() {
           </div>
 
           {/* Версия */}
-          <div className="profile-version">Gramix · v1.0</div>
+          <div className="profile-version">Gramix · v{APP_RELEASE}</div>
 
           {/* Управление аккаунтом */}
           <div className="profile-danger">

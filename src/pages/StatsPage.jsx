@@ -37,6 +37,12 @@ import { trackMealAdded, trackMealDeleted } from "../services/userMetrics";
 import BottomSheetPopup from "../components/BottomSheetPopup";
 import MealThumbnail from '../components/MealThumbnail';
 import LoadError from '../components/LoadError';
+import CalorieOverview from '../components/CalorieOverview';
+import { personalAverage } from '../services/personalBudget';
+import { useHourlyBudget } from '../hooks/useHourlyBudget';
+import { useStepBudget } from '../hooks/useStepBudget';
+import { periodWindow, diaryAverage, summarizeActivity } from '../services/activityStats';
+import { localDay } from '../services/stepBudget';
 import { gramixStorage, STORAGE_KEYS } from "../utils/storage";
 
 const PAGE_ORDER = ['/main', '/stats'];
@@ -77,6 +83,10 @@ export default function StatsPage() {
     carbs: 300,
   });
   const [normHistory, setNormHistory] = useState([]);
+  const [budgetProfile, setBudgetProfile] = useState(null);
+  const activity = useStepBudget(budgetProfile);
+  const range = periodWindow(period, selectedDay.date);
+  const activitySummary = summarizeActivity(activity.history, range);
   const [calendarExpanded, setCalendarExpanded] = useState(false);
   const [periodStats, setPeriodStats] = useState({
     calories: 0,
@@ -221,7 +231,7 @@ export default function StatsPage() {
       if (period === "day") generateCalendar(allMeals);
       loadStatsForPeriod(allMeals);
     }
-  }, [period, currentDate, selectedDay, allMeals, dailyNorm, normHistory, calendarExpanded]);
+  }, [period, currentDate, selectedDay, allMeals, dailyNorm, normHistory, calendarExpanded, activity.history]);
 
   const fetchUserData = async (accountId) => {
     try {
@@ -234,6 +244,7 @@ export default function StatsPage() {
       ]);
       const userDailyNorm = userDoc.exists() ? userDoc.data().dailyNorm : null;
       if (userDailyNorm) setDailyNorm(userDailyNorm);
+      if (userDoc.exists()) setBudgetProfile(userDoc.data());
 
       // Norm history (per-day снапшот рекомендованной нормы). Seed эффективен
       // от epoch — обеспечивает корректное разрешение нормы для прошлых дней,
@@ -259,23 +270,13 @@ export default function StatsPage() {
     }
   };
 
+  useHourlyBudget(fetchUserData);
+
   const loadStatsForPeriod = (mealsToProcess) => {
-    let filteredMeals = [];
-    if (period === "day") {
-      filteredMeals = mealsToProcess.filter(
-        (m) =>
-          new Date(m.date).toDateString() === selectedDay.date.toDateString(),
-      );
-    } else {
-      const now = new Date();
-      let startDate = new Date();
-      if (period === "week") startDate.setDate(now.getDate() - 7);
-      else if (period === "month") startDate.setMonth(now.getMonth() - 1);
-      else if (period === "year") startDate.setFullYear(now.getFullYear() - 1);
-      filteredMeals = mealsToProcess.filter(
-        (m) => new Date(m.date) >= startDate,
-      );
-    }
+    const filteredMeals = mealsToProcess.filter(meal => {
+      const date = new Date(meal.date);
+      return date >= range.start && date < range.until;
+    });
 
     const total = filteredMeals.reduce(
       (acc, m) => {
@@ -308,7 +309,8 @@ export default function StatsPage() {
       (m) => new Date(m.date).toDateString() === date.toDateString(),
     );
     const dayCals = dayMeals.reduce((s, m) => s + (m.calories || 0), 0);
-    const dayNormCals = getNormForDate(normHistory, date, dailyNorm).calories;
+    const stepDay = summarizeActivity(activity.history, periodWindow('day', date)).byDate.get(localDay(date));
+    const dayNormCals = stepDay ? stepDay.baseGoal + stepDay.extra : getNormForDate(normHistory, date, dailyNorm).calories;
     let status =
       dayMeals.length > 0
         ? dayCals > dayNormCals
@@ -384,12 +386,15 @@ export default function StatsPage() {
     const days = period === "week" ? 7 : period === "month" ? 30 : 365;
     return sumNormsForLastNDays(normHistory, days, new Date(), dailyNorm);
   }, [period, selectedDay.date, normHistory, dailyNorm]);
-  const calGoal = periodGoals.calories;
+  // Saved historical base + same-day movement credit. Never add today's
+  // steps to past days or extrapolate missing history.
+  const historicalBase = [...activitySummary.byDate.values()].reduce((sum, day) =>
+    sum + day.baseGoal - getNormForDate(normHistory, new Date(day.date + 'T12:00:00'), dailyNorm).calories, 0);
+  const baseGoal = periodGoals.calories + historicalBase;
+  const calGoal = baseGoal + activitySummary.extra;
   const proGoal = periodGoals.proteins;
   const fatGoal = periodGoals.fats;
   const carbGoal = periodGoals.carbs;
-  const overKcal = periodStats.calories > calGoal;
-  const remaining = Math.round(calGoal - periodStats.calories);
   const macros = [
     { key: "p", label: t("protein"), val: periodStats.proteins, goal: proGoal,  color: "var(--brand-lilac)" },
     { key: "f", label: t("fat"),     val: periodStats.fats,     goal: fatGoal,  color: "var(--brand-coral)" },
@@ -653,26 +658,11 @@ export default function StatsPage() {
           )}
 
           <section className="home-rings-card stats-rings-card">
-            <RingProgress
-              size={180}
-              stroke={10}
-              value={periodStats.calories}
-              max={calGoal}
-              color="var(--brand-mint)"
-              pulse
-            >
-              <div className={`ring-kcal-eaten${overKcal ? " is-over" : ""}`}>
-                {Math.round(periodStats.calories)}
-              </div>
-              <div className="ring-kcal-of">
-                {t("of_kcal", { goal: Math.round(calGoal) })}
-              </div>
-              <div className={`ring-kcal-rem${overKcal ? " is-over" : ""}`}>
-                {overKcal
-                  ? t("kcal_excess", { n: Math.abs(remaining) })
-                  : t("kcal_left", { n: remaining })}
-              </div>
-            </RingProgress>
+              <CalorieOverview
+                personalAverage={personalAverage(allMeals)}
+                averages={[diaryAverage(allMeals, period === 'day' ? periodWindow('week', selectedDay.date, selectedDay.date) : range)]}
+                goal={calGoal} eaten={periodStats.calories} base={baseGoal} extra={activitySummary.extra}
+                today={period === 'day' && localDay(selectedDay.date) === localDay()} />
 
             <div className="home-mini-rings">
               {macros.map((m) => {

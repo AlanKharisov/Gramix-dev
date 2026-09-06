@@ -7,7 +7,10 @@ import { useSwipeNavigation } from "../hooks/useSwipeNavigation";
 import AddMealSheet from '../components/AddMealSheet';
 import { clearDraft } from '../services/drafts';
 import { useStepBudget } from '../hooks/useStepBudget';
-import StepsCard from '../components/StepsCard';
+import CalorieOverview from '../components/CalorieOverview';
+import { personalAverage } from '../services/personalBudget';
+import { useHourlyBudget } from '../hooks/useHourlyBudget';
+import { diaryAverage, periodWindow } from '../services/activityStats';
 import { useDailyQuota } from "../hooks/useDailyQuota";
 import { useBackHandler } from "../hooks/useBackHandler";
 import { learnIngredients, learnIngredient } from "../services/productService";
@@ -259,6 +262,8 @@ export default function MainPage() {
       setLoading(false);
     }
   };
+
+  useHourlyBudget(fetchUserData);
 
   const processImage = async (rawBase64, sourceMode = "photo") => {
     if (analyzeAbortRef.current) return;
@@ -767,8 +772,6 @@ export default function MainPage() {
 
         <main className="main-content">
           {(() => {
-            const overKcal = dailyTotal.calories > calorieGoal;
-            const remaining = Math.round(calorieGoal - dailyTotal.calories);
             const today = new Date();
             const lang = (typeof navigator !== "undefined" && navigator.language) || "ru";
             const dateLabel = today.toLocaleDateString(lang, {
@@ -789,26 +792,8 @@ export default function MainPage() {
                 </div>
 
                 <section className="home-rings-card">
-                  <RingProgress
-                    size={180}
-                    stroke={10}
-                    value={dailyTotal.calories}
-                    max={calorieGoal}
-                    color="var(--brand-mint)"
-                    pulse
-                  >
-                    <div className={`ring-kcal-eaten${overKcal ? " is-over" : ""}`}>
-                      {Math.round(dailyTotal.calories)}
-                    </div>
-                    <div className="ring-kcal-of">
-                      {t("of_kcal", { goal: Math.round(calorieGoal) })}
-                    </div>
-                    <div className={`ring-kcal-rem${overKcal ? " is-over" : ""}`}>
-                      {overKcal
-                        ? t("kcal_excess", { n: Math.abs(remaining) })
-                        : t("kcal_left", { n: remaining })}
-                    </div>
-                  </RingProgress>
+                  <CalorieOverview personalAverage={personalAverage(allMealsRef.current)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
+                    goal={calorieGoal} eaten={dailyTotal.calories} base={dailyNorm.calories} extra={steps.budget.extra} />
 
                   <div className="home-mini-rings">
                     {macros.map((m) => {
@@ -836,7 +821,6 @@ export default function MainPage() {
                     })}
                   </div>
                 </section>
-                {steps.available && <StepsCard {...steps} />}
               </>
             );
           })()}

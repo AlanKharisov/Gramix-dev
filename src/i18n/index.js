@@ -1636,6 +1636,10 @@ i18n.use(initReactI18next).init({
 
 import { extras } from './extras';
 import { stepTranslations } from './steps';
+import { activityTranslations } from './activity';
+import { budgetTranslations } from './budget';
+for (const [lang, strings] of Object.entries(budgetTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
+for (const [lang, strings] of Object.entries(activityTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(stepTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(extras)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 export default i18n;
