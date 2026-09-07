@@ -10,3 +10,8 @@ for(const [lang,values] of Object.entries({
   uk:['Як розраховано','Різниця = розрахункові витрати у спокої від опівночі + отримані активні калорії (або оцінка за кроками) − записана їжа. Це оцінка, не вимога чекати чи відпрацьовувати їжу.'],
   en:['How it is calculated','Difference = estimated rest since midnight + imported active energy (or a step estimate) − logged food. An estimate, not a requirement to wait or earn food.']
 })) Object.assign(healthTranslations[lang],{h_how:values[0],h_formula:values[1]});
+for (const [lang, values] of Object.entries({
+  uk: ['Середні витрати за день · {{days}} днів', 'Спокій + активність. Їжа не віднімається. Беремо завершені дні з даними; якщо немає калорій Health, оцінюємо спокій за поточним профілем, а ходьбу — за кроками. Це орієнтир, не ліміт харчування.', 'Оцінка · спокій + активність', 'Днів з даними: {{n}} із {{total}}'],
+  ru: ['Средний расход за день · {{days}} дней', 'Покой + активность. Еда не вычитается. Учитываем завершённые дни с данными; без калорий Health оцениваем покой по текущему профилю, а ходьбу — по шагам. Это ориентир, не лимит питания.', 'Оценка · покой + активность', 'Дней с данными: {{n}} из {{total}}'],
+  en: ['Average daily expenditure · {{days}} days', 'Rest + activity, without subtracting food. Uses completed days with data. Missing Health energy is estimated from your current profile for rest and steps for walking. A guide, not a food limit.', 'Estimate · rest + activity', 'Days with data: {{n}} of {{total}}'],
+})) Object.assign(healthTranslations[lang], {h_average:values[0], h_averageHint:values[1], h_estimated:values[2], h_coverage:values[3]});

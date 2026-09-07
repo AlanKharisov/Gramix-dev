@@ -8,7 +8,7 @@ import AddMealSheet from '../components/AddMealSheet';
 import { clearDraft } from '../services/drafts';
 import { useStepBudget } from '../hooks/useStepBudget';
 import CalorieOverview from '../components/CalorieOverview';
-import { averageBalance } from '../services/healthBalance';
+import { averageExpenditure } from '../services/healthBalance';
 import { useHealthImport } from '../hooks/useHealthImport';
 import { localDay } from '../services/stepBudget';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
@@ -796,7 +796,7 @@ export default function MainPage() {
                   <div className="home-date-main">{dateLabel}</div>
                 </div>
 
-                  <CalorieOverview personalAverage={averageBalance(allMealsRef.current,health.days)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
+                  <CalorieOverview personalAverage={averageExpenditure(budgetProfile,health.timezone===Intl.DateTimeFormat().resolvedOptions().timeZone?health.days:[])} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
                     autoBudget={accrued.enabled ? accrued : null} goal={calorieGoal} eaten={dailyTotal.calories} base={accrued.enabled ? accrued.resting : dailyNorm.calories} extra={accrued.enabled ? accrued.movement : steps.budget.extra}>
 
                   <div className="home-mini-rings">

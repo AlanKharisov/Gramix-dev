@@ -14,7 +14,6 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
   const personal = isPersonalBudget(auth.currentUser);
   const status = t(over ? 'b_above' : today ? 'b_available' : 'x_periodRemaining');
   const amount = n => Math.round(n).toLocaleString(i18n.language);
-  const signed = n => (Math.round(n)>0?'+':'')+amount(n);
   useBackHandler([{ when: () => open, do: () => setOpen(false) }]);
   return <div className={'gx-calorie-overview' + (over ? ' is-over' : '')}>
     <section className="home-rings-card">
@@ -32,8 +31,8 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
     </section>
     {showStatus && <button className={'gx-budget-status' + (personal ? ' is-personal' : '')} onClick={() => setOpen(true)}>
       <span><span className="gx-budget-status-label">{personal ? t('h_average', { days: personalAverage?.days || 7 }) : status}</span>
-        <strong>{personal ? personalAverage?.value == null ? '—' : signed(personalAverage.value) : amount(Math.abs(remaining))} <small>{t('kcal')}</small></strong>
-        <span className="gx-budget-status-hint">{t(personal?'h_how':'b_details')}</span></span>
+        <strong>{personal ? personalAverage?.value == null ? '—' : amount(personalAverage.value) : amount(Math.abs(remaining))} <small>{t('kcal')}</small></strong>
+        <span className="gx-budget-status-hint">{personal && personalAverage?.estimated ? t('h_estimated') : t(personal?'h_how':'b_details')}</span></span>
       <span aria-hidden="true">›</span>
     </button>}
     {open && <AddMealSheet title={t(personal?'h_how':'b_details')} onClose={() => setOpen(false)}>
@@ -51,8 +50,8 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
         {autoBudget?.importedAt && <p>{t('h_sync',{time:new Date(autoBudget.importedAt).toLocaleString(i18n.language)})}</p>}
         {(personal ? [personalAverage].filter(Boolean) : averages).map(average => <div className="gx-budget-average" key={average.days}>
           <span>{t(personal?'h_average':'x_averageDays', { days: average.days })}</span>
-          <strong>{average.value === null ? '—' : personal?signed(average.value):amount(average.value)} {t('kcal')}</strong>
-          <small>{t('x_diaryCoverage', { n: average.recordedDays, total: average.days })}</small>
+          <strong>{average.value === null ? '—' : amount(average.value)} {t('kcal')}</strong>
+          <small>{t(personal?'h_coverage':'x_diaryCoverage', { n: average.recordedDays, total: average.days })}</small>
         </div>)}
         <p>{t(personal?'h_averageHint':'b_history')}</p>
       </div>

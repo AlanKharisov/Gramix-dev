@@ -38,7 +38,7 @@ import BottomSheetPopup from "../components/BottomSheetPopup";
 import MealThumbnail from '../components/MealThumbnail';
 import LoadError from '../components/LoadError';
 import CalorieOverview from '../components/CalorieOverview';
-import { averageBalance } from '../services/healthBalance';
+import { averageExpenditure } from '../services/healthBalance';
 import { useHealthImport } from '../hooks/useHealthImport';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
 import { useAccrualBudget } from '../hooks/useAccrualBudget';
@@ -664,7 +664,7 @@ export default function StatsPage() {
 
               <CalorieOverview
                 showStatus={false}
-                personalAverage={averageBalance(allMeals,health.days)}
+                personalAverage={averageExpenditure(budgetProfile,health.timezone===Intl.DateTimeFormat().resolvedOptions().timeZone?health.days:[])}
                 averages={[diaryAverage(allMeals, period === 'day' ? periodWindow('week', selectedDay.date, selectedDay.date) : range)]}
                 autoBudget={liveAccrual} goal={liveAccrual ? liveAccrual.accrued : calGoal} eaten={periodStats.calories} base={liveAccrual ? liveAccrual.resting : baseGoal} extra={liveAccrual ? liveAccrual.movement : activitySummary.extra}
                 today={period === 'day' && localDay(selectedDay.date) === localDay()}>

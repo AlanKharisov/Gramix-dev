@@ -43,7 +43,10 @@ try {
   if (process.env.TEST_AUTO) {
     await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-688':process.env.TEST_WEB?'-1088':'-834');
     assert.equal(await page.locator('.gx-calorie-label').innerText(),'Расход − еда');
-    if(process.env.TEST_HEALTH)assert.match(await page.locator('.gx-budget-status strong').innerText(),/-400/);
+    if(process.env.TEST_HEALTH){
+      assert.equal((await page.locator('.gx-budget-status strong').innerText()).replace(/\s/g,''),'2100ккал');
+      assert.match(await page.locator('.gx-budget-status-label').innerText(),/Средний расход за день/);
+    }
     await page.clock.fastForward(3600000);
     await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-619':process.env.TEST_WEB?'-1019':'-765');
     await page.screenshot({path:'/tmp/gramix-auto.png'});
