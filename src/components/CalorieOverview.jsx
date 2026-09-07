@@ -21,7 +21,7 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
     <RingProgress size={224} stroke={10} value={autoBudget ? autoBudget.resting : eaten} max={autoBudget ? Math.max(autoBudget.daily, autoBudget.resting) : goal}>
       <span className="gx-calorie-label">{autoBudget ? t('h_difference') : personal ? t('remaining') : t('calories')}</span>
       <strong className="gx-calorie-eaten">{amount(personal ? remaining : eaten)}</strong>
-      <button className="gx-calorie-limit" onClick={() => setOpen(true)} aria-label={t('b_details')}>
+      <button className="gx-calorie-limit" onClick={() => setOpen(true)} aria-label={t(personal?'h_how':'b_details')}>
         {t(autoBudget ? 'h_expense' : 'b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
       </button>
       {!personal && <><span className="gx-calorie-divider" />
@@ -33,10 +33,10 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
     {showStatus && <button className={'gx-budget-status' + (personal ? ' is-personal' : '')} onClick={() => setOpen(true)}>
       <span><span className="gx-budget-status-label">{personal ? t('h_average', { days: personalAverage?.days || 7 }) : status}</span>
         <strong>{personal ? personalAverage?.value == null ? '—' : signed(personalAverage.value) : amount(Math.abs(remaining))} <small>{t('kcal')}</small></strong>
-        <span className="gx-budget-status-hint">{t('b_details')}</span></span>
+        <span className="gx-budget-status-hint">{t(personal?'h_how':'b_details')}</span></span>
       <span aria-hidden="true">›</span>
     </button>}
-    {open && <AddMealSheet title={t('b_details')} onClose={() => setOpen(false)}>
+    {open && <AddMealSheet title={t(personal?'h_how':'b_details')} onClose={() => setOpen(false)}>
       <div className="gx-budget-details">
         <dl>
           <div><dt>{t(autoBudget ? 'a_balance' : 'b_current')}</dt><dd>{amount(autoBudget ? remaining : goal)} {t('kcal')}</dd></div>
@@ -45,7 +45,7 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
           <div><dt>{t('x_recordedFood')}</dt><dd>{amount(eaten)} {t('kcal')}</dd></div>
           {autoBudget && <div><dt>{t('a_daily')}</dt><dd>{amount(autoBudget.daily)} {t('kcal')}</dd></div>}
         </dl>
-        <p>{t(autoBudget ? 'a_formula' : 'b_formula')}</p>
+        <p>{t(autoBudget ? 'h_formula' : 'b_formula')}</p>
         {autoBudget && !autoBudget.hasSteps && <p>{t('a_noSteps')}</p>}
         {autoBudget?.hasSteps && autoBudget.partial && <p>{t('x_stepsPartial')}</p>}
         {autoBudget?.importedAt && <p>{t('h_sync',{time:new Date(autoBudget.importedAt).toLocaleString(i18n.language)})}</p>}
