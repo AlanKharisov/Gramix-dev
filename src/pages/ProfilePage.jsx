@@ -319,7 +319,7 @@ export default function ProfilePage() {
 
           {automatic && <AccrualSettings profile={data} onChange={next=>setData({...next,personalActivityMode:'auto'})} />}
           {steps.available && <StepsToggle {...steps} />}
-          {personal && <HealthConnection health={health} />}
+          {personal && <HealthConnection key={auth.currentUser?.uid} health={health} />}
 
           {/* Предпочтения — только Язык */}
           <div className="profile-section-header">{t('section_preferences')}</div>
