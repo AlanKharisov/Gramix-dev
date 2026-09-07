@@ -9,8 +9,8 @@ export function restingEnergy(profile) {
   return 10 * weight + 6.25 * height - 5 * age + (profile.gender === 'male' ? 5 : -161);
 }
 
-export function accrualBudget(user, profile, reading, now = new Date()) {
-  const requested = isPersonalBudget(user) && profile?.personalAccrualEnabled !== false;
+export function accrualBudget(user, profile, reading, now = new Date(), importedDay = null) {
+  const requested = isPersonalBudget(user) && profile?.personalActivityMode !== 'manual' && profile?.personalAccrualEnabled !== false;
   const daily = restingEnergy(profile);
   if (!requested || daily === null || !Number.isFinite(now.getTime())) return { enabled: false, invalid: requested && daily === null };
   const midnight = new Date(now); midnight.setHours(0, 0, 0, 0);
@@ -20,9 +20,12 @@ export function accrualBudget(user, profile, reading, now = new Date()) {
   const resting = daily * hours / 24;
   // Walking energy is net of resting expenditure. Do not also add an activity
   // multiplier, ordinary step allowance, or diet-goal adjustment.
-  const movement = stepBudget(profile, reading, now).activeKcal;
+  const importedEnergy = importedDay?.day === localDay(now) && Number.isFinite(importedDay.active) && importedDay.active>=0 && importedDay.active<=10000;
+  const importedSteps = importedDay?.day === localDay(now) && Number.isSafeInteger(importedDay.steps) && importedDay.steps>=0 && importedDay.steps<=100000;
+  const imported = importedEnergy || importedSteps;
+  const movement = importedEnergy ? importedDay.active : importedSteps ? stepBudget(profile,{status:'ready',date:localDay(now),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:importedDay.steps},now).activeKcal : stepBudget(profile, reading, now).activeKcal;
   const hasSteps = reading?.status === 'ready' && reading.date === localDay(now) &&
     reading.timeZone === Intl.DateTimeFormat().resolvedOptions().timeZone && Number.isSafeInteger(reading.steps) && reading.steps >= 0 && reading.steps <= 100000;
   return { enabled: true, invalid: false, daily, hourly: daily / 24, hours,
-    resting, movement, accrued: resting + movement, hasSteps, partial: Boolean(reading?.partial) };
+    resting, movement, accrued: resting + movement, hasSteps:imported||hasSteps, partial: !imported&&Boolean(reading?.partial), importedAt:imported?importedDay.synced_at:null };
 }

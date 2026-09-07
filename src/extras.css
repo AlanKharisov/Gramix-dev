@@ -7,6 +7,13 @@
 [aria-checked="true"] .gx-switch-track > span { transform: translateX(16px); background: var(--bg-base); }
 .gx-steps-toggle button:disabled { opacity: .5; }
 .gx-steps-toggle p { padding: 0 16px 12px; font-size: 12px; color: var(--text-dim); }
+.gx-health-connect { padding: 16px; margin-top: 16px; }
+.gx-health-connect h3 { font-size: 15px; margin: 0 0 12px; }
+.gx-health-connect p, .gx-health-connect li { font-size: 12px; line-height: 1.55; color: var(--text-dim); overflow-wrap: anywhere; }
+.gx-health-connect input { display:block;box-sizing:border-box;width:100%;padding:10px;margin:8px 0;background:var(--surface-2);color:var(--text-primary);border:1px solid var(--line-soft);border-radius:8px; }
+.gx-health-connect button { min-height:44px;border:1px solid var(--line-soft);border-radius:10px;padding:8px 12px;margin:4px 4px 4px 0;background:var(--surface-2);color:var(--brand-mint);cursor:pointer; }
+.gx-health-connect button:disabled { opacity:.5; }
+.gx-health-connect ol { padding-left:20px; }
 .gx-calorie-overview { width: 100%; display: flex; flex-direction: column; align-items: center; --budget-accent: var(--brand-mint); }
 .gx-calorie-overview.is-over { --budget-accent: var(--brand-coral); }
 .gx-calorie-overview > .home-rings-card { width: calc(100% - 8px); box-sizing: border-box; }

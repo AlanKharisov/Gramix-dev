@@ -28,8 +28,11 @@ try {
   const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
   const meals=[{id:'today',data:{date:new Date().toISOString(),name:'Today',calories:1500,ingredients:[]}},
     {id:'yesterday',data:{date:yesterday.toISOString(),name:'Yesterday',calories:2500,ingredients:[]}}];
+  const dayKey=date=>[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');
+  const imported={connected:!!process.env.TEST_HEALTH,lastSync:process.env.TEST_HEALTH?Date.now():null,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,days:process.env.TEST_HEALTH?[{day:dayKey(new Date()),active:400,resting:500,complete:0,synced_at:Date.now()},{day:dayKey(yesterday),active:500,resting:1600,complete:1,synced_at:Date.now()}]:[]};
   await page.route('**/api/**', route=>{
     const url=new URL(route.request().url()), target=url.searchParams.get('path')||'';
+    if(url.pathname.endsWith('/health-connection'))return route.fulfill({contentType:'application/json',body:JSON.stringify(route.request().method()==='POST'?{token:'gxhealth_'+'a'.repeat(64),url:base+'/api/health-import'}:imported)});
     if (url.pathname.endsWith('/document') && route.request().method()==='PUT') Object.assign(profile,route.request().postDataJSON().data);
     const data=url.pathname.endsWith('/account')?{publicId:'0000001'}:
       url.pathname.endsWith('/collection')?{documents:target.endsWith('/meals')?meals:[]}:
@@ -38,15 +41,27 @@ try {
   });
   await page.goto(base+'/main');
   if (process.env.TEST_AUTO) {
-    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_WEB?'-1088':'-834');
-    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Баланс сейчас');
+    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-688':process.env.TEST_WEB?'-1088':'-834');
+    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Расход − еда');
+    if(process.env.TEST_HEALTH)assert.match(await page.locator('.gx-budget-status strong').innerText(),/-400/);
     await page.clock.fastForward(3600000);
-    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_WEB?'-1019':'-765');
+    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-619':process.env.TEST_WEB?'-1019':'-765');
     await page.screenshot({path:'/tmp/gramix-auto.png'});
     await page.locator('.main-page:visible .main-profile-btn').click();
+    if(process.env.TEST_HEALTH){
+      await page.locator('.profile-activity-row.is-active').waitFor();
+      assert.equal(await page.locator('.profile-activity-row.is-active').count(),1);
+      assert.match(await page.locator('.profile-activity-row.is-active').innerText(),/Автоматически/);
+      page.on('dialog',dialog=>dialog.accept());
+      await page.getByRole('button',{name:'Создать новый ключ',exact:true}).click();
+      await page.locator('.gx-health-connect input[type="password"]').waitFor();
+      await page.screenshot({path:'/tmp/gramix-health-profile.png'});
+    }
     const automatic=page.getByRole('switch',{name:'Авто · с полуночи'});
     await automatic.click();
     await page.waitForFunction(()=>document.querySelector('[role="switch"]')?.getAttribute('aria-checked')==='false');
+    await page.locator('.profile-save-btn').click();
+    await page.locator('.bs-popup-primary').click();
     assert.equal(profile.personalAccrualEnabled,false);
     await page.locator('.profile-page:visible .home-tabbar button').first().click();
     await page.waitForFunction(expected=>document.querySelector('.main-page .gx-calorie-eaten')?.textContent===expected,process.env.TEST_WEB?'479':'657');
@@ -56,7 +71,7 @@ try {
     await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='657');
     assert.equal(await page.locator('.home-rings-card .gx-budget-status').count(),0);
     if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'Залишилось');
-    assert.match((await page.locator('.gx-budget-status strong').innerText()).replace(/\D/g,''),/2000/);
+    assert.match(await page.locator('.gx-budget-status strong').innerText(),/—/);
     await page.evaluate(()=>{window.__steps=12000;window.dispatchEvent(new Event('focus'));});
     await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='707');
     assert.equal(await page.locator('.gx-calorie-balance').count(),0);

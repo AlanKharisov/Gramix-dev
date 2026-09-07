@@ -8,7 +8,9 @@ import AddMealSheet from '../components/AddMealSheet';
 import { clearDraft } from '../services/drafts';
 import { useStepBudget } from '../hooks/useStepBudget';
 import CalorieOverview from '../components/CalorieOverview';
-import { personalAverage } from '../services/personalBudget';
+import { averageBalance } from '../services/healthBalance';
+import { useHealthImport } from '../hooks/useHealthImport';
+import { localDay } from '../services/stepBudget';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
 import { useAccrualBudget } from '../hooks/useAccrualBudget';
 import { diaryAverage, periodWindow } from '../services/activityStats';
@@ -141,7 +143,8 @@ export default function MainPage() {
   });
   const [budgetProfile, setBudgetProfile] = useState(null);
   const steps = useStepBudget(budgetProfile);
-  const accrued = useAccrualBudget(budgetProfile, steps.reading);
+  const health = useHealthImport();
+  const accrued = useAccrualBudget(budgetProfile, steps.reading, health.timezone===Intl.DateTimeFormat().resolvedOptions().timeZone ? health.days.find(day=>day.day===localDay()) : null);
   const calorieGoal = accrued.enabled ? accrued.accrued : steps.budget.goal || dailyNorm.calories;
   const [dailyTotal, setDailyTotal] = useState({
     calories: 0,
@@ -793,7 +796,7 @@ export default function MainPage() {
                   <div className="home-date-main">{dateLabel}</div>
                 </div>
 
-                  <CalorieOverview personalAverage={personalAverage(allMealsRef.current)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
+                  <CalorieOverview personalAverage={averageBalance(allMealsRef.current,health.days)} averages={[diaryAverage(allMealsRef.current), diaryAverage(allMealsRef.current, periodWindow('month'))]}
                     autoBudget={accrued.enabled ? accrued : null} goal={calorieGoal} eaten={dailyTotal.calories} base={accrued.enabled ? accrued.resting : dailyNorm.calories} extra={accrued.enabled ? accrued.movement : steps.budget.extra}>
 
                   <div className="home-mini-rings">

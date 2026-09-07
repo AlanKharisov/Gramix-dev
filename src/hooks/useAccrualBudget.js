@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { auth } from '../pages/firebase-config';
 import { accrualBudget } from '../services/accrualBudget';
 
-export function useAccrualBudget(profile, reading) {
+export function useAccrualBudget(profile, reading, importedDay = null) {
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const refresh = () => { if (!document.hidden) setNow(new Date()); };
@@ -11,5 +11,5 @@ export function useAccrualBudget(profile, reading) {
     window.addEventListener('focus', refresh);
     return () => { clearInterval(timer); document.removeEventListener('visibilitychange', refresh); window.removeEventListener('focus', refresh); };
   }, []);
-  return accrualBudget(auth.currentUser, profile, reading, now);
+  return accrualBudget(auth.currentUser, profile, reading, now, importedDay);
 }

@@ -38,7 +38,8 @@ import BottomSheetPopup from "../components/BottomSheetPopup";
 import MealThumbnail from '../components/MealThumbnail';
 import LoadError from '../components/LoadError';
 import CalorieOverview from '../components/CalorieOverview';
-import { personalAverage } from '../services/personalBudget';
+import { averageBalance } from '../services/healthBalance';
+import { useHealthImport } from '../hooks/useHealthImport';
 import { useHourlyBudget } from '../hooks/useHourlyBudget';
 import { useAccrualBudget } from '../hooks/useAccrualBudget';
 import { useStepBudget } from '../hooks/useStepBudget';
@@ -86,7 +87,8 @@ export default function StatsPage() {
   const [normHistory, setNormHistory] = useState([]);
   const [budgetProfile, setBudgetProfile] = useState(null);
   const activity = useStepBudget(budgetProfile);
-  const accrued = useAccrualBudget(budgetProfile, activity.reading);
+  const health = useHealthImport();
+  const accrued = useAccrualBudget(budgetProfile, activity.reading, health.timezone===Intl.DateTimeFormat().resolvedOptions().timeZone ? health.days.find(day=>day.day===localDay()) : null);
   const liveAccrual = accrued.enabled && period === 'day' && localDay(selectedDay.date) === localDay() ? accrued : null;
   const range = periodWindow(period, selectedDay.date);
   const activitySummary = summarizeActivity(activity.history, range);
@@ -662,7 +664,7 @@ export default function StatsPage() {
 
               <CalorieOverview
                 showStatus={false}
-                personalAverage={personalAverage(allMeals)}
+                personalAverage={averageBalance(allMeals,health.days)}
                 averages={[diaryAverage(allMeals, period === 'day' ? periodWindow('week', selectedDay.date, selectedDay.date) : range)]}
                 autoBudget={liveAccrual} goal={liveAccrual ? liveAccrual.accrued : calGoal} eaten={periodStats.calories} base={liveAccrual ? liveAccrual.resting : baseGoal} extra={liveAccrual ? liveAccrual.movement : activitySummary.extra}
                 today={period === 'day' && localDay(selectedDay.date) === localDay()}>

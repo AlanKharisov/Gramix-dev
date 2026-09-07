@@ -18,6 +18,9 @@ import ProfileExtras from '../components/ProfileExtras';
 import { APP_RELEASE } from '../config';
 import StepsToggle from '../components/StepsToggle';
 import AccrualSettings from '../components/AccrualSettings';
+import HealthConnection from '../components/HealthConnection';
+import { useHealthImport } from '../hooks/useHealthImport';
+import { isPersonalBudget } from '../services/personalBudget';
 import { useStepBudget } from '../hooks/useStepBudget';
 
 const LANGUAGES = [
@@ -59,6 +62,7 @@ export default function ProfilePage() {
   const [showLangPicker, setShowLangPicker] = useState(false);
   const [savedProfile, setSavedProfile] = useState(null);
   const steps = useStepBudget(savedProfile);
+  const health = useHealthImport();
 
   const [data, setData] = useState({
     gender: "male",
@@ -70,6 +74,9 @@ export default function ProfilePage() {
     language: gramixStorage.get(STORAGE_KEYS.LANG) || 'ru',
     dailyNorm: { calories: 2000 }
   });
+
+  const personal = isPersonalBudget(auth.currentUser);
+  const automatic = personal && (data.personalActivityMode ? data.personalActivityMode === 'auto' : data.personalAccrualEnabled !== false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (user) => {
@@ -134,6 +141,7 @@ export default function ProfilePage() {
       activityLevel: data.activityLevel,
       language: data.language,
       dailyNorm: updatedNorm,
+      ...(personal ? {personalActivityMode:automatic?'auto':'manual',personalAccrualEnabled:automatic&&data.personalAccrualEnabled!==false}:{}),
     };
     try {
       const accountId = await getAccountId();
@@ -290,15 +298,17 @@ export default function ProfilePage() {
           {/* Уровень активности */}
           <div className="profile-section-header">{t('activity_label')}</div>
           <div className="profile-group profile-activity-group">
+            {personal && <button type="button" className={`profile-row profile-activity-row ${automatic?'is-active':''}`}
+              onClick={()=>setData({...data,personalActivityMode:'auto'})}><span className="profile-row-label">{t('h_automatic')}</span>{automatic&&<span aria-hidden="true">✓</span>}</button>}
             {ACTIVITY_LEVELS.map((lvl) => (
               <button
                 key={lvl.key}
                 type="button"
-                className={`profile-row profile-activity-row ${data.activityLevel === lvl.key ? 'is-active' : ''}`}
-                onClick={() => setData({ ...data, activityLevel: lvl.key })}
+                className={`profile-row profile-activity-row ${!automatic && data.activityLevel === lvl.key ? 'is-active' : ''}`}
+                onClick={() => setData({ ...data, activityLevel: lvl.key, ...(personal?{personalActivityMode:'manual',personalAccrualEnabled:false}:{}) })}
               >
                 <span className="profile-row-label">{t(lvl.labelKey)}</span>
-                {data.activityLevel === lvl.key && (
+                {!automatic && data.activityLevel === lvl.key && (
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
@@ -307,8 +317,9 @@ export default function ProfilePage() {
             ))}
           </div>
 
-          <AccrualSettings profile={savedProfile} onChange={setSavedProfile} native={steps.available} />
+          {automatic && <AccrualSettings profile={data} onChange={next=>setData({...next,personalActivityMode:'auto'})} />}
           {steps.available && <StepsToggle {...steps} />}
+          {personal && <HealthConnection health={health} />}
 
           {/* Предпочтения — только Язык */}
           <div className="profile-section-header">{t('section_preferences')}</div>

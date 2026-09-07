@@ -1639,6 +1639,8 @@ import { stepTranslations } from './steps';
 import { activityTranslations } from './activity';
 import { budgetTranslations } from './budget';
 import { accrualTranslations } from './accrual';
+import { healthTranslations } from './health';
+for (const [lang, strings] of Object.entries(healthTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(accrualTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(budgetTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(activityTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
