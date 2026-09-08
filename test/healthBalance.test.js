@@ -24,3 +24,13 @@ test('imported active energy replaces, never adds to, native walking estimate',(
   assert.equal(accrualBudget(user,profile,reading,now,{day:'2026-09-07',active:400,synced_at:Date.now()}).movement,400);
   assert.equal(accrualBudget(user,{...profile,personalActivityMode:'manual'},reading,now).enabled,false);
 });
+test('native cycling calories work without steps and replace other activity sources',()=>{
+  const now=new Date(2026,8,7,12),user={email:'alankharisov@gmail.com',emailVerified:true},profile={weight:70,height:175,age:30,gender:'male',personalActivityMode:'auto'};
+  const reading={enabled:true,status:'ready',date:'2026-09-07',timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,activeEnergyGranted:true,activeEnergyKcal:500};
+  const budget=accrualBudget(user,profile,reading,now,{day:'2026-09-07',active:400,steps:10000});
+  assert.equal(budget.movement,500);assert.equal(budget.activitySource,'health');
+  for (const change of [{activeEnergyGranted:false},{status:'disabled'},{enabled:false},{date:'2026-09-06'},{activeEnergyKcal:-1},{activeEnergyKcal:NaN},{timeZone:'bad'}]) {
+    assert.equal(accrualBudget(user,profile,{...reading,...change},now).movement,0);
+  }
+  assert.equal(accrualBudget(user,{...profile,personalActivityMode:'manual'},reading,now).enabled,false);
+});

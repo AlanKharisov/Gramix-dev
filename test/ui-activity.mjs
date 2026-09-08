@@ -18,7 +18,7 @@ try {
     const yesterday=new Date();yesterday.setDate(yesterday.getDate()-1);
     let history=[{date:date(yesterday),steps:8000,baseGoal:1979,extra:127,activeKcal:203,source:'health_connect',partial:false,updatedAt:1}];
     export const stepsAvailable=${!process.env.TEST_WEB};
-    export const readSteps=async(uid,method)=>({status:method==='disconnect'?'disabled':'ready',enabled:method!=='disconnect',healthAvailable:true,date:date(new Date()),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:window.__steps||10000,source:'health_connect',partial:false});
+    export const readSteps=async(uid,method)=>({status:method==='disconnect'?'disabled':'ready',enabled:method!=='disconnect',healthAvailable:true,date:date(new Date()),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:${process.env.TEST_BIKE?'0':'window.__steps||10000'},activeEnergyGranted:${!!process.env.TEST_BIKE},activeEnergyKcal:${process.env.TEST_BIKE?'500':'null'},source:'health_connect',partial:false});
     export const watchSteps=async()=>({remove(){}});
     export const pauseSteps=async()=>{};
     export const loadStepHistory=async()=>({days:history});
@@ -41,14 +41,13 @@ try {
   });
   await page.goto(base+'/main');
   if (process.env.TEST_AUTO) {
-    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-688':process.env.TEST_WEB?'-1088':'-834');
-    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Расход − еда');
-    if(process.env.TEST_HEALTH){
-      assert.equal((await page.locator('.gx-budget-status strong').innerText()).replace(/\s/g,''),'2100ккал');
-      assert.match(await page.locator('.gx-budget-status-label').innerText(),/Средний расход за день/);
-    }
+    const morning=process.env.TEST_BIKE?'588':process.env.TEST_HEALTH?'688':process.env.TEST_WEB?'1088':'834';
+    await page.waitForFunction(expected=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')===expected,morning);
+    assert.equal((await page.locator('.gx-calorie-eaten').innerText()).replace(/\s/g,''),'1500');
+    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Съедено / потрачено');
+    assert.match(await page.locator('.gx-budget-status-label').innerText(),/Еда превышает расход/);
     await page.clock.fastForward(3600000);
-    await page.waitForFunction(expected=>document.querySelector('.gx-calorie-eaten')?.textContent.replace(/\s/g,'')===expected,process.env.TEST_HEALTH?'-619':process.env.TEST_WEB?'-1019':'-765');
+    await page.waitForFunction(expected=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')===expected,process.env.TEST_BIKE?'519':process.env.TEST_HEALTH?'619':process.env.TEST_WEB?'1019':'765');
     await page.screenshot({path:'/tmp/gramix-auto.png'});
     await page.locator('.main-page:visible .main-profile-btn').click();
     if(process.env.TEST_HEALTH){
@@ -56,9 +55,13 @@ try {
       assert.equal(await page.locator('.profile-activity-row.is-active').count(),1);
       assert.match(await page.locator('.profile-activity-row.is-active').innerText(),/Автоматически/);
       page.on('dialog',dialog=>dialog.accept());
+      assert.equal(await page.locator('.gx-health-connect').getAttribute('open'),null);
+      await page.locator('.gx-health-connect summary').click();
       await page.getByRole('button',{name:'Создать новый ключ',exact:true}).click();
       await page.locator('.gx-health-connect input[type="password"]').waitFor();
       await page.screenshot({path:'/tmp/gramix-health-profile.png'});
+      await page.locator('.gx-health-connect summary').click();
+      assert.equal(await page.locator('.gx-health-connect').getAttribute('open'),null);
     }
     const automatic=page.getByRole('switch',{name:'Авто · с полуночи'});
     await automatic.click();
@@ -67,16 +70,15 @@ try {
     await page.locator('.bs-popup-primary').click();
     assert.equal(profile.personalAccrualEnabled,false);
     await page.locator('.profile-page:visible .home-tabbar button').first().click();
-    await page.waitForFunction(expected=>document.querySelector('.main-page .gx-calorie-eaten')?.textContent===expected,process.env.TEST_WEB?'479':'657');
+    await page.waitForFunction(expected=>document.querySelector('.main-page .gx-budget-status strong')?.textContent.replace(/\D/g,'')===expected,process.env.TEST_WEB||process.env.TEST_BIKE?'479':'657');
     assert.deepEqual(errors,[]);
     console.log(JSON.stringify({passed:true,auto:true,midnightRate:true,hourly:true,optOut:true}));
   } else if (process.env.TEST_PERSONAL_EMAIL) {
-    await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='657');
+    await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='657');
     assert.equal(await page.locator('.home-rings-card .gx-budget-status').count(),0);
-    if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'Залишилось');
-    assert.match(await page.locator('.gx-budget-status strong').innerText(),/—/);
+    if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'З’їдено / денна норма');
     await page.evaluate(()=>{window.__steps=12000;window.dispatchEvent(new Event('focus'));});
-    await page.waitForFunction(()=>document.querySelector('.gx-calorie-eaten')?.textContent==='707');
+    await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='707');
     assert.equal(await page.locator('.gx-calorie-balance').count(),0);
     await page.screenshot({path:'/tmp/gramix-personal.png'});
     assert.deepEqual(errors,[]);
@@ -111,6 +113,7 @@ try {
   await page.waitForURL('**/main');
   await page.locator('.main-page:visible .main-profile-btn').click();
   await page.waitForURL('**/profile');
+  await page.locator('.gx-steps-toggle summary').click();
   const toggle=page.locator('.profile-scroll [role="switch"]');
   await toggle.waitFor();
   await page.waitForFunction(()=>document.querySelector('[role="switch"]')?.getAttribute('aria-checked')==='true');

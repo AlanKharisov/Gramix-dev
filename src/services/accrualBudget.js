@@ -23,9 +23,12 @@ export function accrualBudget(user, profile, reading, now = new Date(), imported
   const importedEnergy = importedDay?.day === localDay(now) && Number.isFinite(importedDay.active) && importedDay.active>=0 && importedDay.active<=10000;
   const importedSteps = importedDay?.day === localDay(now) && Number.isSafeInteger(importedDay.steps) && importedDay.steps>=0 && importedDay.steps<=100000;
   const imported = importedEnergy || importedSteps;
-  const movement = importedEnergy ? importedDay.active : importedSteps ? stepBudget(profile,{status:'ready',date:localDay(now),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:importedDay.steps},now).activeKcal : stepBudget(profile, reading, now).activeKcal;
+  const nativeEnergy = reading?.status === 'ready' && reading.enabled !== false && reading.date === localDay(now) && reading.timeZone === Intl.DateTimeFormat().resolvedOptions().timeZone && reading.activeEnergyGranted === true && Number.isFinite(reading.activeEnergyKcal) && reading.activeEnergyKcal >= 0 && reading.activeEnergyKcal <= 10000;
+  // One whole-day activity source, never workout energy + daily energy + steps.
+  const movement = nativeEnergy ? reading.activeEnergyKcal : importedEnergy ? importedDay.active : importedSteps ? stepBudget(profile,{status:'ready',date:localDay(now),timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,steps:importedDay.steps},now).activeKcal : stepBudget(profile, reading, now).activeKcal;
   const hasSteps = reading?.status === 'ready' && reading.date === localDay(now) &&
     reading.timeZone === Intl.DateTimeFormat().resolvedOptions().timeZone && Number.isSafeInteger(reading.steps) && reading.steps >= 0 && reading.steps <= 100000;
   return { enabled: true, invalid: false, daily, hourly: daily / 24, hours,
-    resting, movement, accrued: resting + movement, hasSteps:imported||hasSteps, partial: !imported&&Boolean(reading?.partial), importedAt:imported?importedDay.synced_at:null };
+    resting, movement, accrued: resting + movement, hasSteps:nativeEnergy||imported||hasSteps, partial: !nativeEnergy&&!imported&&Boolean(reading?.partial), importedAt:nativeEnergy?reading.updatedAt:imported?importedDay.synced_at:null,
+    activitySource:nativeEnergy||importedEnergy?'health':importedSteps||hasSteps?'steps':'missing' };
 }

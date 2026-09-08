@@ -78,3 +78,5 @@
 .gx-activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 12px; margin: 16px 0; }
 .gx-activity-grid strong { display: block; color: var(--text-primary); font-size: 20px; margin-top: 4px; }
 .gx-activity-grid strong small { display: inline; }
+.gx-health-connect > summary, .gx-steps-toggle > summary { cursor: pointer; min-height: 44px; padding: 12px 0; font-weight: 600; }
+.gx-health-connect > summary:focus-visible, .gx-steps-toggle > summary:focus-visible { outline: 2px solid #00cfa6; outline-offset: 3px; }

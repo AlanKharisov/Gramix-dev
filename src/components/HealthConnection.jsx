@@ -13,11 +13,12 @@ export default function HealthConnection({health}) {
   };
   const copy=async value=>{try{await navigator.clipboard.writeText(value);setMessage(t('h_copied'));}catch{setMessage(t('h_copyManual'));}};
   const url=API_BASE+'/health-import';
-  return <section className="profile-group gx-health-connect">
-    <h3>Apple Health · Health Auto Export</h3>
+  return <details className="profile-group gx-health-connect">
+    <summary>Apple Health · Health Auto Export</summary>
     <p>{health.lastSync?t('h_sync',{time:new Date(health.lastSync).toLocaleString(i18n.language)}):t('h_wait')}</p>
     {health.error&&<p role="status">{t('error')}</p>}
     <p>{t('h_privacy')}</p>
+    <p>{t('h_sportImport')}</p>
     <button className="gx-primary" disabled={busy} onClick={()=>action('POST')}>{t(health.connected?'h_rotate':'h_connect')}</button>
     {(key||health.connected)&&<>
       <label>URL<input readOnly value={url} onFocus={e=>e.target.select()} /></label>
@@ -29,5 +30,5 @@ export default function HealthConnection({health}) {
       <button disabled={busy} onClick={()=>action('DELETE')}>{t('h_revoke')}</button>
     </>}
     {message&&<p role="status">{message}</p>}
-  </section>;
+  </details>;
 }

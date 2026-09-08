@@ -17,11 +17,11 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
   useBackHandler([{ when: () => open, do: () => setOpen(false) }]);
   return <div className={'gx-calorie-overview' + (over ? ' is-over' : '')}>
     <section className="home-rings-card">
-    <RingProgress size={224} stroke={10} value={autoBudget ? autoBudget.resting : eaten} max={autoBudget ? Math.max(autoBudget.daily, autoBudget.resting) : goal}>
-      <span className="gx-calorie-label">{autoBudget ? t('h_difference') : personal ? t('remaining') : t('calories')}</span>
-      <strong className="gx-calorie-eaten">{amount(personal ? remaining : eaten)}</strong>
+    <RingProgress size={224} stroke={10} value={eaten} max={goal}>
+      <span className="gx-calorie-label">{personal ? t(autoBudget ? 'h_eatenSpent' : 'h_eatenGoal') : t('calories')}</span>
+      <strong className="gx-calorie-eaten">{amount(eaten)}</strong>
       <button className="gx-calorie-limit" onClick={() => setOpen(true)} aria-label={t(personal?'h_how':'b_details')}>
-        {t(autoBudget ? 'h_expense' : 'b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
+        {personal ? `/ ${amount(goal)} ${t('kcal')}` : t('b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
       </button>
       {!personal && <><span className="gx-calorie-divider" />
       <span className="gx-calorie-label">{t(over ? 'b_above' : 'remaining')}</span>
@@ -30,9 +30,9 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
     {children}
     </section>
     {showStatus && <button className={'gx-budget-status' + (personal ? ' is-personal' : '')} onClick={() => setOpen(true)}>
-      <span><span className="gx-budget-status-label">{personal ? t('h_average', { days: personalAverage?.days || 7 }) : status}</span>
-        <strong>{personal ? personalAverage?.value == null ? '—' : amount(personalAverage.value) : amount(Math.abs(remaining))} <small>{t('kcal')}</small></strong>
-        <span className="gx-budget-status-hint">{personal && personalAverage?.estimated ? t('h_estimated') : t(personal?'h_how':'b_details')}</span></span>
+      <span><span className="gx-budget-status-label">{personal && autoBudget ? t(remaining < 0 ? 'h_foodAhead' : remaining > 0 ? 'h_spentAhead' : 'h_even') : status}</span>
+        <strong>{amount(Math.abs(remaining))} <small>{t('kcal')}</small></strong>
+        <span className="gx-budget-status-hint">{t(personal && autoBudget ? 'h_balanceHint' : 'b_details')}</span></span>
       <span aria-hidden="true">›</span>
     </button>}
     {open && <AddMealSheet title={t(personal?'h_how':'b_details')} onClose={() => setOpen(false)}>
@@ -48,6 +48,7 @@ export default function CalorieOverview({ eaten, goal, base, extra, averages = [
         {autoBudget && !autoBudget.hasSteps && <p>{t('a_noSteps')}</p>}
         {autoBudget?.hasSteps && autoBudget.partial && <p>{t('x_stepsPartial')}</p>}
         {autoBudget?.importedAt && <p>{t('h_sync',{time:new Date(autoBudget.importedAt).toLocaleString(i18n.language)})}</p>}
+        {autoBudget && <p>{t(autoBudget.activitySource === 'steps' ? 'h_walkingOnly' : autoBudget.activitySource === 'health' ? 'h_allActivity' : 'h_noActivity')}</p>}
         {(personal ? [personalAverage].filter(Boolean) : averages).map(average => <div className="gx-budget-average" key={average.days}>
           <span>{t(personal?'h_average':'x_averageDays', { days: average.days })}</span>
           <strong>{average.value === null ? '—' : amount(average.value)} {t('kcal')}</strong>
