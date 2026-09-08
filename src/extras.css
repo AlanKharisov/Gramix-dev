@@ -20,6 +20,12 @@
 .gx-calorie-overview > .home-rings-card { width: calc(100% - 8px); box-sizing: border-box; }
 .gx-calorie-label { font-size: 11px; color: var(--text-dim); }
 .gx-calorie-eaten { font-size: 40px; line-height: 1.15; letter-spacing: -1px; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.gx-calorie-eaten small { font-size: 12px; font-weight: 500; letter-spacing: 0; color: var(--text-dim); }
+.gx-expenditure-average { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 10px auto 18px; padding: 8px 16px; min-height: 44px; border: 0; background: transparent; font: inherit; color: var(--text-dim); cursor: pointer; }
+.gx-expenditure-average > span { font-size: 12px; }
+.gx-expenditure-average strong { color: #b4b0c8; font-size: 22px; font-variant-numeric: tabular-nums; }
+.gx-expenditure-average small { font-size: 10px; font-weight: 400; }
+.gx-expenditure-average:focus-visible { outline: 2px solid var(--brand-mint); border-radius: 10px; }
 .gx-calorie-limit { border: 0; background: none; color: var(--text-primary); font: inherit; font-size: 12px; min-height: 44px; padding: 4px 10px; cursor: pointer; }
 .gx-calorie-limit span { color: var(--text-dim); margin-left: 4px; }
 .gx-calorie-divider { width: 66px; height: 1px; background: var(--line-soft); margin: 0 0 7px; }

@@ -43,12 +43,25 @@ try {
   if (process.env.TEST_AUTO) {
     const morning=process.env.TEST_BIKE?'588':process.env.TEST_HEALTH?'688':process.env.TEST_WEB?'1088':'834';
     await page.waitForFunction(expected=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')===expected,morning);
-    assert.equal((await page.locator('.gx-calorie-eaten').innerText()).replace(/\s/g,''),'1500');
-    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Съедено / потрачено');
-    assert.match(await page.locator('.gx-budget-status-label').innerText(),/Еда превышает расход/);
+    assert.equal((await page.locator('.gx-calorie-eaten').innerText()).replace(/\D/g,''),'1500');
+    assert.equal(await page.locator('.gx-calorie-label').innerText(),'Съедено');
+    assert.match(await page.locator('.gx-budget-status-label').innerText(),/Сверх рассчитанной нормы/);
     await page.clock.fastForward(3600000);
     await page.waitForFunction(expected=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')===expected,process.env.TEST_BIKE?'519':process.env.TEST_HEALTH?'619':process.env.TEST_WEB?'1019':'765');
     await page.screenshot({path:'/tmp/gramix-auto.png'});
+    assert.equal(await page.locator('.gx-calorie-balance').count(),0);
+    if (process.env.TEST_HEALTH) {
+      assert.equal((await page.locator('.gx-expenditure-average strong').innerText()).replace(/\D/g,''),'2100');
+      meals[0].data.calories=0;
+      await page.goto(base+'/main');
+      await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='881');
+      assert.equal((await page.locator('.gx-calorie-eaten').innerText()).replace(/\D/g,''),'0');
+      assert.match(await page.locator('.gx-budget-status-label').innerText(),/До рассчитанной нормы/);
+      await page.screenshot({path:'/tmp/gramix-1.0.25-empty.png'});
+      meals[0].data.calories=1500;
+      await page.goto(base+'/main');
+      await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='619');
+    }
     await page.locator('.main-page:visible .main-profile-btn').click();
     if(process.env.TEST_HEALTH){
       await page.locator('.profile-activity-row.is-active').waitFor();
@@ -76,7 +89,7 @@ try {
   } else if (process.env.TEST_PERSONAL_EMAIL) {
     await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='657');
     assert.equal(await page.locator('.home-rings-card .gx-budget-status').count(),0);
-    if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'З’їдено / денна норма');
+    if (process.env.TEST_LANG === 'uk') assert.equal(await page.locator('.gx-calorie-label').innerText(),'З’їдено');
     await page.evaluate(()=>{window.__steps=12000;window.dispatchEvent(new Event('focus'));});
     await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='707');
     assert.equal(await page.locator('.gx-calorie-balance').count(),0);
@@ -84,16 +97,16 @@ try {
     assert.deepEqual(errors,[]);
     console.log(JSON.stringify({passed:true,personal:true,remaining:707,average:2000}));
   } else {
-  await page.waitForFunction(()=>document.querySelector('.gx-calorie-balance')?.textContent.includes('657'));
+  await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.includes('657'));
   assert.equal(Number((await page.locator('.gx-calorie-eaten').innerText()).replace(/\D/g,'')),1500);
   await page.locator('.gx-calorie-limit').click();
-  assert.equal(Number((await page.locator('.gx-budget-average strong').first().innerText()).replace(/\D/g,'')),2000);
+  assert.match(await page.locator('.gx-budget-average strong').first().innerText(),/—/);
   await page.keyboard.press('Escape');
   assert.equal(await page.locator('.main-page .gx-steps').count(), 0);
   assert.equal(await page.locator('.main-page .gx-eaten-summary').count(), 0);
   await page.screenshot({path:'/tmp/gramix-1.0.18-main.png'});
   await page.evaluate(()=>{window.__steps=12000;window.dispatchEvent(new Event('focus'));});
-  await page.waitForFunction(()=>document.querySelector('.gx-calorie-balance')?.textContent.includes('707'));
+  await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.includes('707'));
   await page.locator('.main-page:visible .home-tabbar button').nth(1).click();
   await page.locator('.stats-page:visible .gx-calorie-overview').waitFor();
   assert.equal(await page.locator('.stats-page .gx-budget-status').count(),0);
@@ -101,8 +114,10 @@ try {
   for (const index of [0,1,2,3]) {
     await page.locator('.period-selector button').nth(index).click();
     const expected=[707,7*1979+355-4000,30*1979+355-4000,365*1979+355-4000][index];
-    await page.waitForFunction(expected=>Number(document.querySelector('.stats-page .gx-calorie-balance')?.textContent.replace(/\D/g,''))===expected,expected);
-    const count=[7,7,30,365][index];
+    await page.waitForFunction(expected=>Number(document.querySelector('.stats-page .gx-calorie-limit')?.textContent.replace(/\D/g,''))===expected,expected+(index===0?1500:4000));
+    assert.equal(await page.locator('.stats-page .gx-calorie-balance').count(),0);
+    assert.equal(await page.locator('.stats-page .gx-expenditure-average').count(),1);
+    const count=7;
     await page.locator('.stats-page:visible .gx-calorie-limit').click();
     assert.match(await page.locator('.gx-budget-average').innerText(),new RegExp(String(count)));
     await page.keyboard.press('Escape');
@@ -130,7 +145,7 @@ try {
   meals[0].data.calories=3000;
   await page.goto(base+'/main');
   await page.locator('.gx-calorie-overview.is-over').waitFor();
-  await page.waitForFunction(()=>document.querySelector('.gx-calorie-balance')?.textContent==='843');
+  await page.waitForFunction(()=>document.querySelector('.gx-budget-status strong')?.textContent.replace(/\D/g,'')==='843');
   await page.screenshot({path:'/tmp/gramix-1.0.18-over.png'});
   await page.locator('.gx-budget-status').click();
   await page.locator('.gx-budget-details').waitFor();

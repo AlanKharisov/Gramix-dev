@@ -22,3 +22,9 @@ const activityLabels = {
 };
 const activityKeys=['eatenSpent','eatenGoal','foodAhead','spentAhead','even','balanceHint','walkingOnly','allActivity','noActivity','sportImport','activityConnect','allowEnergy','selectAuto','energyMissing','nativeSport'];
 for (const [lang, values] of Object.entries(activityLabels)) Object.assign(healthTranslations[lang], Object.fromEntries(activityKeys.map((key,i)=>['h_'+key,values[i]])));
+const overviewKeys=['eaten','averageShort','averagePending','leftNow','aboveNow','atNow','dynamicHint','dailyHint','periodHint'];
+for (const [lang,values] of Object.entries({
+  uk:['З’їдено','Середні витрати за день','Ще немає достатніх даних активності','До розрахованої норми ще','Понад розраховану норму','Рівно за розрахунком','Оцінка на зараз: змінюється протягом дня. Їжу не потрібно відпрацьовувати.','Різниця зі збереженою денною нормою','Різниця з розрахунком за вибраний період'],
+  ru:['Съедено','Средний расход за день','Пока недостаточно данных активности','До рассчитанной нормы ещё','Сверх рассчитанной нормы','Ровно по расчёту','Оценка сейчас: меняется в течение дня. Еду не нужно отрабатывать.','Разница с сохранённой дневной нормой','Разница с расчётом за выбранный период'],
+  en:['Eaten','Average daily expenditure','Not enough activity data yet','Remaining to calculated amount','Above calculated amount','Matches calculated amount','Estimate so far: changes through the day. No need to earn food.','Difference from your saved daily goal','Difference from the selected period’s calculated amount'],
+})) Object.assign(healthTranslations[lang],Object.fromEntries(overviewKeys.map((key,i)=>['h_'+key,values[i]])));
