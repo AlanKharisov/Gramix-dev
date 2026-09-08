@@ -318,7 +318,7 @@ export default function ProfilePage() {
           </div>
 
           {automatic && <AccrualSettings profile={data} onChange={next=>setData({...next,personalActivityMode:'auto'})} />}
-          {steps.available && <StepsToggle {...steps} automatic={steps.automatic} />}
+          {steps.available && <StepsToggle {...steps} automatic={steps.automatic} canAuto={personal} />}
           {personal && <HealthConnection key={auth.currentUser?.uid} health={health} />}
 
           {/* Предпочтения — только Язык */}
