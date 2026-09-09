@@ -23,13 +23,11 @@ export default function CalorieOverview({ eaten, goal, base, extra, today = true
       <button className="gx-calorie-limit" onClick={() => setOpen(true)} aria-label={t(personal?'h_how':'b_details')}>
         {t('b_of', { n: amount(goal) })} <span aria-hidden="true">ⓘ</span>
       </button>
-    </RingProgress>
     <button type="button" className="gx-expenditure-average" onClick={()=>setOpen(true)}>
       <span>{t('h_averageShort')}</span>
       <strong>{personalAverage?.value == null ? '—' : amount(personalAverage.value)} <small>{t('kcal')}</small></strong>
-      <small>{personalAverage?.value == null ? t('h_averagePending') : t('h_coverage',{n:personalAverage.recordedDays,total:personalAverage.days})}</small>
-      {personalAverage?.estimated && <small>{t('h_estimated')}</small>}
     </button>
+    </RingProgress>
     {children}
     </section>
     {showStatus && <button className={'gx-budget-status' + (personal ? ' is-personal' : '')} onClick={() => setOpen(true)}>

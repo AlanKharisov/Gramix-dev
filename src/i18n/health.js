@@ -28,3 +28,7 @@ for (const [lang,values] of Object.entries({
   ru:['Съедено','Средний расход за день','Пока недостаточно данных активности','До рассчитанной нормы ещё','Сверх рассчитанной нормы','Ровно по расчёту','Оценка сейчас: меняется в течение дня. Еду не нужно отрабатывать.','Разница с сохранённой дневной нормой','Разница с расчётом за выбранный период'],
   en:['Eaten','Average daily expenditure','Not enough activity data yet','Remaining to calculated amount','Above calculated amount','Matches calculated amount','Estimate so far: changes through the day. No need to earn food.','Difference from your saved daily goal','Difference from the selected period’s calculated amount'],
 })) Object.assign(healthTranslations[lang],Object.fromEntries(overviewKeys.map((key,i)=>['h_'+key,values[i]])));
+for (const [lang,label] of Object.entries({uk:'Середнє',ru:'Среднее',en:'Average',de:'Durchschnitt',es:'Promedio',pl:'Średnia',ja:'平均',zh:'平均'})) {
+  healthTranslations[lang] ??= {};
+  healthTranslations[lang].h_averageShort = label;
+}
