@@ -18,6 +18,7 @@ export default function MealThumbnail({ mealId, fallback, ...props }) {
   useEffect(() => {
     let cancelled = false;
     let queued = false;
+    let visible = false;
     const load = () => {
       if (queued) return;
       queued = true;
@@ -25,14 +26,16 @@ export default function MealThumbnail({ mealId, fallback, ...props }) {
         if (cancelled) return;
         try {
           const snap = await getDoc(doc(db, 'meal_images', mealId));
-          if (!cancelled) setImage(snap.exists() ? snap.data().image : null);
+          if (!cancelled && visible) setImage(snap.exists() ? snap.data().image : null);
         } catch { /* Keep placeholder; API client reports failures. */ }
+        finally { queued = false; }
       });
       drain();
     };
-    if (!globalThis.IntersectionObserver) { load(); return () => { cancelled = true; }; }
+    if (!globalThis.IntersectionObserver) { visible = true; load(); return () => { cancelled = true; }; }
     const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) { load(); observer.disconnect(); }
+      visible = entries.some(entry => entry.isIntersecting);
+      if (visible) load(); else setImage(null);
     }, { rootMargin: '150px' });
     if (ref.current) observer.observe(ref.current);
     return () => { cancelled = true; observer.disconnect(); };

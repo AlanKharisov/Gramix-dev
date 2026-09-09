@@ -2,6 +2,7 @@ import { auth } from "../pages/firebase-config";
 import { API_BASE, APP_RELEASE } from "../config";
 import { reportIncident, beginAnalysis } from './telemetry';
 import { Capacitor } from '@capacitor/core';
+import { fetchWithReadRetry } from './networkRead';
 
 export async function firebaseToken(forceRefresh = false) {
   let timer;
@@ -47,7 +48,7 @@ export async function apiFetchWithToken(path, token, options = {}) {
   const timer = setTimeout(() => { timedOut = true; controller.abort(); }, timeout);
   let requestId = '';
   try {
-    const response = await fetch(`${API_BASE}${path}`, { ...options, headers, signal: controller.signal });
+    const response = await fetchWithReadRetry(`${API_BASE}${path}`, { ...options, headers, signal: controller.signal });
     requestId = response.headers.get('X-Request-ID') || '';
     let payload;
     try { payload = await response.json(); } catch { throw new Error('invalid_response'); }

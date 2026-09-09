@@ -74,6 +74,10 @@ export function reportIncident(kind, error, details = {}) {
       occurredAt: details.occurredAt || Date.now(),
       release: APP_RELEASE, platform: Capacitor.getPlatform(),
       nativeType: details.nativeType || '',
+      importance: details.importance,
+      memoryKb: details.memoryKb,
+      visibility: document.hidden ? 'background' : 'foreground',
+      online: navigator.onLine !== false,
       imageStage: details.imageStage || '',
       frames: String(details.frames || String(error?.stack || '').split('\n').slice(1).join('\n'))
         .match(/(?:[\w.-]+\.(?:js|jsx|java|kt):\d+(?::\d+)?)/g)?.slice(0, 5).join('\n') || '',
@@ -101,7 +105,7 @@ export function installTelemetry() {
         if (!user) return;
         const crash = await NativeReliability.peekCrash({ uid: user.uid });
         if (auth.currentUser?.uid !== user.uid) return;
-        if (crash.id && reportIncident('native_crash', null, { frames: crash.frames, nativeType: crash.nativeType, occurredAt: crash.at })) {
+        if (crash.id && reportIncident('native_crash', null, { frames: crash.frames, nativeType: crash.nativeType, occurredAt: crash.at, importance:crash.importance, memoryKb:crash.memoryKb })) {
           await NativeReliability.acknowledgeCrash({ id: crash.id });
         }
       } catch { /* Older app binaries may not yet contain this native plugin. */ }

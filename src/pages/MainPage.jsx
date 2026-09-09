@@ -1,3 +1,4 @@
+import { cacheImage } from '../services/imageCache';
 import React, { useState, useEffect, useEffectEvent } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from '../hooks/useAppNavigate';
@@ -684,7 +685,7 @@ export default function MainPage() {
       if (selectedMeal.isNew) trackMealAdded();
       // Cache image locally so the meal card renders it immediately after refresh
       if (imageToSave) {
-        setMealImagesCache((prev) => ({ ...prev, [mealId]: imageToSave }));
+        setMealImagesCache((prev) => cacheImage(prev, mealId, imageToSave));
       }
       // Fire-and-forget: enrich saved meal with category/ingredient keys.
       const lang = gramixStorage.get(STORAGE_KEYS.LANG) || "ru";
@@ -862,7 +863,7 @@ export default function MainPage() {
                       const imgDoc = await getDoc(doc(db, "meal_images", meal.id));
                       const img = imgDoc.exists() ? imgDoc.data().image : null;
                       setMealImageSrc(img);
-                      setMealImagesCache((prev) => ({ ...prev, [meal.id]: img }));
+                      setMealImagesCache((prev) => cacheImage(prev, meal.id, img));
                     } catch {
                       setMealImageSrc(null);
                     }
