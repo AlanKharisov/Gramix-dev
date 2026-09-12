@@ -1,4 +1,4 @@
-import RecommendationTab from "../components/RecommendationTab";
+import HubNavigation from "../components/HubNavigation";
 import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from '../hooks/useAppNavigate';
@@ -48,7 +48,6 @@ import { periodWindow, diaryAverage, summarizeActivity } from '../services/activ
 import { localDay } from '../services/stepBudget';
 import { gramixStorage, STORAGE_KEYS } from "../utils/storage";
 
-const PAGE_ORDER = ['/main', '/stats', '/recommendations'];
 
 const Icons = {
   Profile: () => (
@@ -62,11 +61,6 @@ export default function StatsPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const navWithDir = (to) => {
-    const curr = PAGE_ORDER.indexOf(location.pathname);
-    const dest = PAGE_ORDER.indexOf(to);
-    navigate(to, { state: { direction: dest > curr ? 'left' : 'right' } });
-  };
 
   const { t, i18n } = useTranslation();
   const f = (num) => Math.round(Number(num || 0) * 10) / 10;
@@ -865,29 +859,7 @@ export default function StatsPage() {
           )}
         </div>
 
-        <nav className="home-tabbar">
-          <div className="home-tabbar-inner">
-            <button
-              className={`home-tab${location.pathname === "/main" ? " is-active" : ""}`}
-              onClick={() => navWithDir("/main")}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-4v-7h-6v7H5a2 2 0 0 1-2-2v-9z" />
-              </svg>
-              {location.pathname === "/main" && <span>{t("nav_home")}</span>}
-            </button>
-            <button
-              className={`home-tab${location.pathname === "/stats" ? " is-active" : ""}`}
-              onClick={() => navWithDir("/stats")}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M5 20V10M12 20V4M19 20v-7" />
-              </svg>
-              {location.pathname === "/stats" && <span>{t("nav_stats")}</span>}
-            </button>
-            <RecommendationTab />
-          </div>
-        </nav>
+        <HubNavigation />
 
         {/* Meal detail overlay — same layout as MainPage */}
         {showResult && selectedMeal && (

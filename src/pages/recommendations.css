@@ -9,3 +9,29 @@
 .recommendation-card button { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; width: 100%; margin-top: 18px; padding: 10px 0; border: 0; background: transparent; color: var(--brand-mint, #69dbc0); font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
 .recommendation-card button:focus-visible { outline: 2px solid var(--brand-mint, #69dbc0); outline-offset: 5px; border-radius: 4px; }
 @media (min-width: 640px) { .recommendations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .recommendation-card { display: flex; flex-direction: column; } .recommendation-card p { flex: 1; } }
+.recommendations-page { width: 100%; padding-top: 24px; }
+.recommendations-heading { text-align: center; margin-bottom: 24px; }
+.recommendation-symbol { display: inline-flex; padding: 12px; border-radius: 16px; background: var(--surface-2); color: var(--brand-mint); }
+.recommendations-period { display: flex; gap: 6px; background: var(--surface-1); border-radius: 14px; padding: 5px; margin-bottom: 18px; }
+.recommendations-period button { flex: 1; padding: 12px; border: 0; border-radius: 10px; font: inherit; color: var(--text-dim); background: transparent; cursor: pointer; }
+.recommendations-period button[aria-pressed="true"] { background: var(--surface-2); color: var(--brand-mint); }
+.recommendations-page > .recommendation-card { margin-bottom: 16px; background: var(--surface-1); }
+.recommendation-card-title { display: flex; gap: 10px; align-items: center; }
+.recommendation-card-title svg { flex-shrink: 0; color: var(--brand-mint); }
+.food-totals { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin: 22px 0; }
+.food-totals dt { font-size: 13px; color: var(--text-dim); }
+.food-totals dd { margin: 6px 0 0; font-size: 25px; font-weight: 700; overflow-wrap: anywhere; }
+.food-totals small { font-size: 12px; font-weight: 400; }
+.food-target { border-top: 1px solid var(--line-soft); padding-top: 18px; line-height: 1.5; }
+.food-target p { margin-top: 8px; }
+.food-reduction { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 12px; margin: 20px 0; }
+.food-reduction select { font: inherit; color: var(--text-primary); background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 10px; padding: 10px; }
+.food-sources { list-style: none; padding: 0; margin: 0; }
+.food-sources li + li { border-top: 1px solid var(--line-soft); margin-top: 18px; padding-top: 18px; }
+.food-sources li > div { display: flex; flex-direction: column; gap: 5px; overflow-wrap: anywhere; }
+.food-sources span, .food-sources p { font-size: 13px; }
+.food-sources meter { width: 100%; height: 12px; margin: 8px 0; accent-color: var(--brand-mint); }
+.food-note { font-size: 12px; padding: 4px; }
+.recommendations-refresh { display: block; min-height: 44px; margin: 16px auto 0; padding: 10px 16px; border: 1px solid var(--line-strong); border-radius: 12px; background: var(--surface-1); color: var(--text-primary); font: inherit; cursor: pointer; }
+.recommendations-refresh:disabled { opacity: .5; }
+.recommendations-page { flex: 1; min-height: 0; overflow-y: auto; margin: 0; overscroll-behavior-y: contain; }
