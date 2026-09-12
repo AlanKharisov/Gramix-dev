@@ -1,10 +1,13 @@
+import { auth } from '../pages/firebase-config';
+import { isPersonalBudget } from '../services/personalBudget';
 import { useSwipeable } from 'react-swipeable';
 import { useNavigate } from './useAppNavigate';
 
-const PAGES = ['/main', '/stats'];
+const BASE_PAGES = ['/main', '/stats'];
 
 export function useSwipeNavigation(currentPath, isBlocked = false) {
   const navigate = useNavigate();
+  const PAGES = isPersonalBudget(auth.currentUser) ? [...BASE_PAGES, '/recommendations'] : BASE_PAGES;
   const idx = PAGES.indexOf(currentPath);
 
   return useSwipeable({

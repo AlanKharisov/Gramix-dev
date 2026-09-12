@@ -1,0 +1,11 @@
+.recommendations-page { width: min(100%, 720px); margin: auto; padding: max(32px, env(safe-area-inset-top)) 20px calc(110px + env(safe-area-inset-bottom)); box-sizing: border-box; color: var(--text-primary, #eef5f0); }
+.recommendations-kicker { color: var(--brand-mint, #69dbc0); letter-spacing: .18em; font-size: 12px; font-weight: 700; }
+.recommendations-page h1 { font-size: clamp(26px, 6vw, 36px); letter-spacing: -.04em; margin: 12px 0; }
+.recommendations-page p { color: var(--text-secondary, #aab8b0); line-height: 1.6; margin: 0; }
+.recommendations-grid { display: grid; gap: 14px; margin-top: 28px; }
+.recommendation-card { background: var(--bg-card, #19251f); border: 1px solid rgba(140,180,155,.16); border-radius: 22px; padding: 24px; }
+.recommendation-number { color: var(--brand-mint, #69dbc0); font-size: 12px; }
+.recommendation-card h2 { font-size: 20px; line-height: 1.3; margin: 12px 0; }
+.recommendation-card button { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; width: 100%; margin-top: 18px; padding: 10px 0; border: 0; background: transparent; color: var(--brand-mint, #69dbc0); font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
+.recommendation-card button:focus-visible { outline: 2px solid var(--brand-mint, #69dbc0); outline-offset: 5px; border-radius: 4px; }
+@media (min-width: 640px) { .recommendations-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .recommendation-card { display: flex; flex-direction: column; } .recommendation-card p { flex: 1; } }

@@ -1,3 +1,4 @@
+import RecommendationTab from "../components/RecommendationTab";
 import { cacheImage } from '../services/imageCache';
 import React, { useState, useEffect, useEffectEvent } from "react";
 import { useLocation } from "react-router-dom";
@@ -50,7 +51,7 @@ import "./meal-detail.css";
 import "./onboarding.css";
 import errorPlateImg from "../assets/gramix-preview.webp";
 
-const PAGE_ORDER = ["/main", "/stats"];
+const PAGE_ORDER = ["/main", "/stats", "/recommendations"];
 
 const Icons = {
   Profile: () => (
@@ -271,8 +272,13 @@ export default function MainPage() {
 
   useHourlyBudget(fetchUserData);
 
+  const retryPhotoRef = React.useRef(null);
+  const [photoFailure, setPhotoFailure] = useState(null);
+
   const processImage = async (rawBase64, sourceMode = "photo") => {
     if (analyzeAbortRef.current) return;
+    retryPhotoRef.current = { source: rawBase64, mode: sourceMode };
+    setPhotoFailure(null);
     setAnalyzing(true);
     setShowResult(false);
     const controller = new AbortController();
@@ -327,10 +333,12 @@ export default function MainPage() {
           normalizedData.ingredients,
           gramixStorage.get(STORAGE_KEYS.LANG) || "ru",
         );
+      retryPhotoRef.current = null;
       trackAnalyzeRequest(sourceMode);
     } catch (e) {
       if (e?.message === 'image_decode_failed') reportIncident('image_decode_failed', e, { code: 'image_decode_failed', imageStage: e.stage });
-      if (e?.name !== "AbortError") setServerError(true);
+      if (e?.name !== "AbortError") { setPhotoFailure(e?.message === "image_decode_failed" ? "decode" : "network"); setServerError(true); }
+      else retryPhotoRef.current = null;
     } finally {
       analyzeAbortRef.current = null;
       setAnalyzing(false);
@@ -344,10 +352,14 @@ export default function MainPage() {
 
   const processText = async (textInput) => {
     if (analyzeAbortRef.current) return;
+    retryPhotoRef.current = null;
+    setPhotoFailure(null);
     if (!canTakePhoto()) { setShowDailyLimit(true); return; }
     const controller = new AbortController();
     analyzeAbortRef.current = controller;
     setShowManualEntry(false);
+    retryPhotoRef.current = { source: rawBase64, mode: sourceMode };
+    setPhotoFailure(null);
     setAnalyzing(true);
     setShowResult(false);
     try {
@@ -741,14 +753,18 @@ export default function MainPage() {
     input.type = "file";
     input.accept = "image/*";
     if (capture) input.capture = "environment";
+    input.style.display = "none";
+    document.body.appendChild(input);
+    input.oncancel = () => input.remove();
     input.onchange = (e) => {
       const file = e.target.files[0];
+      input.remove();
       if (file) {
         const mode = capture ? "photo" : "gallery";
         void processImage(file, mode);
       }
     };
-    input.click();
+    try { input.click(); } catch { input.remove(); setServerError(true); }
   };
 
   if (loading)
@@ -942,6 +958,7 @@ export default function MainPage() {
               </svg>
               {location.pathname === "/stats" && <span>{t("nav_stats")}</span>}
             </button>
+            <RecommendationTab />
           </div>
         </nav>
 
@@ -1036,11 +1053,17 @@ export default function MainPage() {
               <line x1="2" y1="2" x2="22" y2="22" />
             </svg>
           }
-          title={t("popup_recognize_title")}
-          description={t("popup_recognize_desc")}
+          title={photoFailure ? t("photo_not_added") : t("popup_recognize_title")}
+          description={photoFailure ? t(photoFailure === "decode" ? "photo_decode_help" : "photo_retry_help") : t("popup_recognize_desc")}
           primaryLabel={t("popup_retry")}
-          onPrimary={() => setServerError(false)}
-          secondaryLabel={t("ok")}
+          onPrimary={() => {
+            setServerError(false);
+            const pending = retryPhotoRef.current;
+            if (pending && photoFailure === "network") void processImage(pending.source, pending.mode);
+            else if (pending) { retryPhotoRef.current = null; void handlePhotoUpload(false); }
+          }}
+          secondaryLabel={t("add_manually")}
+          onSecondary={() => { setServerError(false); retryPhotoRef.current = null; navigate("/manual-entry"); }}
         />
 
         {/* ── Daily photo limit popup ── */}

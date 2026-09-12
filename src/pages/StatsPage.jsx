@@ -1,3 +1,4 @@
+import RecommendationTab from "../components/RecommendationTab";
 import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from '../hooks/useAppNavigate';
@@ -47,7 +48,7 @@ import { periodWindow, diaryAverage, summarizeActivity } from '../services/activ
 import { localDay } from '../services/stepBudget';
 import { gramixStorage, STORAGE_KEYS } from "../utils/storage";
 
-const PAGE_ORDER = ['/main', '/stats'];
+const PAGE_ORDER = ['/main', '/stats', '/recommendations'];
 
 const Icons = {
   Profile: () => (
@@ -884,6 +885,7 @@ export default function StatsPage() {
               </svg>
               {location.pathname === "/stats" && <span>{t("nav_stats")}</span>}
             </button>
+            <RecommendationTab />
           </div>
         </nav>
 

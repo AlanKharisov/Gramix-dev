@@ -3,6 +3,16 @@ import { initReactI18next } from 'react-i18next';
 import { gramixStorage, STORAGE_KEYS } from '../utils/storage';
 
 const en = {
+  nav_recommendations: 'Tips',
+  photo_decode_help: 'This image could not be opened. Choose a JPEG or PNG photo, or add the meal manually.',
+  photo_retry_help: 'The analysis did not finish. Check your connection and retry: your photo is kept while this page is open.',
+  tips_title: 'Recommendations', tips_intro: 'Small steps to make your food diary more useful.',
+  tips_photo_title: 'Get a clearer photo', tips_photo_body: 'Keep the whole plate in frame, use good light and check the ingredients and portion before saving.',
+  tips_log_title: 'No photo? Keep going', tips_log_body: 'Add the meal manually when taking a photo is inconvenient or the connection fails.',
+  tips_review_title: 'Look at the whole week', tips_review_body: 'Open your history to compare days and spot missing entries. One day does not tell the whole story.',
+  tips_profile_title: 'Keep your profile current', tips_profile_body: 'Check your goal, weight and activity settings so the app uses your current information.',
+  tips_open_diary: 'Open diary', tips_open_stats: 'View history', tips_open_profile: 'Check profile',
+
   kcal: 'kcal', grams_unit: 'g', loading: 'Loading...',
   save: 'Save', delete: 'Delete', close: 'Close',
   day: 'Day', week: 'Week', month: 'Month', year: 'Year',
@@ -210,6 +220,16 @@ const en = {
 };
 
 const ru = {
+  nav_recommendations: 'Советы',
+  photo_decode_help: 'Не удалось открыть изображение. Выберите фото JPEG или PNG либо добавьте блюдо вручную.',
+  photo_retry_help: 'Анализ не завершился. Проверьте соединение и повторите: фото сохранено, пока эта страница открыта.',
+  tips_title: 'Рекомендации', tips_intro: 'Простые действия, чтобы дневник питания был полезнее.',
+  tips_photo_title: 'Помогите камере увидеть блюдо', tips_photo_body: 'Снимайте всю тарелку при хорошем свете. Перед сохранением проверьте состав и размер порции.',
+  tips_log_title: 'Нет фото? Запись всё равно получится', tips_log_body: 'Добавьте блюдо вручную, если снимать неудобно или соединение подводит.',
+  tips_review_title: 'Посмотрите на неделю целиком', tips_review_body: 'Откройте историю: сравните дни и найдите пропущенные записи. Один день не показывает всей картины.',
+  tips_profile_title: 'Проверьте настройки под себя', tips_profile_body: 'Актуализируйте цель, вес и активность, чтобы приложение использовало ваши текущие данные.',
+  tips_open_diary: 'Открыть дневник', tips_open_stats: 'Посмотреть историю', tips_open_profile: 'Проверить профиль',
+
   kcal: 'ккал', grams_unit: 'г', loading: 'Загрузка...',
   save: 'Сохранить', delete: 'Удалить', close: 'Закрыть',
   day: 'День', week: 'Неделя', month: 'Месяц', year: 'Год',

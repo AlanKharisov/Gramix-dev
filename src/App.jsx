@@ -32,7 +32,9 @@ import StatsPage from "./pages/StatsPage";
 import ProfilePage from "./pages/ProfilePage";
 import ManualEntryPage from "./pages/ManualEntryPage";
 
-const HUB_PAGES = { '/main': MainPage, '/stats': StatsPage, '/profile': ProfilePage };
+import RecommendationsPage from "./pages/RecommendationsPage";
+
+const HUB_PAGES = { '/main': MainPage, '/stats': StatsPage, '/recommendations': RecommendationsPage, '/profile': ProfilePage };
 function HubPages() {
   const location = useLocation();
   const [visited, setVisited] = useState([]);
@@ -298,6 +300,7 @@ function AppRoutes() {
           {/* <Route path="/onboarding" element={<OnboardingPage />} /> */}
           <Route path="/main"      element={sessionUid ? null : <Navigate to="/" replace />} />
           <Route path="/stats"     element={sessionUid ? null : <Navigate to="/" replace />} />
+          <Route path="/recommendations" element={sessionUid ? null : <Navigate to="/" replace />} />
           <Route path="/history"   element={<Navigate to="/stats" replace />} />
           <Route path="/profile"      element={sessionUid ? null : <Navigate to="/" replace />} />
           <Route path="/manual-entry" element={sessionUid ? <ManualEntryPage key={sessionUid} /> : <Navigate to="/" replace />} />
