@@ -1579,10 +1579,3 @@ html, body, #root {
   color: var(--text-mute);
   font-weight: 500;
 }
-
-/* Keep identical tab geometry and visible icons on every hub page. */
-.home-tabbar-inner.hub-navigation { width: calc(100% - 36px); box-sizing: border-box; }
-.hub-navigation .home-tab { flex: 1 1 0; min-width: 0; flex-direction: column; gap: 4px; min-height: 58px; padding: 7px 3px; font-size: 11px; line-height: 1.2; }
-.hub-navigation .home-tab svg { display: block; flex: 0 0 auto; }
-.hub-navigation .home-tab span { max-width: 100%; overflow-wrap: anywhere; text-align: center; }
-.hub-navigation .home-tab:focus-visible { outline: 2px solid var(--brand-mint); outline-offset: 2px; }

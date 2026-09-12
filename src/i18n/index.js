@@ -1667,6 +1667,3 @@ for (const [lang, strings] of Object.entries(activityTranslations)) i18n.addReso
 for (const [lang, strings] of Object.entries(stepTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 for (const [lang, strings] of Object.entries(extras)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
 export default i18n;
-
-import { recommendationTranslations } from './recommendations';
-for (const [lang, strings] of Object.entries(recommendationTranslations)) i18n.addResourceBundle(lang, 'translation', strings, true, true);
